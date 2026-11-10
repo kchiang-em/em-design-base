@@ -10,9 +10,10 @@ It is a baseline, not a framework. Extend it when your product needs more; the g
 
    > Use the EncoreMed design baseline in `<path to this directory>`. Read `AGENTS.md`, then `HANDOFF.md`. We are building `<what, and on which platform>`. When you finish, run the guard as `AGENTS.md` describes and report what it says.
 
-2. **Web product:** copy `web/tokens.css` and `web/components.css` into your project and load them in this order: `tokens.css`, your own `app-tokens.css` (optional), `components.css`, your own `app.css`. Use the markup in `HANDOFF.md` section 9.
+2. **Web product:** copy `web/tokens.css` and `web/components.css` into your project and load them in this order: `tokens.css`, `theme.css` (a client's brand colours, optional), your own `app-tokens.css` (optional), `components.css`, your own `app.css`. Use the markup in `HANDOFF.md` section 9.
 3. **Native or other product:** generate your platform's constants (colours, spacing, radii, type sizes, durations) from `design-tokens.json`, then build screens from the component specs in `HANDOFF.md` section 5. Section 6 maps the baseline to iOS, Android and desktop.
-4. **Check your work** (needs Python 3, no packages):
+4. **Changing colours for a client?** Paste the client's colour codes (or the logo file) to your assistant and tell it to follow `THEMING.md`. It will run `make_theme.py`, apply the theme, and check it. Red, orange and green (status colours) never change.
+5. **Check your work** (needs Python 3, no packages):
 
    ```bash
    python3 guard.py path/to/your/project
@@ -30,6 +31,10 @@ It is a baseline, not a framework. Extend it when your product needs more; the g
 | `design-tokens.json` | every value (356 tokens), the portable source for any platform; aliases and resolved values |
 | `DESIGN-TOKENS.md` | the same tokens as a readable list |
 | `guard.py` | the checker |
+| `THEMING.md` | playbook for re-colouring a product for a client: what an AI assistant should do when colour codes are pasted |
+| `make_theme.py` | creates a client theme from pasted colours: derives the shades, checks contrast, writes `theme.css` or `theme.json` |
+| `logo_colours.py` | reads the colours from a client's logo (SVG or PNG) so a theme can be made from a logo instead of colour codes |
+| `theme.example.css`, `theme.example.json` | templates for a client colour theme, listing every colour a theme may change |
 | `web/tokens.css`, `web/components.css` | the web reference implementation |
 | `web/app.js` | web reference for how the components behave (dropdown, multi-select, pagination, sidebar, staff menu). It contains demo content (Rossmax residents and devices); copy the patterns, not the content. |
 | `web/export_tokens.py` | optional: regenerates the token files from `web/tokens.css` if you change it |
@@ -38,7 +43,8 @@ It is a baseline, not a framework. Extend it when your product needs more; the g
 
 - **Must:** the palette, the typeface, the 4px spacing grid, the control size scale, the radius scale, the five control states (default, hover, pressed in amber, disabled, keyboard focus) and 4.5:1 text contrast.
 - **Should:** the component anatomy and behaviour in `HANDOFF.md` section 5.
-- **May:** native controls and navigation, new components, dark mode, a new colour for a real need. Tell the user what you added and why.
+- **May:** native controls and navigation, new components, dark mode, a new colour for a real need, and a **client theme** that replaces the brand colours. Tell the user what you added and why.
+- **Never in a theme:** the status colours (red, orange, green) and non-colour tokens (sizes, spacing, radii).
 
 ## Known limits
 

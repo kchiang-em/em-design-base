@@ -21,17 +21,21 @@ Give the whole directory to your developer; they point their AI assistant at it.
 | `design-tokens.json` | **the portable source of every value** (colours, sizes, spacing, radii, type, shadows, durations), with aliases and resolved values, for any platform |
 | `DESIGN-TOKENS.md` | the same tokens as a readable list with resolved values |
 | `guard.py` | the checker (section 8). Python 3, no packages. |
+| `THEMING.md` | the step-by-step playbook for re-colouring a product for a client (read it when colour codes are pasted) |
+| `make_theme.py` | creates a valid client theme from the colours you give it: derives the shades, checks contrast, writes `theme.css` or `theme.json` |
+| `logo_colours.py` | reads the colours from a client's logo (SVG or PNG) and suggests the `make_theme.py` command, for when the client gives a logo instead of colour codes |
+| `theme.example.css`, `theme.example.json` | templates for a **client colour theme** (section 3), listing every colour a theme may change |
 | `web/tokens.css`, `web/components.css` | the web reference implementation: CSS variables and component styles |
 | `web/app.js` | web reference for component behaviour (dropdown, multi-select, pagination, sidebar, staff menu) |
 | `web/export_tokens.py` | optional: if you change `web/tokens.css`, run it in that folder to regenerate the token files there |
 
-Web products copy `web/tokens.css` and `web/components.css` into their project. Native products read `design-tokens.json` (or `DESIGN-TOKENS.md`) and translate the values (section 6).
+Web products copy `web/tokens.css` and `web/components.css` into their project, and load the stylesheets in this order: `tokens.css`, `theme.css` (a client's brand colours, optional), `app-tokens.css` (the product's own tokens, optional), `components.css`, `app.css` (the product's own rules). Native products read `design-tokens.json` (or `DESIGN-TOKENS.md`) and translate the values (section 6).
 
 ## 2. How strict to be: must, should, may
 
 | Level | What | Why |
 |---|---|---|
-| **Must** | the palette colours, the typeface and weights, the 4px spacing grid, the control size scale, the radius scale, the five control states (default, hover, pressed, disabled, focus), 4.5:1 text contrast | these make the product recognisably EncoreMed and keep it accessible |
+| **Must** | the palette colours (EncoreMed's by default; a client's brand colours may replace them through a client theme, see section 3), the status colours (red, orange, green), the typeface and weights, the 4px spacing grid, the control size scale, the radius scale, the five control states (default, hover, pressed, disabled, focus), 4.5:1 text contrast | these make the product recognisably EncoreMed and keep it accessible |
 | **Should** | the component anatomy and behaviour in section 5 (what a dropdown, pagination bar or sidebar contains and how it behaves), the screen patterns, wording style | users already know these patterns from other EncoreMed products |
 | **May** | native or platform controls, platform navigation and gestures, dark mode, new components, new colours for a real need | a native app should feel native. Extend the baseline; do not fight the platform |
 
@@ -63,6 +67,28 @@ Not in the guideline, chosen for this system: red (errors, delete), amber (warni
 - **Green and mint are for fills, dots and icons, not text.** `#16AD85` on white is only 2.9:1. Text on a green fill uses the dark navy `--brand-800`.
 - Pressed state is amber; keyboard focus is the navy ring. Do not mix them.
 - The sidebar is `--brand-600` (primary navy); the page background is `--bg`; cards are white with `--border`.
+
+### Client themes: when a client has its own brand colours
+
+Some clients want the product in their colours. That is allowed, through a **client theme**: one file that replaces the brand colours and nothing else. **The full procedure is in `THEMING.md`; the quickest way to create a theme is `make_theme.py`, which turns the client's hex codes into a valid theme** (for example `python3 make_theme.py --primary "<hex>" --css theme.css`).
+
+- **Web:** copy `theme.example.css` to your project as `theme.css`, keep only the colours you change, and load it right after `tokens.css`. It sets CSS variables, so every component follows.
+- **Native or any platform:** copy `theme.example.json` to your project as `theme.json`, keep only the entries you change, and generate your platform's colour constants from the baseline tokens with these values on top.
+- **Raw colours are allowed in the theme file and nowhere else.** Everything else uses tokens.
+- **Extra client colours** that have no EncoreMed role (a second brand colour, a highlight) are added to the theme as new tokens named `--client-<name>` and used as `var(--client-<name>)`. Never for a status.
+- The keyboard **focus ring and the shadows** are tinted with the brand colour; a theme re-tints them (`make_theme.py` does this).
+
+What a theme **may** change: the brand palette (navy, blue, slate, greys), the brand scale (the lighter and darker shades used for hover, tinted backgrounds and dark surfaces), text colours, surfaces and borders, and the pressed (amber) colours.
+
+What a theme **may not** change, because it must read the same in every product:
+- **status colours:** red (`danger-*`), orange (`warning-*`) and green (`accent-*`, `em-green`, `em-green-core`, `em-green-soft`, `em-mint`). Red always means error, orange warning, green positive or live.
+- **everything that is not a colour:** sizes, spacing, radii, type scale, the five control states and their structure. (The guard warns if a theme touches these.)
+
+How to do it well:
+1. Change the **main brand colour and its shades together**. A theme that changes `em-navy-core` but not the `brand-*` shades leaves EncoreMed navy in hover and tinted states; the guard warns about this.
+2. Keep **4.5:1 contrast** between text and its background, including white text on the new primary colour and the pressed state. The guard checks the pairs that matter.
+3. Keep **green and mint out of text**. They are fill, dot and icon colours.
+4. The **client's logo** is an image or asset; it is not a token.
 
 ## 4. Tokens: the portable source of values
 
@@ -188,7 +214,7 @@ python3 <this directory>/guard.py --strict       # warnings also fail
 
 It prints `PASS` or `FAIL` and exits with code 1 on any error.
 
-**On any platform:** it scans your source files (Swift, Kotlin, Dart, XML, JS and others) for colour literals (`#RRGGBB`, `#RGB`, `0xRRGGBB`, `0xAARRGGBB`) that are not in the design palette, and warns, naming the closest token. Fix it by using the token's value, or tell the user why a new colour was needed.
+**On any platform:** if the project has a `theme.json` it validates it and checks contrast on the themed colours. It scans your source files (Swift, Kotlin, Dart, XML, JS and others) for colour literals (`#RRGGBB`, `#RGB`, `0xRRGGBB`, `0xAARRGGBB`) that are not in the design palette, and warns, naming the closest token. Fix it by using the token's value, or tell the user why a new colour was needed.
 
 **On web projects** (the folder has `.css` or `.html` files) it also checks:
 
@@ -198,11 +224,12 @@ It prints `PASS` or `FAIL` and exits with code 1 on any error.
 | Every `var(--token)` is defined | typos and invented tokens that render as nothing (error) |
 | No raw colours in `components.css`, `app.css`, `app-tokens.css` or inline `style=""` | off-brand colours; every colour comes from a token (error) |
 | Component and app tokens alias other tokens | raw colours hidden inside component tokens (error) |
-| Stylesheets load in this order: `tokens.css`, `app-tokens.css`, `components.css`, `app.css` | components styled before their tokens exist (error) |
+| Stylesheets load in this order: `tokens.css`, `theme.css`, `app-tokens.css`, `components.css`, `app.css` | components styled before their tokens exist (error) |
 | Text and background pairs reach 4.5:1 contrast | unreadable text from a changed colour token (error) |
 | A baseline token or class was removed from your copy | breakage elsewhere (warning) |
 | Raw pixel `height`, `!important`, external URLs on lines you wrote or changed | drift from the size scale (warning) |
 | Your `tokens.css` or `components.css` differs from the baseline | information only: what you added or changed (note) |
+| Client theme (`theme.css` or `theme.json`) | a status colour overridden, an unknown token name or a bad colour value (error); a brand colour changed without its shades, or a non-colour token changed (warning); the number of overridden tokens (note). Colours in the theme count as the project's palette, and contrast is checked on the themed colours. |
 
 **If it fails:** edit the line it names. Do not edit `guard.py` to make it pass. Extending the baseline is allowed: add rather than rename or remove, and mention it in your summary.
 

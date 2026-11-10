@@ -13,6 +13,15 @@ Exit code 0 = PASS, 1 = at least one error. Run it before you hand work back.
 The design system is a baseline, not a cage: the products can be web or native apps and may extend it. So the guard stays
 in the "ballpark": it reports differences and likely mistakes and only fails on clear breakage.
 
+  CLIENT THEMES (a client whose brand colours replace the EncoreMed ones)
+    Put the client's colours in ONE file at the project root:  theme.css  (web: CSS variables)  or  theme.json  (any platform).
+    Copy theme.example.css / theme.example.json from this directory. In a theme you may use raw colours, and only here.
+    - Brand colours (navy, blue, slate, greys, surfaces, borders, pressed amber) can be overridden.
+    - Extra client colours that have no EncoreMed role are added as new tokens named --client-<name> (colour values only).
+    - Status colours are universal and cannot be overridden: red (danger-*), orange (warning-*) and green (accent-*, em-green*, em-mint).
+    - Contrast (4.5:1) is checked on the themed colours; colours in the theme count as the project's palette.
+    - A theme that changes the main brand colour but not its lighter and darker shades gets a warning.
+
   ANY PLATFORM (Swift, Kotlin, Dart, XML, JS ... any source file)
     - warning: a colour literal (#RRGGBB, #RGB, 0xRRGGBB, 0xAARRGGBB) that is not in the design palette. It names the closest
       design token when there is one. Use the token's value, or tell the user why you needed a new colour.
@@ -24,7 +33,7 @@ in the "ballpark": it reports differences and likely mistakes and only fails on 
     3. No raw colours (hex, rgb(), hsl()...) in components.css, app.css, app-tokens.css or inline style="" attributes.
        Raw colours belong only to the palette and semantic tiers of tokens.css.
     4. The component tier of tokens.css and app-tokens.css contain no raw colours (they alias semantic tokens).
-    5. Stylesheets load in this order in every .html file: tokens, app-tokens, components, app.
+    5. Stylesheets load in this order in every .html file: tokens, theme, app-tokens, components, app.
     6. Text and background token pairs meet 4.5:1 contrast (WCAG AA).
     7. design-tokens.json / DESIGN-TOKENS.md are not stale (only if export_tokens.py is in the project).
   WARNINGS (fix, or explain in your summary)
@@ -36,6 +45,7 @@ in the "ballpark": it reports differences and likely mistakes and only fails on 
     - the project's tokens.css / components.css differ from the handoff baseline (what was added or changed)
 """
 import difflib
+import json
 import re
 import shutil
 import subprocess
@@ -51,7 +61,18 @@ if "--platform" in sys.argv:   # drop the value that follows --platform from the
     _pos = [a for a in _pos if a not in _v]
 PROJECT = Path(_pos[0]).resolve() if _pos else Path.cwd()
 SHARED = ("tokens.css", "components.css")
+THEME_CSS, THEME_JSON = "theme.css", "theme.json"
+# Status colours are universal: a client theme may not change them (red, orange, green).
+LOCKED_EXACT = {"--em-green-core", "--em-green-soft", "--em-green", "--em-mint"}
+LOCKED_PREFIX = ("--danger-", "--warning-", "--accent-")
+# Focus ring and shadows are tinted with the brand colour (written as rgb() with a size), so a theme may restyle them too.
+TINTED_EFFECTS = {"--focus-ring", "--shadow-md", "--shadow-lg", "--shadow-brand"}
+
+
+def is_locked(name):
+    return name in LOCKED_EXACT or name.startswith(LOCKED_PREFIX)
 PROJECT_CSS = ("components.css", "app.css", "app-tokens.css")
+THEME = {}   # token -> value, filled by load_theme()
 errors, warnings, notes = [], [], []
 
 
@@ -78,16 +99,111 @@ RAW_COLOUR = re.compile(r"#[0-9a-fA-F]{3,8}\b|\b(?:rgb|rgba|hsl|hsla|hwb|lab|lch
 
 
 def defs_of(css):
-    return {m.group(1): m.group(2).strip() for m in re.finditer(r"^\s*(--[\w-]+)\s*:\s*(.*?);", strip_comments(css), re.M | re.S)}
+    # custom property declarations anywhere in the text (one per line, or several on one line)
+    return {m.group(1): m.group(2).strip() for m in re.finditer(r"(?<![\w-])(--[\w-]+)\s*:\s*([^;{}]+?)\s*(?:;|(?=\}))", strip_comments(css))}
 
 
 def token_defs():
     defs = {}
-    for n in ("tokens.css", "app-tokens.css"):
+    for n in ("tokens.css", THEME_CSS, "app-tokens.css"):
         t = read(n)
         if t:
             defs.update(defs_of(t))
+        if n == THEME_CSS:
+            defs.update(THEME)   # theme.json values too
     return defs
+
+
+def baseline_defs():
+    t = read("tokens.css", BASELINE)
+    return defs_of(t) if t else {}
+
+
+# ---------------------------------------------------------------- client theme
+HEX_COLOUR = re.compile(r"#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\Z")
+BRAND_ROOTS = {"--em-navy-core", "--em-blue", "--em-navy", "--brand-500", "--brand-600"}
+BRAND_SHADES = ["--brand-50", "--brand-100", "--brand-400", "--brand-700", "--brand-800"]
+INK_ROOTS = {"--em-slate", "--em-grey-dark", "--ink-600", "--ink-700"}
+INK_SHADES = ["--ink-300", "--ink-400", "--ink-500", "--border", "--surface-muted"]
+
+
+def load_theme():
+    THEME.clear()
+    css = read(THEME_CSS)
+    if css:
+        THEME.update(defs_of(css))
+    js = read(THEME_JSON)
+    if js:
+        try:
+            data = json.loads(js)
+        except json.JSONDecodeError as e:
+            err(f"{THEME_JSON} is not valid JSON: {e}")
+            return
+        colours = data.get("colors", data) if isinstance(data, dict) else {}
+        for k, v in colours.items():
+            if isinstance(v, str) and not k.startswith(("$", "note")):
+                THEME[k if k.startswith("--") else "--" + k] = v.strip()
+
+
+def is_colour_token(base, name, depth=0):
+    v = base.get(name)
+    if v is None or depth > 10:
+        return False
+    m = re.fullmatch(r"var\((--[\w-]+)\)", v)
+    if m:
+        return is_colour_token(base, m.group(1), depth + 1)
+    if re.search(r"\d+px", v):
+        return False
+    return bool(HEX_COLOUR.match(v) or RAW_COLOUR.search(v) or "color-mix(" in v)
+
+
+def check_theme():
+    if not THEME:
+        return
+    base = baseline_defs()
+    known = set(base) | set(defs_of(read("tokens.css") or ""))
+    rejected = set()   # overrides that are errors are ignored by every other check, so one mistake is reported once
+    for name, val in list(THEME.items()):
+        if name.startswith("--client-"):   # a new client brand colour: allowed, a plain colour value only
+            if not (HEX_COLOUR.match(val) or re.match(r"(?:rgba?|hsla?)\(", val)):
+                err(f"theme: {name} must be a colour (hex, rgb() or hsl()), found '{val}'")
+                rejected.add(name)
+            continue
+        if name not in known:
+            close = difflib.get_close_matches(name, sorted(known), n=1)
+            err(f"theme: {name} is not a design token" + (f" (did you mean {close[0]}?)" if close else ""))
+            rejected.add(name)
+            continue
+        if is_locked(name):
+            err(f"theme: {name} is a status colour (red, orange or green) and is universal: a client theme cannot change it")
+            rejected.add(name)
+            continue
+        if name in TINTED_EFFECTS:
+            if not re.search(r"rgba?\(|#[0-9a-fA-F]{3,8}", val):
+                err(f"theme: {name} must keep its shape and carry a colour, e.g. '0 0 0 3px rgb(R G B / 18%)', found '{val}'")
+                rejected.add(name)
+            continue
+        if not is_colour_token(base, name):
+            warn(f"theme: {name} is not a colour token; sizes, spacing and radii are part of the baseline, change them only if you must")
+            continue
+        alias = re.fullmatch(r"var\((--[\w-]+)\)", val)
+        if alias:
+            if alias.group(1) not in known | set(THEME):
+                err(f"theme: {name} refers to {alias.group(1)}, which is not defined")
+                rejected.add(name)
+        elif not (HEX_COLOUR.match(val) or re.match(r"(?:rgba?|hsla?)\(", val)):
+            err(f"theme: {name} must be a colour (hex, rgb() or hsl()), found '{val}'")
+            rejected.add(name)
+    for name in rejected:
+        THEME.pop(name, None)
+    # partial theme: the main colours changed but their lighter and darker shades did not
+    for roots, shades, label in ((BRAND_ROOTS, BRAND_SHADES, "brand"), (INK_ROOTS, INK_SHADES, "text and surface")):
+        if roots & set(THEME):
+            missing = [s for s in shades if s not in THEME]
+            if len(missing) >= len(shades) - 2:
+                warn(f"theme: the {label} colours were changed but these related shades were not: {', '.join(missing)}. "
+                     f"They still show the EncoreMed colours in hover, tinted and border states")
+    note(f"client theme active: {len(THEME)} token(s) overridden ({THEME_CSS if read(THEME_CSS) else ''}{' + ' if read(THEME_CSS) and read(THEME_JSON) else ''}{THEME_JSON if read(THEME_JSON) else ''})")
 
 
 def classes_of(css):
@@ -146,7 +262,7 @@ def check_css(defs):
         if n == "app-tokens.css":
             continue   # raw colours in app-tokens are checked below, per token
         for m in RAW_COLOUR.finditer(css):
-            err(f"{n}:{line_of(css, m.start())}: raw colour '{m.group(0)}...': use a colour token")
+            err(f"{n}:{line_of(css, m.start())}: raw colour '{m.group(0)}...': use a colour token (a client's brand colours go in theme.css)")
         for m in re.finditer(r"(?:^|[;{\s])((?:min-|max-)?height)\s*:\s*([^;}]*)", css):
             val = m.group(2).strip()
             px = re.findall(r"(\d+(?:\.\d+)?)px", val)
@@ -172,12 +288,12 @@ def check_token_tiers():
     if a:
         css = strip_comments(a)
         for m in RAW_COLOUR.finditer(css):
-            err(f"app-tokens.css:{line_of(css, m.start())}: raw colour '{m.group(0)}...': alias a semantic token")
+            err(f"app-tokens.css:{line_of(css, m.start())}: raw colour '{m.group(0)}...': alias a semantic token (a client's brand colours go in theme.css)")
 
 
 # ---------------------------------------------------------------- 5 + inline styles: html files
 def check_html():
-    order = ["tokens.css", "app-tokens.css", "components.css", "app.css"]
+    order = ["tokens.css", "theme.css", "app-tokens.css", "components.css", "app.css"]
     for p in sorted(PROJECT.glob("*.html")):
         html = p.read_text()
         names = [Path(l).name for l in re.findall(r'<link[^>]+href="([^"]+\.css)"', html)]
@@ -187,6 +303,8 @@ def check_html():
         for need in SHARED:
             if need not in names:
                 err(f"{p.name}: does not load {need}")
+        if (PROJECT / THEME_CSS).exists() and THEME_CSS not in names:
+            err(f"{p.name}: the project has a {THEME_CSS} but this page does not load it (after tokens.css)")
         for m in re.finditer(r'style="([^"]*)"', html):
             if RAW_COLOUR.search(m.group(1)):
                 err(f"{p.name}:{line_of(html, m.start())}: inline style with a raw colour: use a token class or a variable")
@@ -214,8 +332,8 @@ def contrast(a, b):
     return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
 
 
-PAIRS = [("--ink-700", "--white"), ("--ink-600", "--white"), ("--ink-500", "--white"), ("--ink-700", "--bg"), ("--ink-600", "--bg"),
-         ("--brand-600", "--white"), ("--white", "--brand-600"), ("--brand-800", "--accent-500"), ("--accent-700", "--accent-50")]
+PAIRS = [("--pressed-fg", "--pressed-bg"), ("--ink-700", "--white"), ("--ink-600", "--white"), ("--ink-500", "--white"), ("--ink-700", "--bg"), ("--ink-600", "--bg"),
+         ("--brand-600", "--white"), ("--white", "--brand-600"), ("--nav-toggle-fg", "--nav-toggle-bg"), ("--accent-700", "--accent-50")]
 
 
 def check_contrast(defs):
@@ -262,6 +380,9 @@ def palette():
     if base is None:
         return {}
     d = defs_of(base)
+    if PROJECT not in (HANDOFF, BASELINE) and read("tokens.css"):
+        d.update(defs_of(read("tokens.css")))   # colours the project changed in its own tokens.css count as its palette
+    d.update(THEME)                              # so do the colours of a client theme
     out = {}
     for name in d:
         h = resolve(d, name)
@@ -315,16 +436,23 @@ def check_ballpark(web):
 def detect_web():
     if "--platform" in sys.argv:
         return sys.argv[sys.argv.index("--platform") + 1:][:1] == ["web"]
-    return any((PROJECT / n).exists() for n in ("tokens.css", "components.css", "app.css")) or any(PROJECT.glob("*.html"))
+    return any((PROJECT / n).exists() for n in ("tokens.css", "components.css", "app.css", THEME_CSS)) or any(PROJECT.glob("*.html"))
 
 
 def main():
     web = detect_web()
-    print(f"guard: project  {PROJECT}  ({'web' if web else 'any platform: colour ballpark check only'})\n       baseline {BASELINE}\n")
+    load_theme()
+    print(f"guard: project  {PROJECT}  ({'web' if web else 'any platform: colour ballpark check'}{', client theme' if THEME else ''})\n       baseline {BASELINE}\n")
     defs = {}
+    if not web and THEME:
+        check_theme()
+        merged = baseline_defs()
+        merged.update(THEME)
+        check_contrast(merged)
     if web:
         check_shared()
         if not errors:
+            check_theme()
             defs = token_defs()
             check_css(defs)
             check_token_tiers()

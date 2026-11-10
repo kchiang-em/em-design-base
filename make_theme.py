@@ -1,0 +1,245 @@
+#!/usr/bin/env python3
+"""make_theme.py: turn a client's brand colours into a valid theme file (Python 3, standard library only).
+
+The AI assistant should run this instead of working out colour shades by hand. It derives the full brand scale from the
+colours you give it, checks contrast, and writes theme.css (web) and/or theme.json (any platform). Read THEMING.md first.
+
+    python3 make_theme.py --primary "<client primary hex>" --css theme.css
+    python3 make_theme.py --primary "<hex>" --secondary "<hex>" --background "<hex>" --css theme.css --json theme.json
+    python3 make_theme.py --primary "<hex>" --extra highlight="<hex>" --json theme.json
+
+Colours (hex: #RGB or #RRGGBB):
+  --primary     the client's main brand colour (buttons, sidebar, links). REQUIRED.   -> em-navy-core + the brand shades
+  --secondary   a second brand colour used for active items and gradients             -> em-blue   (default: primary, a bit lighter)
+  --heading     the colour of headings                                                -> em-navy   (default: primary)
+  --text        body text colour                                                      -> em-grey-dark   (default: unchanged)
+  --muted-text  secondary text and labels                                             -> em-slate       (default: unchanged)
+  --background  page background                                                       -> em-grey-light  (default: unchanged)
+  --extra NAME=HEX   another client colour with no EncoreMed role                     -> --client-NAME (repeatable)
+Output:
+  --css PATH    write a CSS theme (variables)        --json PATH   write a JSON theme
+  (neither: print the CSS to the screen)
+  --adjust      if the primary colour is too light for white text (4.5:1), darken it until it passes instead of stopping
+
+Status colours (red, orange, green) are universal and are never touched. Exit code 0 = theme written, 1 = problem.
+"""
+import argparse
+import colorsys
+import json
+import re
+import sys
+from pathlib import Path
+
+
+def parse_hex(s):
+    s = s.strip().lstrip("#")
+    if re.fullmatch(r"[0-9a-fA-F]{3}", s):
+        s = "".join(c * 2 for c in s)
+    if not re.fullmatch(r"[0-9a-fA-F]{6}", s):
+        raise ValueError(f"'{s}' is not a hex colour (use #RGB or #RRGGBB)")
+    return tuple(int(s[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def to_hex(rgb):
+    return "#%02x%02x%02x" % tuple(max(0, min(255, round(v))) for v in rgb)
+
+
+def hls(rgb):
+    return colorsys.rgb_to_hls(*(v / 255 for v in rgb))
+
+
+def from_hls(h, l, s):
+    return tuple(v * 255 for v in colorsys.hls_to_rgb(h, max(0, min(1, l)), max(0, min(1, s))))
+
+
+def mix_white(rgb, t):
+    """t = how much of the colour is kept (1 = the colour, 0 = white)."""
+    return tuple(255 - (255 - v) * t for v in rgb)
+
+
+def scale_lightness(rgb, k):
+    h, l, s = hls(rgb)
+    return from_hls(h, l * k, s)
+
+
+def lighten(rgb, add):
+    h, l, s = hls(rgb)
+    return from_hls(h, l + add, s)
+
+
+def luminance(rgb):
+    c = [v / 255 for v in rgb]
+    c = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+
+def contrast(a, b):
+    la, lb = luminance(a), luminance(b)
+    return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+
+WHITE = (255, 255, 255)
+GREEN_STATUS = parse_hex("#16ad85")   # accent-500: the status green (the toggle label sits on it in dark brand navy)
+STATUS_HUES = {"red (error)": 0, "orange (warning)": 29, "green (positive)": 162}
+
+# How each brand shade is derived from the primary colour. The numbers reproduce the EncoreMed navy scale from #023C6E.
+DARKER = {"brand-700": 0.82, "brand-800": 0.64, "brand-900": 0.48, "brand-950": 0.27}   # hover and dark surfaces (lightness x factor)
+TINTS = {"brand-50": 0.06, "brand-100": 0.16, "brand-300": 0.45, "brand-400": 0.70}      # tinted backgrounds, light accents (share of the colour kept)
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="Create a client colour theme from brand colours.", add_help=True)
+    ap.add_argument("--primary", required=True)
+    ap.add_argument("--secondary")
+    ap.add_argument("--heading")
+    ap.add_argument("--text")
+    ap.add_argument("--muted-text", dest="muted")
+    ap.add_argument("--background")
+    ap.add_argument("--extra", action="append", default=[], metavar="NAME=HEX")
+    ap.add_argument("--css")
+    ap.add_argument("--json")
+    ap.add_argument("--adjust", action="store_true")
+    a = ap.parse_args(argv)
+    problems, notes = [], []
+
+    try:
+        primary = parse_hex(a.primary)
+        given = {k: parse_hex(v) for k, v in (("secondary", a.secondary), ("heading", a.heading), ("text", a.text),
+                                               ("muted", a.muted), ("background", a.background)) if v}
+        extras = {}
+        for e in a.extra:
+            if "=" not in e:
+                raise ValueError(f"--extra must look like NAME=#RRGGBB, found '{e}'")
+            name, val = e.split("=", 1)
+            name = re.sub(r"[^a-z0-9-]+", "-", name.strip().lower()).strip("-")
+            if not name:
+                raise ValueError(f"--extra needs a name, found '{e}'")
+            extras[name] = parse_hex(val)
+    except ValueError as e:
+        print("ERROR:", e)
+        return 1
+
+    # 1. white text must read on the primary colour
+    if contrast(WHITE, primary) < 4.5:
+        if not a.adjust:
+            h, l, s = hls(primary)
+            fixed = primary
+            while contrast(WHITE, fixed) < 4.5 and hls(fixed)[1] > 0.05:
+                fixed = from_hls(h, hls(fixed)[1] - 0.01, s)
+            print(f"ERROR: white text on the primary colour {to_hex(primary)} is {contrast(WHITE, primary):.2f}:1 (needs 4.5:1). "
+                  f"The nearest colour that works is {to_hex(fixed)}. Ask the user whether to use it (run again with --adjust), or to pick a darker brand colour.")
+            return 1
+        h, l, s = hls(primary)
+        original = primary
+        while contrast(WHITE, primary) < 4.5 and hls(primary)[1] > 0.05:
+            primary = from_hls(h, hls(primary)[1] - 0.01, s)
+        notes.append(f"primary {to_hex(original)} was too light for white text ({contrast(WHITE, original):.2f}:1); darkened to {to_hex(primary)} ({contrast(WHITE, primary):.2f}:1). Tell the user.")
+
+    colours = {"em-navy-core": primary}
+    if "secondary" in given:
+        secondary = given["secondary"]
+    else:   # derive a slightly lighter shade, but never one that white text cannot read on
+        secondary, step = lighten(primary, 0.06), 0.06
+        while contrast(WHITE, secondary) < 4.5 and step > 0:
+            step = round(step - 0.01, 2)
+            secondary = lighten(primary, step)
+    colours["em-blue"] = secondary
+    colours["em-navy"] = given.get("heading") or primary
+    for name, k in DARKER.items():
+        colours[name] = scale_lightness(primary, k)
+    for name, t in TINTS.items():
+        colours[name] = mix_white(primary, t)
+    if "text" in given:
+        colours["em-grey-dark"] = given["text"]
+    if "muted" in given:
+        colours["em-slate"] = given["muted"]
+    if "background" in given:
+        colours["em-grey-light"] = given["background"]
+
+    # 2. contrast checks on the pairs the design relies on
+    checks = [("white text on the secondary colour (active navigation item)", WHITE, colours["em-blue"]),
+              ("white text on the darker hover shade", WHITE, colours["brand-700"]),
+              ("headings on white", colours["em-navy"], WHITE)]
+    # the sidebar toggle label is dark brand text on the status green (which cannot change): keep it readable
+    toggle_fg = None
+    if contrast(colours["brand-800"], GREEN_STATUS) < 4.5:
+        for cand in (colours["brand-900"], colours["brand-950"], (10, 10, 10)):
+            if contrast(cand, GREEN_STATUS) >= 4.5:
+                toggle_fg = cand
+                break
+        if toggle_fg is None:
+            problems.append("no dark colour reads on the status green for the sidebar toggle label (should not happen)")
+        else:
+            notes.append(f"the sidebar toggle label (on the fixed status green) was darkened to {to_hex(toggle_fg)} so it keeps 4.5:1; this is a component colour, not a status colour.")
+    base_text, base_bg = parse_hex("#3a3a3c"), colours.get("em-grey-light", parse_hex("#f2f2f2"))
+    checks.append(("body text on the page background", colours.get("em-grey-dark", base_text), base_bg))
+    checks.append(("secondary text on the page background", colours.get("em-slate", parse_hex("#4c6173")), base_bg))
+    for label, fg, bg in checks:
+        r = contrast(fg, bg)
+        if r < 4.5:
+            problems.append(f"{label}: {r:.2f}:1 (needs 4.5:1)")
+
+    # 3. a brand colour close to a status colour is allowed, but worth telling the user
+    h = hls(primary)[0] * 360
+    for label, hue in STATUS_HUES.items():
+        d = min(abs(h - hue), 360 - abs(h - hue))
+        if d <= 20 and hls(primary)[2] > 0.25:
+            notes.append(f"primary hue is close to the status colour {label}. Allowed, but the status colours cannot change, so errors or "
+                         f"warnings may look like the brand. Do not rely on colour alone: keep icons and text labels on status messages. Tell the user.")
+            break
+
+    if problems:
+        print("ERROR: the colours do not meet the design's contrast rules:")
+        for p in problems:
+            print("  -", p)
+        print("Ask the user for adjusted colours (or darker/lighter versions), then run again. Do not ship a theme that fails contrast.")
+        return 1
+
+    # 4. write the theme
+    names = {f"--{k}": to_hex(v) for k, v in colours.items()}
+    if toggle_fg is not None:
+        names["--nav-toggle-fg"] = names["--nav-toggle-fg-hover"] = to_hex(toggle_fg)
+    # focus ring and shadows are tinted with the brand colour in the baseline: keep their shape, change the tint
+    prgb, drgb = " ".join(str(round(v)) for v in primary), " ".join(str(round(v)) for v in colours["brand-900"])
+    effects = {"--focus-ring": f"0 0 0 3px rgb({prgb} / 18%)", "--shadow-md": f"0 8px 24px rgb({prgb} / 14%)",
+               "--shadow-lg": f"0 20px 48px rgb({drgb} / 26%)", "--shadow-brand": f"0 5px 14px rgb({prgb} / 22%)"}
+    for k, v in extras.items():
+        names[f"--client-{k}"] = to_hex(v)
+    names.update(effects)
+    roles = {"em-navy-core": "primary (buttons, sidebar, links)", "em-blue": "secondary (active navigation item, gradient lift)",
+             "em-navy": "headings", "brand-50": "primary, very light tint", "brand-100": "primary, light tint", "brand-300": "primary, medium-light",
+             "brand-400": "primary, interactive accent (focus border)", "brand-700": "primary, hover shade", "brand-800": "primary, dark surface",
+             "brand-900": "primary, darker surface", "brand-950": "primary, darkest", "em-grey-dark": "body text",
+             "em-slate": "secondary text and labels", "em-grey-light": "page background",
+             "nav-toggle-fg": "label on the sidebar toggle (kept readable on the status green)",
+             "nav-toggle-fg-hover": "label on the sidebar toggle, hover",
+             "focus-ring": "keyboard focus ring (brand tint)", "shadow-md": "raised surfaces (brand tint)",
+             "shadow-lg": "dialogs (dark brand tint)", "shadow-brand": "primary button shadow (brand tint)"}
+    css = ["/* theme.css: client colour theme, generated by make_theme.py. Load it right after tokens.css.",
+           "   Raw colours are allowed here and nowhere else. Status colours (red, orange, green) are universal and are not listed. */", ":root {"]
+    for k, v in names.items():
+        role = roles.get(k[2:]) or "extra client colour (decoration or brand accent, never a status)"
+        css.append(f"  {k}: {v};   /* {role} */")
+    css.append("}")
+    css_text = "\n".join(css) + "\n"
+    json_text = json.dumps({"colors": {k[2:]: v for k, v in names.items()}}, indent=2) + "\n"
+    if a.css:
+        Path(a.css).write_text(css_text)
+    if a.json:
+        Path(a.json).write_text(json_text)
+    if not a.css and not a.json:
+        sys.stdout.write(css_text)
+
+    print("\nTheme created. Mapping (use this in your report to the user):")
+    for k, v in names.items():
+        print(f"  {k[2:]:<14} {v}   {roles.get(k[2:], 'extra client colour')}")
+    print("\nUnchanged on purpose: the status colours (red, orange, green) and every non-colour token.")
+    for n in notes:
+        print("NOTE:", n)
+    print("Next: make sure the page loads theme.css right after tokens.css (web) or generate your platform's colours from theme.json, "
+          "replace hard-coded EncoreMed colours in the project's own code with tokens, then run guard.py.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
