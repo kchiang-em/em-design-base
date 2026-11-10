@@ -1,0 +1,434 @@
+/* ===== Design tokens (reusable design system): palette, semantic tokens and component tokens =====
+   Screen-specific tokens live in app-tokens.css. */
+:root {
+  /* colour */
+  /* ===== Official EncoreMed palette =====
+     Source: EM_Style_Guideline.pdf (CMYK, converted to sRGB) + EM_official_color_colorBlindSafe.jpeg */
+  --em-navy-core: #023c6e;   /* PDF core: navy */
+  --em-green-core: #16ad85;  /* PDF core: green */
+  --em-blue: #16537a;        /* PDF secondary: blue */
+  --em-green-soft: #4faa91;  /* PDF secondary: mint-green */
+  --em-grey-dark: #3a3a3c;   /* PDF secondary: dark grey */
+  --em-navy: #0e4473;        /* colour-blind safe: navy */
+  --em-slate: #4c6173;       /* colour-blind safe: slate */
+  --em-green: #4ba67b;       /* colour-blind safe: green */
+  --em-mint: #9cd9bc;        /* colour-blind safe: mint */
+  --em-grey-light: #f2f2f2;  /* colour-blind safe: light grey */
+
+  /* ===== Semantic tokens (built from the palette above) ===== */
+  --white: #ffffff;
+  --bg: var(--em-grey-light);
+  --surface-subtle: #f8f8f8;
+  --surface-muted: #edeef0;
+  --border: #dcdfe3;
+  --border-strong: #c7ccd2;
+  --ink-300: #b4bdc6;
+  --ink-400: #7c8b98;
+  --ink-500: #5a6c7d;
+  --ink-600: var(--em-slate);
+  --ink-700: var(--em-grey-dark);
+  --ink-900: var(--em-navy);
+  --brand-50: #eef4fb;
+  --brand-100: #d6e5f5;
+  --brand-300: #7fa9d3;
+  --brand-400: #3f7ab5;
+  --brand-500: var(--em-blue);
+  --brand-600: var(--em-navy-core);
+  --brand-700: #01305a;
+  --brand-800: #012646;
+  --brand-900: #011c34;
+  --brand-950: #01121f;
+  /* amber (complement of the logo navy): pressed / clicked state */
+  --amber-50: #fff4dc;
+  --amber-400: #ffb020;
+  --amber-600: #b45309;
+  /* accent (logo green): live / positive signals */
+  --accent-50: #e8f7f2;
+  --accent-100: #c9eee1;
+  --accent-300: var(--em-mint);
+  --accent-400: var(--em-green-soft);
+  --accent-500: var(--em-green-core);
+  --accent-600: #0f8c6b;
+  --accent-700: #0b7258;
+  --danger-600: #dc2626;
+  --danger-700: #b91c1c;
+  --danger-300: #fca5a5;
+  --danger-50: #fef2f2;
+  --warning-600: #b36b28;
+  --warning-400: #d78b4c;
+  --warning-50: #fff2e4;
+  --info-100: #d7e7f7;
+  /* white overlays (sidebar, login panel) */
+  --white-10: rgb(255 255 255 / 10%);
+  --white-15: rgb(255 255 255 / 15%);
+  --white-50: rgb(255 255 255 / 50%);
+  --white-70: rgb(255 255 255 / 70%);
+  --white-80: rgb(255 255 255 / 80%);
+  /* type */
+  --font-sans: "Acumin Variable Concept", "Acumin Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --text-xs: 13px;
+  --text-sm: 14px;
+  --text-base: 15px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 26px;
+  --text-3xl: 36px;
+  --weight-medium: 400;
+  --weight-semibold: 700;
+  --weight-bold: 700;
+  /* spacing (4px grid) */
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+  --space-4xl: 48px;
+  --space-5xl: 64px;
+  /* radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+  /* elevation */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 8%);
+  --shadow-md: 0 8px 24px rgb(2 60 110 / 14%);
+  --shadow-lg: 0 20px 48px rgb(1 28 52 / 26%);
+  --shadow-brand: 0 5px 14px rgb(2 60 110 / 22%);
+  --focus-ring: 0 0 0 3px rgb(2 60 110 / 18%);
+}
+
+/* ===================================================================
+   COMPONENT TOKENS
+   Standard sizes, colours and states for every control. Built from the tokens above.
+   New components should use these, never raw colours or pixel heights.
+   Naming: --{component}-{variant?}-{property}-{state?}
+   =================================================================== */
+:root {
+  /* ----- control size scale: every button, field and trigger takes one of these heights ----- */
+  --control-h-sm: 32px;
+  --control-h-md: 36px;
+  --control-h-lg: 40px;
+  --control-h-xl: 44px;
+  --control-h-2xl: 48px;
+  --control-radius: var(--radius-md);
+  --control-transition: 150ms;
+  --disabled-opacity: .55;
+
+  /* ----- pressed (clicked) state, shared by all controls ----- */
+  --pressed-bg: var(--amber-50);
+  --pressed-border: var(--amber-600);
+  --pressed-fg: var(--amber-600);
+  --pressed-on-dark: var(--amber-400);
+  --pressed-ring: 0 0 0 3px color-mix(in srgb, var(--amber-400) 55%, transparent);
+  
+  /* ----- keyboard focus ----- */
+  --btn-focus-ring: var(--focus-ring);
+
+  /* ----- text field ----- */
+  --field-h: var(--control-h-2xl);
+  --field-h-compact: var(--control-h-xl);
+  --field-padding-x: var(--space-lg);
+  --field-bg: var(--white);
+  --field-fg: var(--ink-700);
+  --field-border: var(--border);
+  --field-border-hover: var(--border-strong);
+  --field-border-focus: var(--brand-400);
+  --field-ring-focus: var(--focus-ring);
+  --field-bg-disabled: var(--bg);
+  --field-fg-disabled: var(--ink-400);
+
+  /* ----- button: primary (solid navy) ----- */
+  --btn-primary-h: var(--control-h-2xl);
+  --btn-primary-padding-x: var(--space-xl);
+  --btn-primary-bg: var(--brand-600);
+  --btn-primary-fg: var(--white);
+  --btn-primary-bg-hover: var(--brand-700);
+  --btn-primary-bg-disabled: var(--ink-300);
+  --btn-primary-shadow: var(--shadow-brand);
+  --btn-primary-bg-pressed: var(--brand-700);
+  --btn-primary-ring-pressed: var(--pressed-ring);
+  --btn-primary-lift: -1px;
+
+  /* ----- button: secondary (white, tinted border) ----- */
+  --btn-secondary-h: var(--control-h-lg);
+  --btn-secondary-padding-x: var(--space-lg);
+  --btn-secondary-bg: var(--white);
+  --btn-secondary-fg: var(--ink-600);
+  --btn-secondary-border: var(--brand-100);
+  --btn-secondary-border-hover: var(--ink-300);
+  --btn-secondary-fg-hover: var(--brand-600);
+  --btn-secondary-bg-pressed: var(--pressed-bg);
+  --btn-secondary-border-pressed: var(--pressed-border);
+  --btn-secondary-fg-pressed: var(--pressed-fg);
+
+  /* ----- button: outline (compact, for rows and cards) ----- */
+  --btn-outline-h: var(--control-h-sm);
+  --btn-outline-fg: var(--ink-500);
+  --btn-outline-border: var(--border);
+  --btn-outline-border-hover: var(--ink-300);
+  --btn-outline-fg-hover: var(--brand-600);
+  --btn-outline-bg-pressed: var(--pressed-bg);
+  --btn-outline-border-pressed: var(--pressed-border);
+  --btn-outline-fg-pressed: var(--pressed-fg);
+
+  /* ----- button: danger outline (delete) ----- */
+  --btn-danger-outline-fg: var(--danger-600);
+  --btn-danger-outline-border-hover: var(--danger-300);
+  --btn-danger-outline-bg-hover: var(--danger-50);
+
+  /* ----- button: danger solid (clear all filters) ----- */
+  --btn-danger-h: var(--control-h-xl);
+  --btn-danger-padding-x: var(--space-lg);
+  --btn-danger-bg: var(--danger-600);
+  --btn-danger-fg: var(--white);
+  --btn-danger-bg-hover: var(--danger-700);
+  --btn-danger-bg-pressed: var(--amber-600);
+  --btn-danger-bg-disabled: var(--surface-muted);
+  --btn-danger-fg-disabled: var(--ink-300);
+  --btn-danger-gap: var(--space-sm);
+  --btn-danger-font-size: var(--text-sm);
+  --btn-danger-font-weight: var(--weight-bold);
+  --btn-danger-icon-size: 18px;
+  --btn-danger-compact-w: var(--btn-danger-h); /* icon-only: a square the same size as the button height */
+
+  /* ----- button: icon only (square, outlined) ----- */
+  --btn-icon-size: var(--control-h-md);
+  --btn-icon-fg: var(--ink-400);
+  --btn-icon-border: var(--border);
+  --btn-icon-border-hover: var(--ink-300);
+  --btn-icon-fg-hover: var(--brand-600);
+  --btn-icon-bg-pressed: var(--pressed-bg);
+  --btn-icon-border-pressed: var(--pressed-border);
+  --btn-icon-fg-pressed: var(--pressed-fg);
+
+  /* ----- button: tinted arrow (resident row action) ----- */
+  --btn-tint-size: var(--control-h-md);
+  --btn-tint-bg: var(--brand-50);
+  --btn-tint-fg: var(--brand-600);
+  --btn-tint-bg-hover: var(--brand-600);
+  --btn-tint-fg-hover: var(--white);
+
+  /* ----- button: inverse (white, on a navy card) ----- */
+  --btn-inverse-size: var(--control-h-xl);
+  --btn-inverse-bg: var(--white);
+  --btn-inverse-fg: var(--brand-700);
+  --btn-inverse-bg-hover: var(--brand-50);
+  --btn-inverse-shadow: var(--shadow-sm);
+  --btn-inverse-bg-pressed: var(--pressed-bg);
+  --btn-inverse-fg-pressed: var(--pressed-fg);
+
+  /* ----- button: text / link ----- */
+  --btn-link-fg: var(--brand-600);
+  --btn-text-fg: var(--ink-400);
+  --btn-link-fg-pressed: var(--pressed-fg);
+  --btn-text-fg-pressed: var(--pressed-fg);
+
+  /* ----- clear (x) button inside a field ----- */
+  --clear-btn-size: 24px;
+  --clear-btn-fg: var(--ink-700);
+  --clear-btn-bg: var(--surface-muted);
+  --clear-btn-fg-hover: var(--ink-900);
+  --clear-btn-bg-hover: var(--border-strong);
+  --clear-btn-radius: var(--radius-pill);
+  --clear-btn-icon-size: 14px;
+  --search-clear-right: 12px;
+  --search-input-padding-right-active: 44px;
+
+  /* ----- pagination ----- */
+  --pager-btn-size: var(--control-h-sm);
+  --pager-btn-padding-x: var(--space-sm);
+  --pager-icon-size: 16px;
+  --pager-gap: var(--space-xs);
+  --pager-bg: var(--white);
+  --pager-fg: var(--ink-600);
+  --pager-border: var(--border);
+  --pager-bg-hover: var(--brand-50);
+  --pager-border-hover: var(--ink-300);
+  --pager-fg-hover: var(--brand-600);
+  --pager-current-bg: var(--brand-600);
+  --pager-current-fg: var(--white);
+  --pager-disabled-opacity: .45;
+  --pager-bg-pressed: var(--pressed-bg);
+  --pager-border-pressed: var(--pressed-border);
+  --pager-fg-pressed: var(--pressed-fg);
+
+  /* ----- pagination: text variant (labelled First / Previous / Next / Last; icon-only below the compact breakpoint) ----- */
+  --pager-nav-padding-x: var(--space-md);
+  --pager-nav-padding-x-compact: var(--space-sm);
+  --pager-nav-gap: var(--space-xs);
+  --pager-compact-breakpoint: 1100px; /* documentation token: CSS media queries cannot read custom properties, so components.css repeats this value (export_tokens.py checks they match) */
+
+  /* ----- dropdown (single select) and multi-select ----- */
+  --dd-trigger-h-sm: var(--control-h-sm);
+  --dd-trigger-bg: var(--white);
+  --dd-trigger-fg: var(--ink-700);
+  --dd-trigger-border: var(--border);
+  --dd-trigger-border-hover: var(--ink-300);
+  --dd-trigger-border-open: var(--brand-400);
+  --dd-chevron-fg: var(--ink-400);
+  --dd-panel-bg: var(--white);
+  --dd-panel-border: var(--border);
+  --dd-panel-radius: var(--radius-md);
+  --dd-panel-shadow: var(--shadow-md);
+  --dd-panel-z: 40;
+  --dd-list-max-h: 200px;
+  --dd-option-fg: var(--ink-700);
+  --dd-option-bg-hover: var(--surface-muted);
+  --dd-option-fg-selected: var(--brand-600);
+  --dd-option-check: var(--brand-600);
+  --dd-option-weight-selected: var(--weight-semibold);
+  --dd-option-bg-pressed: var(--pressed-bg);
+  --dd-option-fg-pressed: var(--pressed-fg);
+  --dd-trigger-border-pressed: var(--pressed-border);
+  --ms-trigger-border-active: var(--brand-400);
+  --ms-trigger-padding-right: 38px;
+  --ms-trigger-padding-right-active: 62px;
+  --ms-placeholder-fg: var(--ink-500);
+  --ms-search-h: var(--control-h-md);
+  --ms-empty-fg: var(--ink-400);
+
+  /* ----- dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone) ----- */
+  --dd-chevron-right: 12px;
+  --dd-chevron-size: 14px;
+  --dd-chevron-duration: 120ms;
+  --dd-panel-offset: var(--space-xs);
+  --dd-list-gap: 2px;
+  --dd-list-padding: var(--space-xs);
+  --dd-option-gap: var(--space-sm);
+  --dd-option-padding-y: var(--space-sm);
+  --dd-option-padding-x: var(--space-md);
+  --dd-option-radius: var(--radius-sm);
+  --dd-option-font-size: var(--text-xs);
+  --dd-option-icon-size: 14px;
+  --dd-sm-min-w: 68px;
+  --dd-sm-padding-left: var(--space-md);
+  --dd-sm-padding-right: var(--space-2xl);
+  --dd-sm-font-size: var(--text-xs);
+  --dd-sm-font-weight: var(--weight-semibold);
+  --dd-sm-chevron-right: 10px;
+
+  /* ----- dropdown: field variant (sits in the filter bar, same height and look as a text field) ----- */
+  --dd-field-h: var(--field-h-compact);
+  --dd-field-padding-left: var(--space-md);
+  --dd-field-padding-right: var(--space-3xl);
+  --dd-field-font-size: var(--text-sm);
+  --dd-field-chevron-right: 13px;
+  --dd-prefix-fg: var(--ink-500);
+  --dd-prefix-gap: var(--space-xs);
+  --dd-footer-padding: var(--space-sm) var(--space-md);
+  --dd-footer-fg: var(--ink-500);
+  --dd-footer-font-size: var(--text-xs);
+  --ms-chevron-right: 13px;
+  --ms-chevron-size: 16px;
+  --ms-clear-right: 36px;
+  --ms-search-padding: var(--space-sm) var(--space-sm) var(--space-xs);
+  --ms-search-input-padding-left: var(--space-md);
+  --ms-search-input-padding-right: 36px;
+  --ms-search-input-font-size: var(--text-xs);
+  --ms-search-icon-right: 20px;
+  --ms-search-icon-size: 16px;
+  --ms-check-icon-size: 12px;
+  --ms-empty-padding: var(--space-md);
+  --ms-empty-font-size: var(--text-xs);
+
+  /* ----- checkbox (multi-select option, "remember this device") ----- */
+  --checkbox-size: 18px;
+  --checkbox-border: var(--ink-400);
+  --checkbox-bg: var(--white);
+  --checkbox-bg-checked: var(--brand-600);
+  --checkbox-fg-checked: var(--white);
+  --checkbox-radius: var(--radius-sm);
+
+  /* ----- toggle switch ----- */
+  --toggle-w: 42px;
+  --toggle-h: 24px;
+  --toggle-knob: 18px;
+  --toggle-inset: 3px;
+  --toggle-travel: 18px;
+  --toggle-bg-off: var(--border-strong);
+  --toggle-bg-on: var(--em-green);
+  --toggle-knob-bg: var(--white);
+  --toggle-ring-pressed: var(--pressed-ring);
+
+  /* ----- sidebar navigation item ----- */
+  --nav-item-h: var(--control-h-xl);
+  --nav-fg: var(--white-80);
+  --nav-fg-hover: var(--white);
+  --nav-bg-hover: var(--white-10);
+  --nav-bg-active: var(--brand-500);
+  --nav-edge-active: var(--accent-500);
+  --nav-edge-width: 3px;
+  --nav-shadow-active: var(--shadow-md);
+  --nav-bg-pressed: var(--white-15);
+  --nav-edge-pressed: var(--pressed-on-dark);
+
+  /* ----- sidebar: collapsed rail, expanded panel, toggle button ----- */
+  --nav-w-collapsed: 72px;
+  --nav-w-expanded: 248px;
+  --nav-duration: 200ms;
+  --nav-icon-size: 20px;                  /* every sidebar icon uses this slot, so icons stay pinned when collapsing */
+  --nav-rail-inset: 14px;                 /* collapsed rail 72 - 2 x 14 = 44: buttons are squares, and the same width rule animates to expanded */
+  --nav-icon-inset: 12px;
+  --nav-logo-inset: 16px;
+  --nav-profile-inset: 5px;
+  --nav-logo-h: 48px;                 /* the logo row is always this tall, collapsed or expanded, so nothing below it moves */
+  --nav-profile-h: 44px;              /* same for the profile row */
+  --nav-avatar-size: 34px;
+  --nav-avatar-ring-w: 2px;
+  --nav-avatar-ring-pressed: var(--pressed-on-dark);
+  --profile-btn-radius: var(--control-radius);
+  --profile-btn-bg-hover: var(--white-10);
+  --profile-btn-bg-open: var(--white-10);
+  --profile-btn-bg-pressed: var(--white-15);
+  --profile-menu-w: 224px;            /* the sidebar's expanded width minus its side padding; the menu opens to the right of the rail when collapsed */
+  --nav-badge-collapsed-bg: var(--accent-500);
+  --nav-badge-collapsed-fg: var(--white);
+  --nav-badge-min-w: 18px;
+  --nav-badge-h: 18px;
+  --nav-toggle-icon-size: 20px;
+  --nav-toggle-h: var(--nav-item-h);
+  --nav-toggle-bg: var(--accent-500);
+  --nav-toggle-fg: var(--brand-800);
+  --nav-toggle-bg-hover: var(--accent-100);
+  --nav-toggle-fg-hover: var(--brand-800);
+  --nav-toggle-bg-pressed: var(--pressed-bg);
+  --nav-toggle-fg-pressed: var(--pressed-fg);
+
+  /* ----- interactive surfaces: list rows, cards, menu items ----- */
+  --card-border-hover: var(--border-strong);
+  --card-shadow-hover: var(--shadow-md);
+  --card-lift-hover: -2px;
+  --menu-item-bg-hover: var(--surface-subtle);
+  --menu-item-fg-hover: var(--brand-600);
+
+  /* ----- brand mark (the logo tile): a fixed-size square that never shrinks, stretches or reflows ----- */
+  --logo-mark-size: 40px;
+  --logo-mark-radius: var(--radius-lg);
+  --logo-mark-bg: var(--accent-500);
+  --logo-mark-bg-on-dark: var(--white-15);
+  --logo-mark-fg: var(--white);
+
+  /* password eye (show/hide) button, inside the field */
+  --pw-eye-size: var(--control-h-md);
+  --pw-eye-icon-size: 20px;
+  --pw-eye-inset: var(--space-sm);       /* gap from the field's right edge */
+  --pw-eye-radius: var(--control-radius);
+  --pw-eye-fg: var(--ink-400);
+  --pw-eye-fg-hover: var(--ink-600);
+  --pw-eye-bg-hover: var(--bg);
+  --pw-eye-fg-pressed: var(--pressed-fg);
+  --pw-eye-fg-disabled: var(--ink-300);
+  --pw-field-padding-right: calc(var(--pw-eye-size) + var(--pw-eye-inset) + var(--space-xs));
+
+  /* "Remember this device" row (the box uses --checkbox-*) */
+  --remember-gap: var(--space-md);
+  --remember-size: var(--text-base);
+  --remember-weight: var(--weight-medium);
+  --remember-fg: var(--ink-500);
+}

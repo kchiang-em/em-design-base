@@ -1,0 +1,2024 @@
+{
+  "$description": "EncoreMed design tokens, generated from tokens.css and app-tokens.css. Aliases use {token-name}.",
+  "palette": {
+    "em-navy-core": {
+      "$value": "#023c6e",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "PDF core: navy"
+    },
+    "em-green-core": {
+      "$value": "#16ad85",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "PDF core: green"
+    },
+    "em-blue": {
+      "$value": "#16537a",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "PDF secondary: blue"
+    },
+    "em-green-soft": {
+      "$value": "#4faa91",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "PDF secondary: mint-green"
+    },
+    "em-grey-dark": {
+      "$value": "#3a3a3c",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "PDF secondary: dark grey"
+    },
+    "em-navy": {
+      "$value": "#0e4473",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "colour-blind safe: navy"
+    },
+    "em-slate": {
+      "$value": "#4c6173",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "colour-blind safe: slate"
+    },
+    "em-green": {
+      "$value": "#4ba67b",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "colour-blind safe: green"
+    },
+    "em-mint": {
+      "$value": "#9cd9bc",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "colour-blind safe: mint"
+    },
+    "em-grey-light": {
+      "$value": "#f2f2f2",
+      "$type": "color",
+      "$group": "Official palette",
+      "$description": "colour-blind safe: light grey"
+    }
+  },
+  "semantic": {
+    "white": {
+      "$value": "#ffffff",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "bg": {
+      "$value": "{em-grey-light}",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status",
+      "$resolved": "#f2f2f2"
+    },
+    "surface-subtle": {
+      "$value": "#f8f8f8",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "surface-muted": {
+      "$value": "#edeef0",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "border": {
+      "$value": "#dcdfe3",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "border-strong": {
+      "$value": "#c7ccd2",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "ink-300": {
+      "$value": "#b4bdc6",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "ink-400": {
+      "$value": "#7c8b98",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "ink-500": {
+      "$value": "#5a6c7d",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "ink-600": {
+      "$value": "{em-slate}",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status",
+      "$resolved": "#4c6173"
+    },
+    "ink-700": {
+      "$value": "{em-grey-dark}",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status",
+      "$resolved": "#3a3a3c"
+    },
+    "ink-900": {
+      "$value": "{em-navy}",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status",
+      "$resolved": "#0e4473"
+    },
+    "brand-50": {
+      "$value": "#eef4fb",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "brand-100": {
+      "$value": "#d6e5f5",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "brand-300": {
+      "$value": "#7fa9d3",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "brand-400": {
+      "$value": "#3f7ab5",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "brand-500": {
+      "$value": "{em-blue}",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status",
+      "$resolved": "#16537a"
+    },
+    "brand-600": {
+      "$value": "{em-navy-core}",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status",
+      "$resolved": "#023c6e"
+    },
+    "brand-700": {
+      "$value": "#01305a",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "brand-800": {
+      "$value": "#012646",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "brand-900": {
+      "$value": "#011c34",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "brand-950": {
+      "$value": "#01121f",
+      "$type": "color",
+      "$group": "Colour: neutrals, text, brand, status"
+    },
+    "amber-50": {
+      "$value": "#fff4dc",
+      "$type": "color",
+      "$group": "amber (complement of the logo navy): pressed / clicked state"
+    },
+    "amber-400": {
+      "$value": "#ffb020",
+      "$type": "color",
+      "$group": "amber (complement of the logo navy): pressed / clicked state"
+    },
+    "amber-600": {
+      "$value": "#b45309",
+      "$type": "color",
+      "$group": "amber (complement of the logo navy): pressed / clicked state"
+    },
+    "accent-50": {
+      "$value": "#e8f7f2",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "accent-100": {
+      "$value": "#c9eee1",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "accent-300": {
+      "$value": "{em-mint}",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals",
+      "$resolved": "#9cd9bc"
+    },
+    "accent-400": {
+      "$value": "{em-green-soft}",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals",
+      "$resolved": "#4faa91"
+    },
+    "accent-500": {
+      "$value": "{em-green-core}",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals",
+      "$resolved": "#16ad85"
+    },
+    "accent-600": {
+      "$value": "#0f8c6b",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "accent-700": {
+      "$value": "#0b7258",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "danger-600": {
+      "$value": "#dc2626",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "danger-700": {
+      "$value": "#b91c1c",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "danger-300": {
+      "$value": "#fca5a5",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "danger-50": {
+      "$value": "#fef2f2",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "warning-600": {
+      "$value": "#b36b28",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "warning-400": {
+      "$value": "#d78b4c",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "warning-50": {
+      "$value": "#fff2e4",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "info-100": {
+      "$value": "#d7e7f7",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals"
+    },
+    "white-10": {
+      "$value": "rgb(255 255 255 / 10%)",
+      "$type": "color",
+      "$group": "white overlays (sidebar, login panel)"
+    },
+    "white-15": {
+      "$value": "rgb(255 255 255 / 15%)",
+      "$type": "color",
+      "$group": "white overlays (sidebar, login panel)"
+    },
+    "white-50": {
+      "$value": "rgb(255 255 255 / 50%)",
+      "$type": "color",
+      "$group": "white overlays (sidebar, login panel)"
+    },
+    "white-70": {
+      "$value": "rgb(255 255 255 / 70%)",
+      "$type": "color",
+      "$group": "white overlays (sidebar, login panel)"
+    },
+    "white-80": {
+      "$value": "rgb(255 255 255 / 80%)",
+      "$type": "color",
+      "$group": "white overlays (sidebar, login panel)"
+    },
+    "font-sans": {
+      "$value": "\"Acumin Variable Concept\", \"Acumin Pro\", Arial, \"Helvetica Neue\", Helvetica, sans-serif",
+      "$type": "fontFamily",
+      "$group": "type"
+    },
+    "text-xs": {
+      "$value": "13px",
+      "$type": "dimension",
+      "$group": "type"
+    },
+    "text-sm": {
+      "$value": "14px",
+      "$type": "dimension",
+      "$group": "type"
+    },
+    "text-base": {
+      "$value": "15px",
+      "$type": "dimension",
+      "$group": "type"
+    },
+    "text-md": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$group": "type"
+    },
+    "text-lg": {
+      "$value": "18px",
+      "$type": "dimension",
+      "$group": "type"
+    },
+    "text-xl": {
+      "$value": "20px",
+      "$type": "dimension",
+      "$group": "type"
+    },
+    "text-2xl": {
+      "$value": "26px",
+      "$type": "dimension",
+      "$group": "type"
+    },
+    "text-3xl": {
+      "$value": "36px",
+      "$type": "dimension",
+      "$group": "type"
+    },
+    "weight-medium": {
+      "$value": "400",
+      "$type": "fontWeight",
+      "$group": "type"
+    },
+    "weight-semibold": {
+      "$value": "700",
+      "$type": "fontWeight",
+      "$group": "type"
+    },
+    "weight-bold": {
+      "$value": "700",
+      "$type": "fontWeight",
+      "$group": "type"
+    },
+    "space-2xs": {
+      "$value": "2px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-xs": {
+      "$value": "4px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-sm": {
+      "$value": "8px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-md": {
+      "$value": "12px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-lg": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-xl": {
+      "$value": "20px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-2xl": {
+      "$value": "24px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-3xl": {
+      "$value": "32px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-4xl": {
+      "$value": "48px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "space-5xl": {
+      "$value": "64px",
+      "$type": "dimension",
+      "$group": "spacing (4px grid)"
+    },
+    "radius-sm": {
+      "$value": "4px",
+      "$type": "dimension",
+      "$group": "radius"
+    },
+    "radius-md": {
+      "$value": "8px",
+      "$type": "dimension",
+      "$group": "radius"
+    },
+    "radius-lg": {
+      "$value": "12px",
+      "$type": "dimension",
+      "$group": "radius"
+    },
+    "radius-xl": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$group": "radius"
+    },
+    "radius-pill": {
+      "$value": "999px",
+      "$type": "dimension",
+      "$group": "radius"
+    },
+    "radius-circle": {
+      "$value": "50%",
+      "$type": "dimension",
+      "$group": "radius"
+    },
+    "shadow-sm": {
+      "$value": "0 1px 2px rgb(0 0 0 / 8%)",
+      "$type": "shadow",
+      "$group": "elevation"
+    },
+    "shadow-md": {
+      "$value": "0 8px 24px rgb(2 60 110 / 14%)",
+      "$type": "shadow",
+      "$group": "elevation"
+    },
+    "shadow-lg": {
+      "$value": "0 20px 48px rgb(1 28 52 / 26%)",
+      "$type": "shadow",
+      "$group": "elevation"
+    },
+    "shadow-brand": {
+      "$value": "0 5px 14px rgb(2 60 110 / 22%)",
+      "$type": "shadow",
+      "$group": "elevation"
+    },
+    "focus-ring": {
+      "$value": "0 0 0 3px rgb(2 60 110 / 18%)",
+      "$type": "shadow",
+      "$group": "elevation"
+    }
+  },
+  "component": {
+    "control-h-sm": {
+      "$value": "32px",
+      "$type": "dimension",
+      "$group": "control size scale: every button, field and trigger takes one of these heights"
+    },
+    "control-h-md": {
+      "$value": "36px",
+      "$type": "dimension",
+      "$group": "control size scale: every button, field and trigger takes one of these heights"
+    },
+    "control-h-lg": {
+      "$value": "40px",
+      "$type": "dimension",
+      "$group": "control size scale: every button, field and trigger takes one of these heights"
+    },
+    "control-h-xl": {
+      "$value": "44px",
+      "$type": "dimension",
+      "$group": "control size scale: every button, field and trigger takes one of these heights"
+    },
+    "control-h-2xl": {
+      "$value": "48px",
+      "$type": "dimension",
+      "$group": "control size scale: every button, field and trigger takes one of these heights"
+    },
+    "control-radius": {
+      "$value": "{radius-md}",
+      "$type": "dimension",
+      "$group": "control size scale: every button, field and trigger takes one of these heights",
+      "$resolved": "8px"
+    },
+    "control-transition": {
+      "$value": "150ms",
+      "$type": "duration",
+      "$group": "control size scale: every button, field and trigger takes one of these heights"
+    },
+    "disabled-opacity": {
+      "$value": ".55",
+      "$type": "number",
+      "$group": "control size scale: every button, field and trigger takes one of these heights"
+    },
+    "pressed-bg": {
+      "$value": "{amber-50}",
+      "$type": "color",
+      "$group": "pressed (clicked) state, shared by all controls",
+      "$resolved": "#fff4dc"
+    },
+    "pressed-border": {
+      "$value": "{amber-600}",
+      "$type": "color",
+      "$group": "pressed (clicked) state, shared by all controls",
+      "$resolved": "#b45309"
+    },
+    "pressed-fg": {
+      "$value": "{amber-600}",
+      "$type": "color",
+      "$group": "pressed (clicked) state, shared by all controls",
+      "$resolved": "#b45309"
+    },
+    "pressed-on-dark": {
+      "$value": "{amber-400}",
+      "$type": "color",
+      "$group": "pressed (clicked) state, shared by all controls",
+      "$resolved": "#ffb020"
+    },
+    "pressed-ring": {
+      "$value": "0 0 0 3px color-mix(in srgb, {amber-400} 55%, transparent)",
+      "$type": "shadow",
+      "$group": "pressed (clicked) state, shared by all controls",
+      "$resolved": "0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)"
+    },
+    "btn-focus-ring": {
+      "$value": "{focus-ring}",
+      "$type": "shadow",
+      "$group": "keyboard focus",
+      "$resolved": "0 0 0 3px rgb(2 60 110 / 18%)"
+    },
+    "field-h": {
+      "$value": "{control-h-2xl}",
+      "$type": "dimension",
+      "$group": "text field",
+      "$resolved": "48px"
+    },
+    "field-h-compact": {
+      "$value": "{control-h-xl}",
+      "$type": "dimension",
+      "$group": "text field",
+      "$resolved": "44px"
+    },
+    "field-padding-x": {
+      "$value": "{space-lg}",
+      "$type": "dimension",
+      "$group": "text field",
+      "$resolved": "16px"
+    },
+    "field-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#ffffff"
+    },
+    "field-fg": {
+      "$value": "{ink-700}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#3a3a3c"
+    },
+    "field-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#dcdfe3"
+    },
+    "field-border-hover": {
+      "$value": "{border-strong}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#c7ccd2"
+    },
+    "field-border-focus": {
+      "$value": "{brand-400}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#3f7ab5"
+    },
+    "field-ring-focus": {
+      "$value": "{focus-ring}",
+      "$type": "shadow",
+      "$group": "text field",
+      "$resolved": "0 0 0 3px rgb(2 60 110 / 18%)"
+    },
+    "field-bg-disabled": {
+      "$value": "{bg}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#f2f2f2"
+    },
+    "field-fg-disabled": {
+      "$value": "{ink-400}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#7c8b98"
+    },
+    "btn-primary-h": {
+      "$value": "{control-h-2xl}",
+      "$type": "dimension",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "48px"
+    },
+    "btn-primary-padding-x": {
+      "$value": "{space-xl}",
+      "$type": "dimension",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "20px"
+    },
+    "btn-primary-bg": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "#023c6e"
+    },
+    "btn-primary-fg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "#ffffff"
+    },
+    "btn-primary-bg-hover": {
+      "$value": "{brand-700}",
+      "$type": "color",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "#01305a"
+    },
+    "btn-primary-bg-disabled": {
+      "$value": "{ink-300}",
+      "$type": "color",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "#b4bdc6"
+    },
+    "btn-primary-shadow": {
+      "$value": "{shadow-brand}",
+      "$type": "shadow",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "0 5px 14px rgb(2 60 110 / 22%)"
+    },
+    "btn-primary-bg-pressed": {
+      "$value": "{brand-700}",
+      "$type": "color",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "#01305a"
+    },
+    "btn-primary-ring-pressed": {
+      "$value": "{pressed-ring}",
+      "$type": "shadow",
+      "$group": "button: primary (solid navy)",
+      "$resolved": "0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)"
+    },
+    "btn-primary-lift": {
+      "$value": "-1px",
+      "$type": "dimension",
+      "$group": "button: primary (solid navy)"
+    },
+    "btn-secondary-h": {
+      "$value": "{control-h-lg}",
+      "$type": "dimension",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "40px"
+    },
+    "btn-secondary-padding-x": {
+      "$value": "{space-lg}",
+      "$type": "dimension",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "16px"
+    },
+    "btn-secondary-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "#ffffff"
+    },
+    "btn-secondary-fg": {
+      "$value": "{ink-600}",
+      "$type": "color",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "#4c6173"
+    },
+    "btn-secondary-border": {
+      "$value": "{brand-100}",
+      "$type": "color",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "#d6e5f5"
+    },
+    "btn-secondary-border-hover": {
+      "$value": "{ink-300}",
+      "$type": "color",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "#b4bdc6"
+    },
+    "btn-secondary-fg-hover": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "#023c6e"
+    },
+    "btn-secondary-bg-pressed": {
+      "$value": "{pressed-bg}",
+      "$type": "color",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "#fff4dc"
+    },
+    "btn-secondary-border-pressed": {
+      "$value": "{pressed-border}",
+      "$type": "color",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "#b45309"
+    },
+    "btn-secondary-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "button: secondary (white, tinted border)",
+      "$resolved": "#b45309"
+    },
+    "btn-outline-h": {
+      "$value": "{control-h-sm}",
+      "$type": "dimension",
+      "$group": "button: outline (compact, for rows and cards)",
+      "$resolved": "32px"
+    },
+    "btn-outline-fg": {
+      "$value": "{ink-500}",
+      "$type": "color",
+      "$group": "button: outline (compact, for rows and cards)",
+      "$resolved": "#5a6c7d"
+    },
+    "btn-outline-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "button: outline (compact, for rows and cards)",
+      "$resolved": "#dcdfe3"
+    },
+    "btn-outline-border-hover": {
+      "$value": "{ink-300}",
+      "$type": "color",
+      "$group": "button: outline (compact, for rows and cards)",
+      "$resolved": "#b4bdc6"
+    },
+    "btn-outline-fg-hover": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "button: outline (compact, for rows and cards)",
+      "$resolved": "#023c6e"
+    },
+    "btn-outline-bg-pressed": {
+      "$value": "{pressed-bg}",
+      "$type": "color",
+      "$group": "button: outline (compact, for rows and cards)",
+      "$resolved": "#fff4dc"
+    },
+    "btn-outline-border-pressed": {
+      "$value": "{pressed-border}",
+      "$type": "color",
+      "$group": "button: outline (compact, for rows and cards)",
+      "$resolved": "#b45309"
+    },
+    "btn-outline-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "button: outline (compact, for rows and cards)",
+      "$resolved": "#b45309"
+    },
+    "btn-danger-outline-fg": {
+      "$value": "{danger-600}",
+      "$type": "color",
+      "$group": "button: danger outline (delete)",
+      "$resolved": "#dc2626"
+    },
+    "btn-danger-outline-border-hover": {
+      "$value": "{danger-300}",
+      "$type": "color",
+      "$group": "button: danger outline (delete)",
+      "$resolved": "#fca5a5"
+    },
+    "btn-danger-outline-bg-hover": {
+      "$value": "{danger-50}",
+      "$type": "color",
+      "$group": "button: danger outline (delete)",
+      "$resolved": "#fef2f2"
+    },
+    "btn-danger-h": {
+      "$value": "{control-h-xl}",
+      "$type": "dimension",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "44px"
+    },
+    "btn-danger-padding-x": {
+      "$value": "{space-lg}",
+      "$type": "dimension",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "16px"
+    },
+    "btn-danger-bg": {
+      "$value": "{danger-600}",
+      "$type": "color",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "#dc2626"
+    },
+    "btn-danger-fg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "#ffffff"
+    },
+    "btn-danger-bg-hover": {
+      "$value": "{danger-700}",
+      "$type": "color",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "#b91c1c"
+    },
+    "btn-danger-bg-pressed": {
+      "$value": "{amber-600}",
+      "$type": "color",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "#b45309"
+    },
+    "btn-danger-bg-disabled": {
+      "$value": "{surface-muted}",
+      "$type": "color",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "#edeef0"
+    },
+    "btn-danger-fg-disabled": {
+      "$value": "{ink-300}",
+      "$type": "color",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "#b4bdc6"
+    },
+    "btn-danger-gap": {
+      "$value": "{space-sm}",
+      "$type": "dimension",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "8px"
+    },
+    "btn-danger-font-size": {
+      "$value": "{text-sm}",
+      "$type": "dimension",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "14px"
+    },
+    "btn-danger-font-weight": {
+      "$value": "{weight-bold}",
+      "$type": "number",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "700"
+    },
+    "btn-danger-icon-size": {
+      "$value": "18px",
+      "$type": "dimension",
+      "$group": "button: danger solid (clear all filters)"
+    },
+    "btn-danger-compact-w": {
+      "$value": "{btn-danger-h}",
+      "$type": "dimension",
+      "$group": "button: danger solid (clear all filters)",
+      "$resolved": "44px",
+      "$description": "icon-only: a square the same size as the button height"
+    },
+    "btn-icon-size": {
+      "$value": "{control-h-md}",
+      "$type": "dimension",
+      "$group": "button: icon only (square, outlined)",
+      "$resolved": "36px"
+    },
+    "btn-icon-fg": {
+      "$value": "{ink-400}",
+      "$type": "color",
+      "$group": "button: icon only (square, outlined)",
+      "$resolved": "#7c8b98"
+    },
+    "btn-icon-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "button: icon only (square, outlined)",
+      "$resolved": "#dcdfe3"
+    },
+    "btn-icon-border-hover": {
+      "$value": "{ink-300}",
+      "$type": "color",
+      "$group": "button: icon only (square, outlined)",
+      "$resolved": "#b4bdc6"
+    },
+    "btn-icon-fg-hover": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "button: icon only (square, outlined)",
+      "$resolved": "#023c6e"
+    },
+    "btn-icon-bg-pressed": {
+      "$value": "{pressed-bg}",
+      "$type": "color",
+      "$group": "button: icon only (square, outlined)",
+      "$resolved": "#fff4dc"
+    },
+    "btn-icon-border-pressed": {
+      "$value": "{pressed-border}",
+      "$type": "color",
+      "$group": "button: icon only (square, outlined)",
+      "$resolved": "#b45309"
+    },
+    "btn-icon-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "button: icon only (square, outlined)",
+      "$resolved": "#b45309"
+    },
+    "btn-tint-size": {
+      "$value": "{control-h-md}",
+      "$type": "dimension",
+      "$group": "button: tinted arrow (resident row action)",
+      "$resolved": "36px"
+    },
+    "btn-tint-bg": {
+      "$value": "{brand-50}",
+      "$type": "color",
+      "$group": "button: tinted arrow (resident row action)",
+      "$resolved": "#eef4fb"
+    },
+    "btn-tint-fg": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "button: tinted arrow (resident row action)",
+      "$resolved": "#023c6e"
+    },
+    "btn-tint-bg-hover": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "button: tinted arrow (resident row action)",
+      "$resolved": "#023c6e"
+    },
+    "btn-tint-fg-hover": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "button: tinted arrow (resident row action)",
+      "$resolved": "#ffffff"
+    },
+    "btn-inverse-size": {
+      "$value": "{control-h-xl}",
+      "$type": "dimension",
+      "$group": "button: inverse (white, on a navy card)",
+      "$resolved": "44px"
+    },
+    "btn-inverse-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "button: inverse (white, on a navy card)",
+      "$resolved": "#ffffff"
+    },
+    "btn-inverse-fg": {
+      "$value": "{brand-700}",
+      "$type": "color",
+      "$group": "button: inverse (white, on a navy card)",
+      "$resolved": "#01305a"
+    },
+    "btn-inverse-bg-hover": {
+      "$value": "{brand-50}",
+      "$type": "color",
+      "$group": "button: inverse (white, on a navy card)",
+      "$resolved": "#eef4fb"
+    },
+    "btn-inverse-shadow": {
+      "$value": "{shadow-sm}",
+      "$type": "shadow",
+      "$group": "button: inverse (white, on a navy card)",
+      "$resolved": "0 1px 2px rgb(0 0 0 / 8%)"
+    },
+    "btn-inverse-bg-pressed": {
+      "$value": "{pressed-bg}",
+      "$type": "color",
+      "$group": "button: inverse (white, on a navy card)",
+      "$resolved": "#fff4dc"
+    },
+    "btn-inverse-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "button: inverse (white, on a navy card)",
+      "$resolved": "#b45309"
+    },
+    "btn-link-fg": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "button: text / link",
+      "$resolved": "#023c6e"
+    },
+    "btn-text-fg": {
+      "$value": "{ink-400}",
+      "$type": "color",
+      "$group": "button: text / link",
+      "$resolved": "#7c8b98"
+    },
+    "btn-link-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "button: text / link",
+      "$resolved": "#b45309"
+    },
+    "btn-text-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "button: text / link",
+      "$resolved": "#b45309"
+    },
+    "clear-btn-size": {
+      "$value": "24px",
+      "$type": "dimension",
+      "$group": "clear (x) button inside a field"
+    },
+    "clear-btn-fg": {
+      "$value": "{ink-700}",
+      "$type": "color",
+      "$group": "clear (x) button inside a field",
+      "$resolved": "#3a3a3c"
+    },
+    "clear-btn-bg": {
+      "$value": "{surface-muted}",
+      "$type": "color",
+      "$group": "clear (x) button inside a field",
+      "$resolved": "#edeef0"
+    },
+    "clear-btn-fg-hover": {
+      "$value": "{ink-900}",
+      "$type": "color",
+      "$group": "clear (x) button inside a field",
+      "$resolved": "#0e4473"
+    },
+    "clear-btn-bg-hover": {
+      "$value": "{border-strong}",
+      "$type": "color",
+      "$group": "clear (x) button inside a field",
+      "$resolved": "#c7ccd2"
+    },
+    "clear-btn-radius": {
+      "$value": "{radius-pill}",
+      "$type": "dimension",
+      "$group": "clear (x) button inside a field",
+      "$resolved": "999px"
+    },
+    "clear-btn-icon-size": {
+      "$value": "14px",
+      "$type": "dimension",
+      "$group": "clear (x) button inside a field"
+    },
+    "search-clear-right": {
+      "$value": "12px",
+      "$type": "dimension",
+      "$group": "clear (x) button inside a field"
+    },
+    "search-input-padding-right-active": {
+      "$value": "44px",
+      "$type": "dimension",
+      "$group": "clear (x) button inside a field"
+    },
+    "pager-btn-size": {
+      "$value": "{control-h-sm}",
+      "$type": "dimension",
+      "$group": "pagination",
+      "$resolved": "32px"
+    },
+    "pager-btn-padding-x": {
+      "$value": "{space-sm}",
+      "$type": "dimension",
+      "$group": "pagination",
+      "$resolved": "8px"
+    },
+    "pager-icon-size": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$group": "pagination"
+    },
+    "pager-gap": {
+      "$value": "{space-xs}",
+      "$type": "dimension",
+      "$group": "pagination",
+      "$resolved": "4px"
+    },
+    "pager-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#ffffff"
+    },
+    "pager-fg": {
+      "$value": "{ink-600}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#4c6173"
+    },
+    "pager-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#dcdfe3"
+    },
+    "pager-bg-hover": {
+      "$value": "{brand-50}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#eef4fb"
+    },
+    "pager-border-hover": {
+      "$value": "{ink-300}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#b4bdc6"
+    },
+    "pager-fg-hover": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#023c6e"
+    },
+    "pager-current-bg": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#023c6e"
+    },
+    "pager-current-fg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#ffffff"
+    },
+    "pager-disabled-opacity": {
+      "$value": ".45",
+      "$type": "number",
+      "$group": "pagination"
+    },
+    "pager-bg-pressed": {
+      "$value": "{pressed-bg}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#fff4dc"
+    },
+    "pager-border-pressed": {
+      "$value": "{pressed-border}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#b45309"
+    },
+    "pager-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "pagination",
+      "$resolved": "#b45309"
+    },
+    "pager-nav-padding-x": {
+      "$value": "{space-md}",
+      "$type": "dimension",
+      "$group": "pagination: text variant (labelled First / Previous / Next / Last; icon-only below the compact breakpoint)",
+      "$resolved": "12px"
+    },
+    "pager-nav-padding-x-compact": {
+      "$value": "{space-sm}",
+      "$type": "dimension",
+      "$group": "pagination: text variant (labelled First / Previous / Next / Last; icon-only below the compact breakpoint)",
+      "$resolved": "8px"
+    },
+    "pager-nav-gap": {
+      "$value": "{space-xs}",
+      "$type": "dimension",
+      "$group": "pagination: text variant (labelled First / Previous / Next / Last; icon-only below the compact breakpoint)",
+      "$resolved": "4px"
+    },
+    "pager-compact-breakpoint": {
+      "$value": "1100px",
+      "$type": "dimension",
+      "$group": "pagination: text variant (labelled First / Previous / Next / Last; icon-only below the compact breakpoint)",
+      "$description": "documentation token: CSS media queries cannot read custom properties, so components.css repeats this value (export_tokens.py checks they match)"
+    },
+    "dd-trigger-h-sm": {
+      "$value": "{control-h-sm}",
+      "$type": "dimension",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "32px"
+    },
+    "dd-trigger-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#ffffff"
+    },
+    "dd-trigger-fg": {
+      "$value": "{ink-700}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#3a3a3c"
+    },
+    "dd-trigger-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#dcdfe3"
+    },
+    "dd-trigger-border-hover": {
+      "$value": "{ink-300}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#b4bdc6"
+    },
+    "dd-trigger-border-open": {
+      "$value": "{brand-400}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#3f7ab5"
+    },
+    "dd-chevron-fg": {
+      "$value": "{ink-400}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#7c8b98"
+    },
+    "dd-panel-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#ffffff"
+    },
+    "dd-panel-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#dcdfe3"
+    },
+    "dd-panel-radius": {
+      "$value": "{radius-md}",
+      "$type": "dimension",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "8px"
+    },
+    "dd-panel-shadow": {
+      "$value": "{shadow-md}",
+      "$type": "shadow",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "0 8px 24px rgb(2 60 110 / 14%)"
+    },
+    "dd-panel-z": {
+      "$value": "40",
+      "$type": "number",
+      "$group": "dropdown (single select) and multi-select"
+    },
+    "dd-list-max-h": {
+      "$value": "200px",
+      "$type": "dimension",
+      "$group": "dropdown (single select) and multi-select"
+    },
+    "dd-option-fg": {
+      "$value": "{ink-700}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#3a3a3c"
+    },
+    "dd-option-bg-hover": {
+      "$value": "{surface-muted}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#edeef0"
+    },
+    "dd-option-fg-selected": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#023c6e"
+    },
+    "dd-option-check": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#023c6e"
+    },
+    "dd-option-weight-selected": {
+      "$value": "{weight-semibold}",
+      "$type": "number",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "700"
+    },
+    "dd-option-bg-pressed": {
+      "$value": "{pressed-bg}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#fff4dc"
+    },
+    "dd-option-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#b45309"
+    },
+    "dd-trigger-border-pressed": {
+      "$value": "{pressed-border}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#b45309"
+    },
+    "ms-trigger-border-active": {
+      "$value": "{brand-400}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#3f7ab5"
+    },
+    "ms-trigger-padding-right": {
+      "$value": "38px",
+      "$type": "dimension",
+      "$group": "dropdown (single select) and multi-select"
+    },
+    "ms-trigger-padding-right-active": {
+      "$value": "62px",
+      "$type": "dimension",
+      "$group": "dropdown (single select) and multi-select"
+    },
+    "ms-placeholder-fg": {
+      "$value": "{ink-500}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#5a6c7d"
+    },
+    "ms-search-h": {
+      "$value": "{control-h-md}",
+      "$type": "dimension",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "36px"
+    },
+    "ms-empty-fg": {
+      "$value": "{ink-400}",
+      "$type": "color",
+      "$group": "dropdown (single select) and multi-select",
+      "$resolved": "#7c8b98"
+    },
+    "dd-chevron-right": {
+      "$value": "12px",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)"
+    },
+    "dd-chevron-size": {
+      "$value": "14px",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)"
+    },
+    "dd-chevron-duration": {
+      "$value": "120ms",
+      "$type": "duration",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)"
+    },
+    "dd-panel-offset": {
+      "$value": "{space-xs}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "4px"
+    },
+    "dd-list-gap": {
+      "$value": "2px",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)"
+    },
+    "dd-list-padding": {
+      "$value": "{space-xs}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "4px"
+    },
+    "dd-option-gap": {
+      "$value": "{space-sm}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "8px"
+    },
+    "dd-option-padding-y": {
+      "$value": "{space-sm}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "8px"
+    },
+    "dd-option-padding-x": {
+      "$value": "{space-md}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "12px"
+    },
+    "dd-option-radius": {
+      "$value": "{radius-sm}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "4px"
+    },
+    "dd-option-font-size": {
+      "$value": "{text-xs}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "13px"
+    },
+    "dd-option-icon-size": {
+      "$value": "14px",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)"
+    },
+    "dd-sm-min-w": {
+      "$value": "68px",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)"
+    },
+    "dd-sm-padding-left": {
+      "$value": "{space-md}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "12px"
+    },
+    "dd-sm-padding-right": {
+      "$value": "{space-2xl}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "24px"
+    },
+    "dd-sm-font-size": {
+      "$value": "{text-xs}",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "13px"
+    },
+    "dd-sm-font-weight": {
+      "$value": "{weight-semibold}",
+      "$type": "number",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)",
+      "$resolved": "700"
+    },
+    "dd-sm-chevron-right": {
+      "$value": "10px",
+      "$type": "dimension",
+      "$group": "dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)"
+    },
+    "dd-field-h": {
+      "$value": "{field-h-compact}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "44px"
+    },
+    "dd-field-padding-left": {
+      "$value": "{space-md}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "12px"
+    },
+    "dd-field-padding-right": {
+      "$value": "{space-3xl}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "32px"
+    },
+    "dd-field-font-size": {
+      "$value": "{text-sm}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "14px"
+    },
+    "dd-field-chevron-right": {
+      "$value": "13px",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)"
+    },
+    "dd-prefix-fg": {
+      "$value": "{ink-500}",
+      "$type": "color",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "#5a6c7d"
+    },
+    "dd-prefix-gap": {
+      "$value": "{space-xs}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "4px"
+    },
+    "dd-footer-padding": {
+      "$value": "{space-sm} {space-md}",
+      "$type": "other",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "8px 12px"
+    },
+    "dd-footer-fg": {
+      "$value": "{ink-500}",
+      "$type": "color",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "#5a6c7d"
+    },
+    "dd-footer-font-size": {
+      "$value": "{text-xs}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "13px"
+    },
+    "ms-chevron-right": {
+      "$value": "13px",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)"
+    },
+    "ms-chevron-size": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)"
+    },
+    "ms-clear-right": {
+      "$value": "36px",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)"
+    },
+    "ms-search-padding": {
+      "$value": "{space-sm} {space-sm} {space-xs}",
+      "$type": "shadow",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "8px 8px 4px"
+    },
+    "ms-search-input-padding-left": {
+      "$value": "{space-md}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "12px"
+    },
+    "ms-search-input-padding-right": {
+      "$value": "36px",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)"
+    },
+    "ms-search-input-font-size": {
+      "$value": "{text-xs}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "13px"
+    },
+    "ms-search-icon-right": {
+      "$value": "20px",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)"
+    },
+    "ms-search-icon-size": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)"
+    },
+    "ms-check-icon-size": {
+      "$value": "12px",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)"
+    },
+    "ms-empty-padding": {
+      "$value": "{space-md}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "12px"
+    },
+    "ms-empty-font-size": {
+      "$value": "{text-xs}",
+      "$type": "dimension",
+      "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
+      "$resolved": "13px"
+    },
+    "checkbox-size": {
+      "$value": "18px",
+      "$type": "dimension",
+      "$group": "checkbox (multi-select option, \"remember this device\")"
+    },
+    "checkbox-border": {
+      "$value": "{ink-400}",
+      "$type": "color",
+      "$group": "checkbox (multi-select option, \"remember this device\")",
+      "$resolved": "#7c8b98"
+    },
+    "checkbox-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "checkbox (multi-select option, \"remember this device\")",
+      "$resolved": "#ffffff"
+    },
+    "checkbox-bg-checked": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "checkbox (multi-select option, \"remember this device\")",
+      "$resolved": "#023c6e"
+    },
+    "checkbox-fg-checked": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "checkbox (multi-select option, \"remember this device\")",
+      "$resolved": "#ffffff"
+    },
+    "checkbox-radius": {
+      "$value": "{radius-sm}",
+      "$type": "dimension",
+      "$group": "checkbox (multi-select option, \"remember this device\")",
+      "$resolved": "4px"
+    },
+    "toggle-w": {
+      "$value": "42px",
+      "$type": "dimension",
+      "$group": "toggle switch"
+    },
+    "toggle-h": {
+      "$value": "24px",
+      "$type": "dimension",
+      "$group": "toggle switch"
+    },
+    "toggle-knob": {
+      "$value": "18px",
+      "$type": "dimension",
+      "$group": "toggle switch"
+    },
+    "toggle-inset": {
+      "$value": "3px",
+      "$type": "dimension",
+      "$group": "toggle switch"
+    },
+    "toggle-travel": {
+      "$value": "18px",
+      "$type": "dimension",
+      "$group": "toggle switch"
+    },
+    "toggle-bg-off": {
+      "$value": "{border-strong}",
+      "$type": "color",
+      "$group": "toggle switch",
+      "$resolved": "#c7ccd2"
+    },
+    "toggle-bg-on": {
+      "$value": "{em-green}",
+      "$type": "color",
+      "$group": "toggle switch",
+      "$resolved": "#4ba67b"
+    },
+    "toggle-knob-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "toggle switch",
+      "$resolved": "#ffffff"
+    },
+    "toggle-ring-pressed": {
+      "$value": "{pressed-ring}",
+      "$type": "shadow",
+      "$group": "toggle switch",
+      "$resolved": "0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)"
+    },
+    "nav-item-h": {
+      "$value": "{control-h-xl}",
+      "$type": "dimension",
+      "$group": "sidebar navigation item",
+      "$resolved": "44px"
+    },
+    "nav-fg": {
+      "$value": "{white-80}",
+      "$type": "color",
+      "$group": "sidebar navigation item",
+      "$resolved": "rgb(255 255 255 / 80%)"
+    },
+    "nav-fg-hover": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "sidebar navigation item",
+      "$resolved": "#ffffff"
+    },
+    "nav-bg-hover": {
+      "$value": "{white-10}",
+      "$type": "color",
+      "$group": "sidebar navigation item",
+      "$resolved": "rgb(255 255 255 / 10%)"
+    },
+    "nav-bg-active": {
+      "$value": "{brand-500}",
+      "$type": "color",
+      "$group": "sidebar navigation item",
+      "$resolved": "#16537a"
+    },
+    "nav-edge-active": {
+      "$value": "{accent-500}",
+      "$type": "color",
+      "$group": "sidebar navigation item",
+      "$resolved": "#16ad85"
+    },
+    "nav-edge-width": {
+      "$value": "3px",
+      "$type": "dimension",
+      "$group": "sidebar navigation item"
+    },
+    "nav-shadow-active": {
+      "$value": "{shadow-md}",
+      "$type": "shadow",
+      "$group": "sidebar navigation item",
+      "$resolved": "0 8px 24px rgb(2 60 110 / 14%)"
+    },
+    "nav-bg-pressed": {
+      "$value": "{white-15}",
+      "$type": "color",
+      "$group": "sidebar navigation item",
+      "$resolved": "rgb(255 255 255 / 15%)"
+    },
+    "nav-edge-pressed": {
+      "$value": "{pressed-on-dark}",
+      "$type": "color",
+      "$group": "sidebar navigation item",
+      "$resolved": "#ffb020"
+    },
+    "nav-w-collapsed": {
+      "$value": "72px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-w-expanded": {
+      "$value": "248px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-duration": {
+      "$value": "200ms",
+      "$type": "duration",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-icon-size": {
+      "$value": "20px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "every sidebar icon uses this slot, so icons stay pinned when collapsing"
+    },
+    "nav-rail-inset": {
+      "$value": "14px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "collapsed rail 72 - 2 x 14 = 44: buttons are squares, and the same width rule animates to expanded"
+    },
+    "nav-icon-inset": {
+      "$value": "12px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-logo-inset": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-profile-inset": {
+      "$value": "5px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-logo-h": {
+      "$value": "48px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "the logo row is always this tall, collapsed or expanded, so nothing below it moves"
+    },
+    "nav-profile-h": {
+      "$value": "44px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "same for the profile row"
+    },
+    "nav-avatar-size": {
+      "$value": "34px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-avatar-ring-w": {
+      "$value": "2px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-avatar-ring-pressed": {
+      "$value": "{pressed-on-dark}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#ffb020"
+    },
+    "profile-btn-radius": {
+      "$value": "{control-radius}",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "8px"
+    },
+    "profile-btn-bg-hover": {
+      "$value": "{white-10}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "rgb(255 255 255 / 10%)"
+    },
+    "profile-btn-bg-open": {
+      "$value": "{white-10}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "rgb(255 255 255 / 10%)"
+    },
+    "profile-btn-bg-pressed": {
+      "$value": "{white-15}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "rgb(255 255 255 / 15%)"
+    },
+    "profile-menu-w": {
+      "$value": "224px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "the sidebar's expanded width minus its side padding; the menu opens to the right of the rail when collapsed"
+    },
+    "nav-badge-collapsed-bg": {
+      "$value": "{accent-500}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#16ad85"
+    },
+    "nav-badge-collapsed-fg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#ffffff"
+    },
+    "nav-badge-min-w": {
+      "$value": "18px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-badge-h": {
+      "$value": "18px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-toggle-icon-size": {
+      "$value": "20px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-toggle-h": {
+      "$value": "{nav-item-h}",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "44px"
+    },
+    "nav-toggle-bg": {
+      "$value": "{accent-500}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#16ad85"
+    },
+    "nav-toggle-fg": {
+      "$value": "{brand-800}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#012646"
+    },
+    "nav-toggle-bg-hover": {
+      "$value": "{accent-100}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#c9eee1"
+    },
+    "nav-toggle-fg-hover": {
+      "$value": "{brand-800}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#012646"
+    },
+    "nav-toggle-bg-pressed": {
+      "$value": "{pressed-bg}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#fff4dc"
+    },
+    "nav-toggle-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "#b45309"
+    },
+    "card-border-hover": {
+      "$value": "{border-strong}",
+      "$type": "color",
+      "$group": "interactive surfaces: list rows, cards, menu items",
+      "$resolved": "#c7ccd2"
+    },
+    "card-shadow-hover": {
+      "$value": "{shadow-md}",
+      "$type": "shadow",
+      "$group": "interactive surfaces: list rows, cards, menu items",
+      "$resolved": "0 8px 24px rgb(2 60 110 / 14%)"
+    },
+    "card-lift-hover": {
+      "$value": "-2px",
+      "$type": "dimension",
+      "$group": "interactive surfaces: list rows, cards, menu items"
+    },
+    "menu-item-bg-hover": {
+      "$value": "{surface-subtle}",
+      "$type": "color",
+      "$group": "interactive surfaces: list rows, cards, menu items",
+      "$resolved": "#f8f8f8"
+    },
+    "menu-item-fg-hover": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "interactive surfaces: list rows, cards, menu items",
+      "$resolved": "#023c6e"
+    },
+    "logo-mark-size": {
+      "$value": "40px",
+      "$type": "dimension",
+      "$group": "brand mark (the logo tile): a fixed-size square that never shrinks, stretches or reflows"
+    },
+    "logo-mark-radius": {
+      "$value": "{radius-lg}",
+      "$type": "dimension",
+      "$group": "brand mark (the logo tile): a fixed-size square that never shrinks, stretches or reflows",
+      "$resolved": "12px"
+    },
+    "logo-mark-bg": {
+      "$value": "{accent-500}",
+      "$type": "color",
+      "$group": "brand mark (the logo tile): a fixed-size square that never shrinks, stretches or reflows",
+      "$resolved": "#16ad85"
+    },
+    "logo-mark-bg-on-dark": {
+      "$value": "{white-15}",
+      "$type": "color",
+      "$group": "brand mark (the logo tile): a fixed-size square that never shrinks, stretches or reflows",
+      "$resolved": "rgb(255 255 255 / 15%)"
+    },
+    "logo-mark-fg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "brand mark (the logo tile): a fixed-size square that never shrinks, stretches or reflows",
+      "$resolved": "#ffffff"
+    },
+    "pw-eye-size": {
+      "$value": "{control-h-md}",
+      "$type": "dimension",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "36px"
+    },
+    "pw-eye-icon-size": {
+      "$value": "20px",
+      "$type": "dimension",
+      "$group": "password eye (show/hide) button, inside the field"
+    },
+    "pw-eye-inset": {
+      "$value": "{space-sm}",
+      "$type": "dimension",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "8px",
+      "$description": "gap from the field's right edge"
+    },
+    "pw-eye-radius": {
+      "$value": "{control-radius}",
+      "$type": "dimension",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "8px"
+    },
+    "pw-eye-fg": {
+      "$value": "{ink-400}",
+      "$type": "color",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "#7c8b98"
+    },
+    "pw-eye-fg-hover": {
+      "$value": "{ink-600}",
+      "$type": "color",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "#4c6173"
+    },
+    "pw-eye-bg-hover": {
+      "$value": "{bg}",
+      "$type": "color",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "#f2f2f2"
+    },
+    "pw-eye-fg-pressed": {
+      "$value": "{pressed-fg}",
+      "$type": "color",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "#b45309"
+    },
+    "pw-eye-fg-disabled": {
+      "$value": "{ink-300}",
+      "$type": "color",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "#b4bdc6"
+    },
+    "pw-field-padding-right": {
+      "$value": "calc({pw-eye-size} + {pw-eye-inset} + {space-xs})",
+      "$type": "other",
+      "$group": "password eye (show/hide) button, inside the field",
+      "$resolved": "calc(36px + 8px + 4px)"
+    },
+    "remember-gap": {
+      "$value": "{space-md}",
+      "$type": "dimension",
+      "$group": "\"Remember this device\" row (the box uses --checkbox-*)",
+      "$resolved": "12px"
+    },
+    "remember-size": {
+      "$value": "{text-base}",
+      "$type": "dimension",
+      "$group": "\"Remember this device\" row (the box uses --checkbox-*)",
+      "$resolved": "15px"
+    },
+    "remember-weight": {
+      "$value": "{weight-medium}",
+      "$type": "number",
+      "$group": "\"Remember this device\" row (the box uses --checkbox-*)",
+      "$resolved": "400"
+    },
+    "remember-fg": {
+      "$value": "{ink-500}",
+      "$type": "color",
+      "$group": "\"Remember this device\" row (the box uses --checkbox-*)",
+      "$resolved": "#5a6c7d"
+    }
+  },
+  "app": {}
+}
