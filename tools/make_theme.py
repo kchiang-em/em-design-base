@@ -2,11 +2,12 @@
 """make_theme.py: turn a client's brand colours into a valid theme file (Python 3, standard library only).
 
 The AI assistant should run this instead of working out colour shades by hand. It derives the full brand scale from the
-colours you give it, checks contrast, and writes theme.css (web) and/or theme.json (any platform). Read THEMING.md first.
+colours you give it, checks contrast, and writes theme.css (web) and/or theme.json (any platform). It implements the client theme policy UI-5
+(../policy/UI-5-client-themes.md); read ../guides/THEMING.md first. Messages cite the clause they relate to, for example [THM-6].
 
-    python3 make_theme.py --primary "<client primary hex>" --css theme.css
-    python3 make_theme.py --primary "<hex>" --secondary "<hex>" --background "<hex>" --css theme.css --json theme.json
-    python3 make_theme.py --primary "<hex>" --extra highlight="<hex>" --json theme.json
+    python3 <handoff>/tools/make_theme.py --primary "<client primary hex>" --css theme.css
+    python3 <handoff>/tools/make_theme.py --primary "<hex>" --secondary "<hex>" --background "<hex>" --css theme.css --json theme.json
+    python3 <handoff>/tools/make_theme.py --primary "<hex>" --extra highlight="<hex>" --json theme.json
 
 Colours (hex: #RGB or #RRGGBB):
   --primary     the client's main brand colour (buttons, sidebar, links). REQUIRED.   -> em-navy-core + the brand shades
@@ -126,14 +127,14 @@ def main(argv=None):
             fixed = primary
             while contrast(WHITE, fixed) < 4.5 and hls(fixed)[1] > 0.05:
                 fixed = from_hls(h, hls(fixed)[1] - 0.01, s)
-            print(f"ERROR: white text on the primary colour {to_hex(primary)} is {contrast(WHITE, primary):.2f}:1 (needs 4.5:1). "
+            print(f"ERROR [THM-6]: white text on the primary colour {to_hex(primary)} is {contrast(WHITE, primary):.2f}:1 (needs 4.5:1). "
                   f"The nearest colour that works is {to_hex(fixed)}. Ask the user whether to use it (run again with --adjust), or to pick a darker brand colour.")
             return 1
         h, l, s = hls(primary)
         original = primary
         while contrast(WHITE, primary) < 4.5 and hls(primary)[1] > 0.05:
             primary = from_hls(h, hls(primary)[1] - 0.01, s)
-        notes.append(f"primary {to_hex(original)} was too light for white text ({contrast(WHITE, original):.2f}:1); darkened to {to_hex(primary)} ({contrast(WHITE, primary):.2f}:1). Tell the user.")
+        notes.append(f"primary {to_hex(original)} was too light for white text ({contrast(WHITE, original):.2f}:1) [THM-6]; darkened to {to_hex(primary)} ({contrast(WHITE, primary):.2f}:1). Tell the user.")
 
     colours = {"em-navy-core": primary}
     if "secondary" in given:
@@ -170,7 +171,7 @@ def main(argv=None):
         if toggle_fg is None:
             problems.append("no dark colour reads on the status green for the sidebar toggle label (should not happen)")
         else:
-            notes.append(f"the sidebar toggle label (on the fixed status green) was darkened to {to_hex(toggle_fg)} so it keeps 4.5:1; this is a component colour, not a status colour.")
+            notes.append(f"[THM-6] the sidebar toggle label (on the fixed status green) was darkened to {to_hex(toggle_fg)} so it keeps 4.5:1; this is a component colour, not a status colour.")
     base_text, base_bg = parse_hex("#3a3a3c"), colours.get("em-grey-light", parse_hex("#f2f2f2"))
     checks.append(("body text on the page background", colours.get("em-grey-dark", base_text), base_bg))
     checks.append(("secondary text on the page background", colours.get("em-slate", parse_hex("#4c6173")), base_bg))
@@ -184,12 +185,12 @@ def main(argv=None):
     for label, hue in STATUS_HUES.items():
         d = min(abs(h - hue), 360 - abs(h - hue))
         if d <= 20 and hls(primary)[2] > 0.25:
-            notes.append(f"primary hue is close to the status colour {label}. Allowed, but the status colours cannot change, so errors or "
+            notes.append(f"[THM-9] primary hue is close to the status colour {label}. Allowed, but the status colours cannot change, so errors or "
                          f"warnings may look like the brand. Do not rely on colour alone: keep icons and text labels on status messages. Tell the user.")
             break
 
     if problems:
-        print("ERROR: the colours do not meet the design's contrast rules:")
+        print("ERROR [THM-6]: the colours do not meet the design's contrast rules:")
         for p in problems:
             print("  -", p)
         print("Ask the user for adjusted colours (or darker/lighter versions), then run again. Do not ship a theme that fails contrast.")
@@ -233,7 +234,7 @@ def main(argv=None):
     print("\nTheme created. Mapping (use this in your report to the user):")
     for k, v in names.items():
         print(f"  {k[2:]:<14} {v}   {roles.get(k[2:], 'extra client colour')}")
-    print("\nUnchanged on purpose: the status colours (red, orange, green) and every non-colour token.")
+    print("\nUnchanged on purpose: the status colours (red, orange, green; THM-3) and every non-colour token (THM-4).")
     for n in notes:
         print("NOTE:", n)
     print("Next: make sure the page loads theme.css right after tokens.css (web) or generate your platform's colours from theme.json, "

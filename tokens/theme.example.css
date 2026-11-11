@@ -1,9 +1,9 @@
 /* theme.example.css: a client colour theme. Copy this file to your project as theme.css, change the colours you need, and
    delete the lines you do not change. Load it right after tokens.css:
        tokens.css, theme.css, app-tokens.css, components.css, app.css
-   Rules
+   Rules: client theme policy UI-5 (policy/UI-5-client-themes.md); procedure: guides/THEMING.md
    - Raw colours are allowed here (and only here).
-   - Status colours are universal and must NOT be listed: danger-* (red), warning-* (orange), accent-* and em-green, em-green-core, em-green-soft, em-mint (green).
+   - Status colours are universal and must NOT be listed (THM-3): danger-* (red), warning-* (orange), accent-* and em-green, em-green-core, em-green-soft, em-mint (green).
    - Change the main brand colour AND its shades together (the "Brand scale"), or hover and tinted states keep the old colours.
    - Keep text at 4.5:1 contrast on its background. The guard checks the pairs that matter.
    The values below are the EncoreMed defaults. */

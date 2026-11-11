@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 """guard.py: cross-checks a project against the EncoreMed design system handoff (Python 3, standard library only).
 
-This file lives in the handoff directory. Run it against your project (any platform):
+This file lives in the handoff directory's tools/ folder. Run it against your project (any platform):
 
-    python3 /path/to/handoff/guard.py                  # checks the current folder
-    python3 /path/to/handoff/guard.py path/to/project  # checks another folder
-    python3 /path/to/handoff/guard.py --strict         # warnings also fail
-    python3 /path/to/handoff/guard.py --platform web|other   # default: auto (web if the folder has .css or .html files)
+    python3 /path/to/handoff/tools/guard.py                  # checks the current folder
+    python3 /path/to/handoff/tools/guard.py path/to/project  # checks another folder
+    python3 /path/to/handoff/tools/guard.py --strict         # warnings also fail
+    python3 /path/to/handoff/tools/guard.py --platform web|other   # default: auto (web if the folder has .css or .html files)
 
-Exit code 0 = PASS, 1 = at least one error. Run it before you hand work back.
+Exit code 0 = PASS, 1 = at least one error. Run it before you hand work back (SCP-9).
+
+The rules live in ../policy/ (UI-1 to UI-5). Every message starts with the clause it checks, for example [THM-3];
+messages about web set-up that no clause covers start with [web].
 
 The design system is a baseline, not a cage: the products can be web or native apps and may extend it. So the guard stays
 in the "ballpark": it reports differences and likely mistakes and only fails on clear breakage.
 
   CLIENT THEMES (a client whose brand colours replace the EncoreMed ones)
     Put the client's colours in ONE file at the project root:  theme.css  (web: CSS variables)  or  theme.json  (any platform).
-    Copy theme.example.css / theme.example.json from this directory. In a theme you may use raw colours, and only here.
+    Copy theme.example.css / theme.example.json from the handoff's tokens/ folder. In a theme you may use raw colours, and only here.
     - Brand colours (navy, blue, slate, greys, surfaces, borders, pressed amber) can be overridden.
     - Extra client colours that have no EncoreMed role are added as new tokens named --client-<name> (colour values only).
     - Status colours are universal and cannot be overridden: red (danger-*), orange (warning-*) and green (accent-*, em-green*, em-mint).
@@ -53,8 +56,8 @@ import sys
 import tempfile
 from pathlib import Path
 
-HANDOFF = Path(__file__).resolve().parent
-BASELINE = HANDOFF / "web" if (HANDOFF / "web" / "tokens.css").exists() else HANDOFF   # where the baseline tokens.css / components.css live
+HANDOFF = Path(__file__).resolve().parent.parent   # this file is in <handoff>/tools/
+BASELINE = HANDOFF / "web"                          # where the baseline tokens.css / components.css live
 _pos = [a for a in sys.argv[1:] if not a.startswith("--")]
 if "--platform" in sys.argv:   # drop the value that follows --platform from the positional arguments
     _v = sys.argv[sys.argv.index("--platform") + 1:][:1]
@@ -137,7 +140,7 @@ def load_theme():
         try:
             data = json.loads(js)
         except json.JSONDecodeError as e:
-            err(f"{THEME_JSON} is not valid JSON: {e}")
+            err(f"[THM-1] {THEME_JSON} is not valid JSON: {e}")
             return
         colours = data.get("colors", data) if isinstance(data, dict) else {}
         for k, v in colours.items():
@@ -166,33 +169,33 @@ def check_theme():
     for name, val in list(THEME.items()):
         if name.startswith("--client-"):   # a new client brand colour: allowed, a plain colour value only
             if not (HEX_COLOUR.match(val) or re.match(r"(?:rgba?|hsla?)\(", val)):
-                err(f"theme: {name} must be a colour (hex, rgb() or hsl()), found '{val}'")
+                err(f"[THM-7] theme: {name} must be a colour (hex, rgb() or hsl()), found '{val}'")
                 rejected.add(name)
             continue
         if name not in known:
             close = difflib.get_close_matches(name, sorted(known), n=1)
-            err(f"theme: {name} is not a design token" + (f" (did you mean {close[0]}?)" if close else ""))
+            err(f"[THM-1] theme: {name} is not a design token" + (f" (did you mean {close[0]}?)" if close else ""))
             rejected.add(name)
             continue
         if is_locked(name):
-            err(f"theme: {name} is a status colour (red, orange or green) and is universal: a client theme cannot change it")
+            err(f"[THM-3] theme: {name} is a status colour (red, orange or green) and is universal: a client theme cannot change it")
             rejected.add(name)
             continue
         if name in TINTED_EFFECTS:
             if not re.search(r"rgba?\(|#[0-9a-fA-F]{3,8}", val):
-                err(f"theme: {name} must keep its shape and carry a colour, e.g. '0 0 0 3px rgb(R G B / 18%)', found '{val}'")
+                err(f"[THM-2] theme: {name} must keep its shape and carry a colour, e.g. '0 0 0 3px rgb(R G B / 18%)', found '{val}'")
                 rejected.add(name)
             continue
         if not is_colour_token(base, name):
-            warn(f"theme: {name} is not a colour token; sizes, spacing and radii are part of the baseline, change them only if you must")
+            warn(f"[THM-4] theme: {name} is not a colour token; sizes, spacing and radii are part of the baseline, change them only if you must")
             continue
         alias = re.fullmatch(r"var\((--[\w-]+)\)", val)
         if alias:
             if alias.group(1) not in known | set(THEME):
-                err(f"theme: {name} refers to {alias.group(1)}, which is not defined")
+                err(f"[THM-1] theme: {name} refers to {alias.group(1)}, which is not defined")
                 rejected.add(name)
         elif not (HEX_COLOUR.match(val) or re.match(r"(?:rgba?|hsla?)\(", val)):
-            err(f"theme: {name} must be a colour (hex, rgb() or hsl()), found '{val}'")
+            err(f"[THM-1] theme: {name} must be a colour (hex, rgb() or hsl()), found '{val}'")
             rejected.add(name)
     for name in rejected:
         THEME.pop(name, None)
@@ -201,9 +204,9 @@ def check_theme():
         if roots & set(THEME):
             missing = [s for s in shades if s not in THEME]
             if len(missing) >= len(shades) - 2:
-                warn(f"theme: the {label} colours were changed but these related shades were not: {', '.join(missing)}. "
+                warn(f"[THM-5] theme: the {label} colours were changed but these related shades were not: {', '.join(missing)}. "
                      f"They still show the EncoreMed colours in hover, tinted and border states")
-    note(f"client theme active: {len(THEME)} token(s) overridden ({THEME_CSS if read(THEME_CSS) else ''}{' + ' if read(THEME_CSS) and read(THEME_JSON) else ''}{THEME_JSON if read(THEME_JSON) else ''})")
+    note(f"[THM-1] client theme active: {len(THEME)} token(s) overridden ({THEME_CSS if read(THEME_CSS) else ''}{' + ' if read(THEME_CSS) and read(THEME_JSON) else ''}{THEME_JSON if read(THEME_JSON) else ''})")
 
 
 def classes_of(css):
@@ -214,7 +217,7 @@ def classes_of(css):
 def check_shared():
     for n in SHARED:
         if not (PROJECT / n).exists():
-            err(f"{n} is missing from the project: copy it from the handoff directory ({BASELINE})")
+            err(f"[SCP-3] {n} is missing from the project: copy it from the handoff directory ({BASELINE})")
     if errors or PROJECT in (HANDOFF, BASELINE):
         return
     strict = "--require-baseline" in sys.argv
@@ -223,25 +226,25 @@ def check_shared():
         if base is None or base.replace("\r\n", "\n") == cur.replace("\r\n", "\n"):
             continue
         changed = sum(1 for l in difflib.ndiff(base.splitlines(), cur.splitlines()) if l[:2] in ("+ ", "- "))
-        msg = f"{n} differs from the handoff baseline ({changed} line(s) added, removed or changed)"
+        msg = f"[SCP-4] {n} differs from the handoff baseline ({changed} line(s) added, removed or changed)"
         (err if strict else note)(msg + (": the shared files must stay unchanged in this mode" if strict else ""))
         if n == "tokens.css":
             b, c = defs_of(base), defs_of(cur)
             for k in sorted(set(b) - set(c)):
-                warn(f"tokens.css: token {k} was removed; anything that uses it will break")
+                warn(f"[SCP-4] tokens.css: token {k} was removed; anything that uses it will break")
             changed_v = [k for k in b if k in c and b[k] != c[k]]
             added = [k for k in c if k not in b]
             if changed_v:
-                note(f"tokens.css: {len(changed_v)} token value(s) changed, e.g. {', '.join(changed_v[:4])}")
+                note(f"[SCP-4] tokens.css: {len(changed_v)} token value(s) changed, e.g. {', '.join(changed_v[:4])}")
             if added:
-                note(f"tokens.css: {len(added)} token(s) added, e.g. {', '.join(added[:4])}")
+                note(f"[SCP-4] tokens.css: {len(added)} token(s) added, e.g. {', '.join(added[:4])}")
         else:
             gone = sorted(classes_of(base) - classes_of(cur))
             new = sorted(classes_of(cur) - classes_of(base))
             if gone:
-                warn(f"components.css: class(es) removed: {', '.join('.' + k for k in gone[:8])}{' ...' if len(gone) > 8 else ''}")
+                warn(f"[SCP-4] components.css: class(es) removed: {', '.join('.' + k for k in gone[:8])}{' ...' if len(gone) > 8 else ''}")
             if new:
-                note(f"components.css: {len(new)} class(es) added, e.g. {', '.join('.' + k for k in new[:4])}")
+                note(f"[SCP-4] components.css: {len(new)} class(es) added, e.g. {', '.join('.' + k for k in new[:4])}")
 
 
 # ---------------------------------------------------------------- 2, 3, warnings: stylesheets
@@ -258,23 +261,23 @@ def check_css(defs):
         own = lambda idx: css_lines[line_of(css, idx) - 1].strip() not in base_lines
         for m in re.finditer(r"var\((--[\w-]+)", css):
             if m.group(1) not in defs:
-                err(f"{n}:{line_of(css, m.start())}: var({m.group(1)}) is not defined in tokens.css or app-tokens.css")
+                err(f"[SCP-3] {n}:{line_of(css, m.start())}: var({m.group(1)}) is not defined in tokens.css or app-tokens.css")
         if n == "app-tokens.css":
             continue   # raw colours in app-tokens are checked below, per token
         for m in RAW_COLOUR.finditer(css):
-            err(f"{n}:{line_of(css, m.start())}: raw colour '{m.group(0)}...': use a colour token (a client's brand colours go in theme.css)")
+            err(f"[SCP-3] {n}:{line_of(css, m.start())}: raw colour '{m.group(0)}...': use a colour token (a client's brand colours go in theme.css)")
         for m in re.finditer(r"(?:^|[;{\s])((?:min-|max-)?height)\s*:\s*([^;}]*)", css):
             val = m.group(2).strip()
             px = re.findall(r"(\d+(?:\.\d+)?)px", val)
             if px and "var(" not in val and max(float(x) for x in px) > 2 and own(m.start(1)):   # 1-2px hairlines and visually-hidden text are fine
-                warn(f"{n}:{line_of(css, m.start(1))}: raw pixel {m.group(1)} ({val}): use the control size scale or a token")
+                warn(f"[FND-9] {n}:{line_of(css, m.start(1))}: raw pixel {m.group(1)} ({val}): use the control size scale or a token")
         for m in re.finditer(r"!important", css):
             before = css[:m.start()]
             if "prefers-reduced-motion" not in before[before.rfind("@media"):] and own(m.start()):
-                warn(f"{n}:{line_of(css, m.start())}: !important")
+                warn(f"[web] {n}:{line_of(css, m.start())}: !important")
         for m in re.finditer(r"@import|url\(\s*['\"]?https?:", css):
             if own(m.start()):
-                warn(f"{n}:{line_of(css, m.start())}: external stylesheet or URL")
+                warn(f"[web] {n}:{line_of(css, m.start())}: external stylesheet or URL")
 
 
 # ---------------------------------------------------------------- 4. raw colours only in palette and semantic tiers
@@ -283,12 +286,12 @@ def check_token_tiers():
     if t and "COMPONENT TOKENS" in t:
         tail = strip_comments(t[t.index("COMPONENT TOKENS"):])
         for m in RAW_COLOUR.finditer(tail):
-            err(f"tokens.css (component tier): raw colour '{m.group(0)}...': component tokens must alias semantic tokens")
+            err(f"[SCP-3] tokens.css (component tier): raw colour '{m.group(0)}...': component tokens must alias semantic tokens")
     a = read("app-tokens.css")
     if a:
         css = strip_comments(a)
         for m in RAW_COLOUR.finditer(css):
-            err(f"app-tokens.css:{line_of(css, m.start())}: raw colour '{m.group(0)}...': alias a semantic token (a client's brand colours go in theme.css)")
+            err(f"[SCP-3] app-tokens.css:{line_of(css, m.start())}: raw colour '{m.group(0)}...': alias a semantic token (a client's brand colours go in theme.css)")
 
 
 # ---------------------------------------------------------------- 5 + inline styles: html files
@@ -299,15 +302,15 @@ def check_html():
         names = [Path(l).name for l in re.findall(r'<link[^>]+href="([^"]+\.css)"', html)]
         known = [n for n in names if n in order]
         if known != sorted(known, key=order.index):
-            err(f"{p.name}: stylesheets must load in this order: {', '.join(order)} (found: {', '.join(known)})")
+            err(f"[web] {p.name}: stylesheets must load in this order: {', '.join(order)} (found: {', '.join(known)})")
         for need in SHARED:
             if need not in names:
-                err(f"{p.name}: does not load {need}")
+                err(f"[SCP-3] {p.name}: does not load {need}")
         if (PROJECT / THEME_CSS).exists() and THEME_CSS not in names:
-            err(f"{p.name}: the project has a {THEME_CSS} but this page does not load it (after tokens.css)")
+            err(f"[THM-1] {p.name}: the project has a {THEME_CSS} but this page does not load it (after tokens.css)")
         for m in re.finditer(r'style="([^"]*)"', html):
             if RAW_COLOUR.search(m.group(1)):
-                err(f"{p.name}:{line_of(html, m.start())}: inline style with a raw colour: use a token class or a variable")
+                err(f"[SCP-3] {p.name}:{line_of(html, m.start())}: inline style with a raw colour: use a token class or a variable")
 
 
 # ---------------------------------------------------------------- 6. contrast
@@ -343,10 +346,10 @@ def check_contrast(defs):
             continue   # a project may rename or drop a token: other checks catch real breakage
         ratio = contrast(a, b)
         if ratio < 4.5:
-            err(f"contrast {fg} on {bg} is {ratio:.2f}:1 (needs 4.5:1)")
+            err(f"[ACC-6] contrast {fg} on {bg} is {ratio:.2f}:1 (needs 4.5:1)")
     ink400, white = resolve(defs, "--ink-400"), resolve(defs, "--white")
     if ink400 and white and contrast(ink400, white) < 4.5:
-        note(f"--ink-400 is {contrast(ink400, white):.1f}:1 on white: fine for placeholders and icons only, never for important text")
+        note(f"[ACC-6] --ink-400 is {contrast(ink400, white):.1f}:1 on white: fine for placeholders and icons only, never for important text")
 
 
 # ---------------------------------------------------------------- 7. generated files are current
@@ -360,11 +363,11 @@ def check_generated():
                 shutil.copy(PROJECT / n, d / n)
         r = subprocess.run([sys.executable, "-I", str(d / "export_tokens.py")], capture_output=True, text=True, cwd=d)
         if r.returncode != 0:
-            err("export_tokens.py failed: " + (r.stderr.strip().splitlines() or r.stdout.strip().splitlines() or ["unknown error"])[-1])
+            err("[web] export_tokens.py failed: " + (r.stderr.strip().splitlines() or r.stdout.strip().splitlines() or ["unknown error"])[-1])
             return
         for out in ("design-tokens.json", "DESIGN-TOKENS.md"):
             if (PROJECT / out).exists() and (PROJECT / out).read_text() != (d / out).read_text():
-                err(f"{out} is out of date: run python3 export_tokens.py")
+                err(f"[web] {out} is out of date: run python3 export_tokens.py")
 
 
 # ---------------------------------------------------------------- any platform: colours must stay in the ballpark
@@ -430,7 +433,7 @@ def check_ballpark(web):
         dist = sum((int(best[0][i:i + 2], 16) - rgb[j]) ** 2 for j, i in enumerate((1, 3, 5))) ** 0.5
         hint = f"closest token: {best[1]} {best[0]}" if dist <= 60 else "no close token"
         more = f" (+{len(where) - 3} more)" if len(where) > 3 else ""
-        warn(f"colour {hexv} is not in the design palette ({hint}) at {', '.join(where[:3])}{more}")
+        warn(f"[FND-1] colour {hexv} is not in the design palette ({hint}) at {', '.join(where[:3])}{more}")
 
 
 def detect_web():

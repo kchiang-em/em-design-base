@@ -2,10 +2,10 @@
 """logo_colours.py: read a client's logo and list its brand colours (Python 3, standard library only for SVG and PNG).
 
 Use it when the user gives you a logo instead of colour codes. Never guess colours by eye from an image: shades read off a
-picture are unreliable. Read THEMING.md first.
+picture are unreliable (THM-10). Read ../guides/THEMING.md first.
 
-    python3 logo_colours.py path/to/logo.svg
-    python3 logo_colours.py path/to/logo.png --json
+    python3 <handoff>/tools/logo_colours.py path/to/logo.svg
+    python3 <handoff>/tools/logo_colours.py path/to/logo.png --json
 
 Formats: SVG and PNG work with no packages. JPEG, WebP and GIF need the Pillow package (pip install pillow); without it, ask the
 user for a PNG or SVG of the logo, or for the colour codes.
@@ -284,14 +284,14 @@ def main():
     # every other logo colour becomes an extra client colour
     secondary = next((c for c in others if c["white_text_contrast"] >= 4.5), None)
     extras = [c for c in cands if c is not primary and c is not secondary][:3]
-    cmd = f'python3 make_theme.py --primary "{primary["hex"]}"'
+    cmd = f'python3 {Path(__file__).resolve().parent / "make_theme.py"} --primary "{primary["hex"]}"'
     if secondary:
         cmd += f' --secondary "{secondary["hex"]}"'
     for j, c in enumerate(extras, 1):
         cmd += f' --extra accent{j}="{c["hex"]}"'
     cmd += " --css theme.css"
     print(f"\nSuggested starting point: {cmd}")
-    print("CONFIRM WITH THE USER before you run it: the most prominent colour is not always the brand colour, and a logo can use "
+    print("CONFIRM WITH THE USER before you run it (THM-10): the most prominent colour is not always the brand colour, and a logo can use "
           "colours that are not meant for the interface. Add --adjust if the primary must be darkened to carry white text.")
     return 0
 
