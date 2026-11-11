@@ -920,6 +920,15 @@
     if (e.target.id === "cfg-form" && S.tested) { S.confirmOpen = true; render(); }
   });
 
+  // Documentation states: ?show=nav-open | login-errors | delete | filters | account opens a state that normally needs a click,
+  // so it can be captured or linked (like ?state=loading|empty|error for lists).
+  const SHOW = new URLSearchParams(location.search).get("show");
+  if (SHOW === "nav-open") S.navPeek = true;
+  if (SHOW === "login-errors") { S.email = ""; S.password = ""; S.loginErr = { email: LOGIN_RULES.email(""), password: LOGIN_RULES.password("") }; }
+  if (SHOW === "delete") S.danger = { kind: "remove", id: 3 };
+  if (SHOW === "filters") S.filterSheet = true;
+  if (SHOW === "account") S.profileOpen = true;
+
   window.addEventListener("hashchange", render);
   render();
 })();
