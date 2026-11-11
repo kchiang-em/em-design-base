@@ -91,7 +91,7 @@ When something is genuinely ambiguous (which of two colours is the primary), pic
 
 A logo is a reliable source of the brand colours, **if you read it with the tool and not by eye**. Colours judged from how an image looks are unreliable (anti-aliasing, JPEG blur, screen colour). Never write a hex code you only estimated.
 
-1. **Get the file.** You need the logo as a file you can open, ideally **SVG** (exact colours) or **PNG**. If it was only pasted into the chat and you cannot reach the file, ask the user for the file or for the colour codes. JPEG, WebP and GIF work only if the Pillow package is installed; otherwise ask for a PNG or SVG.
+1. **Get the file.** You need the logo as a file you can run the tool on, ideally **SVG** (exact colours) or **PNG**. If the user pasted or attached the image in the chat, first check whether your tool saved it to disk (look for a file path in the attachment information, a temporary or attachments folder, or ask your tool): if there is a path, use it. If the image exists only in the conversation and there is no file, you can see it but you cannot measure it, so ask the user to save it and give you the path, or to give you the colour codes. You may look at the image to sanity-check the tool's result, but never use your own visual estimate as the colour value. JPEG, WebP and GIF work only if the Pillow package is installed; otherwise ask for a PNG or SVG. Screenshots of a logo are a weaker source than the logo file itself (they are often recompressed or colour-shifted).
 2. **Run the extractor** from the project folder:
    ```bash
    python3 <handoff directory>/logo_colours.py path/to/logo.svg
