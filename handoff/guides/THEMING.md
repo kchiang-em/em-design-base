@@ -15,7 +15,7 @@ The rules are in UI-5; this list only names them. Cite them by ID when you repor
 
 | Clause | Subject |
 |---|---|
-| THM-1 | one theme file; raw colours only there |
+| THM-1 | client colours live in the project's own token file |
 | THM-2 | what a theme may change |
 | THM-3 | status colours never change |
 | THM-4 | only colours are themed |
@@ -38,8 +38,8 @@ In practice: use `make_theme.py` to derive the colours (THM-5), never invent sha
 **Step 2. Run the tool** from the project folder (needs Python 3, no packages):
 
 ```bash
-python3 <handoff directory>/tools/make_theme.py --primary "<hex>" [options] --css theme.css      # web
-python3 <handoff directory>/tools/make_theme.py --primary "<hex>" [options] --json theme.json   # native or any platform
+python3 <handoff directory>/tools/make_theme.py --primary "<hex>" [options] --css app-tokens.css    # web
+python3 <handoff directory>/tools/make_theme.py --primary "<hex>" [options] --json app-tokens.json  # native or any platform
 ```
 
 | Option | Use it for | Becomes |
@@ -53,16 +53,18 @@ python3 <handoff directory>/tools/make_theme.py --primary "<hex>" [options] --js
 | `--extra name=hex` | another client colour with no EncoreMed role (repeat as needed) | a new token `--client-<name>` |
 | `--adjust` | primary is too light for white text: darken it until it passes (otherwise the tool stops and suggests a colour) | |
 
-The tool derives the rest of the brand scale from the primary colour (hover shade, dark surfaces, light tints), re-tints the keyboard focus ring and the shadows, checks contrast, and prints a table of what it set. **Keep that table: it is the core of your report.**
+The tool derives the rest of the brand scale from the primary colour (hover shade, dark surfaces, light tints), re-tints the shadows (the focus ring follows the primary by itself), checks contrast, and prints a table of what it set. **Keep that table: it is the core of your report.**
 
 **Step 3. Read the tool's messages.**
 - `ERROR ... contrast`: do not ship it. Ask the user for a darker or lighter colour, or confirm the tool's suggested colour (then run again with `--adjust`).
-- `NOTE: primary hue is close to a status colour`: it is allowed, but tell the user (THM-9). Because red, orange and green cannot change, errors and warnings can look like the brand. Keep an icon and a text label on every status message; never rely on colour alone.
-- `NOTE: ... sidebar toggle label ... darkened`: normal. The label sits on the fixed status green, so the tool darkened only that label.
+- `NOTE: primary hue is close to a status colour`: it is allowed, but tell the user (THM-9). Because the status colours cannot change, errors, warnings and success messages can look like the brand. Keep an icon and a text label on every status message; never rely on colour alone.
+- `NOTE: ... sidebar toggle label ... darkened`: normal. The label sits on the EncoreMed brand green, so the tool darkened only that label.
+
+The tool writes the colours into the project's own token file as one marked "brand colours" block (CSS) or as `colors` entries (JSON), creating the file if needed. Running it again replaces that block and leaves the project's other tokens alone. Do not edit inside the block: run the tool again.
 
 **Step 4. Apply the theme.**
-- **Web:** make sure every page loads `theme.css` right after `tokens.css`: `tokens.css`, `theme.css`, `app-tokens.css`, `components.css`, `app.css`. The component styles follow automatically. No other CSS change is needed.
-- **Native or other:** generate your platform's colour constants from `design-tokens.json` with the theme on top. For every colour token in `design-tokens.json`: if `theme.json` has that name, use its value; otherwise, if the token is an alias such as `{brand-600}`, resolve it using the *themed* values; otherwise use its own value. Keep the token names in your code. Then follow `IMPLEMENTATION.md` section 5 for the platform.
+- **Web:** make sure every page loads `app-tokens.css` right after `tokens.css`: `tokens.css`, `app-tokens.css`, `components.css`, `app.css`. The component styles follow automatically. No other CSS change is needed.
+- **Native or other:** generate your platform's colour constants from `design-tokens.json` with `app-tokens.json` on top. For every colour token in `design-tokens.json`: if `app-tokens.json` has that name, use its value; otherwise, if the token is an alias such as `{brand-600}`, resolve it using the *themed* values; otherwise use its own value. Keep the token names in your code. Then follow `IMPLEMENTATION.md` section 5 for the platform.
 
 **Step 5. Remove hard-coded EncoreMed colours from the project's own code.** The old navy and blue may be written directly in the project's files. Search for them and replace each with the matching token (web: `var(--brand-600)`, `var(--brand-500)`; native: your generated constant):
 
@@ -70,7 +72,7 @@ The tool derives the rest of the brand scale from the primary colour (hover shad
 grep -rniE "023c6e|16537a|0e4473|01305a|012646|011c34|01121f|2 60 110" <project folder> --include=* --exclude-dir=node_modules --exclude-dir=.git
 ```
 
-Colours that are not in the palette at all will be reported by the guard in step 6. Do not paste a client colour into the project's own code: add it to the theme (as `--extra`) and refer to the token.
+Colours that are not in the palette at all will be reported by the guard in step 6. Do not paste a client colour into the project's own code: add it to the token file (with `--extra`) and refer to the token.
 
 **Step 6. Run the guard** and fix everything it reports:
 
@@ -78,7 +80,7 @@ Colours that are not in the palette at all will be reported by the guard in step
 python3 <handoff directory>/tools/guard.py <project folder>
 ```
 
-**Step 7. Check the screens** (look at them if you can run the product; otherwise say you could not). Verify on each: the primary button (default, hover, pressed in amber, disabled), the navigation or sidebar and its active item, a text field in focus (the focus ring), a table or list with hover, a dropdown open, a modal, the login or splash screen, and status pills or messages (they must still be red, orange or green). Check that nothing is unreadable.
+**Step 7. Check the screens** (look at them if you can run the product; otherwise say you could not). Verify on each: the primary button (default, hover, pressed in amber, disabled), the navigation or sidebar and its active item, a text field in focus (the focus ring), a table or list with hover, a dropdown open, a modal, the login or splash screen, and status pills or messages (they must still be red, orange, status green or information blue). Check that nothing is unreadable.
 
 **Step 8. Report** (section 6).
 
@@ -131,10 +133,11 @@ Cases:
 
 | Changes with a theme | Never changes |
 |---|---|
-| primary and its shades (buttons, sidebar, links, focus, hover, dark surfaces, tints) | status colours: red `danger-*`, orange `warning-*`, green `accent-*`, `em-green`, `em-green-core`, `em-green-soft`, `em-mint` |
+| primary and its shades (buttons, sidebar, links, focus, hover, dark surfaces, tints) | status colours: red `danger-*`, orange `warning-*`, status green `success-*`, information blue `info-*` |
+| the brand greens (`em-green*`, `em-mint`, `accent-*`), only if the client asks: `make_theme.py` leaves them as they are | |
 | secondary (active navigation item, gradients) | sizes, spacing, radii, type scale |
 | headings, text, secondary text, page background (only if the user gave them) | the five control states and their structure |
-| the focus ring and shadow tints | the amber **pressed** colour, unless the user asks (see below) |
+| the shadow tints (the focus ring follows the primary automatically) | the amber **pressed** colour, unless the user asks (see below) |
 | extra client colours (`--client-<name>`) | |
 
 **Pressed state (THM-8):** it stays amber by default. If the client's brand is itself amber, orange or yellow, the pressed state becomes hard to tell from normal; tell the user, and only change the `amber-*` colours if they ask, keeping the pressed text readable (4.5:1).
@@ -155,10 +158,10 @@ Write the theme by hand with these rules (they are what the tool does). `p` is t
 | `brand-50`, `-100`, `-300`, `-400` | the primary mixed with white, keeping 6%, 16%, 45% and 70% of the primary |
 | `em-blue` | the secondary, or the primary with lightness + 0.06 (it must still carry white text at 4.5:1) |
 | `em-navy` | the heading colour, or the primary |
-| `focus-ring`, `shadow-md`, `shadow-brand` | keep the shape, replace the rgb colour with the primary at the same opacity (18%, 14%, 22%) |
+| `shadow-md`, `shadow-brand` | keep the shape, replace the rgb colour with the primary at the same opacity (14%, 22%). The focus ring needs no entry: it is drawn from `brand-600`. |
 | `shadow-lg` | the same, using `brand-900` at 26% |
 
-Check: white on the primary, on `brand-700` and on `em-blue` all at least 4.5:1; headings on white at least 4.5:1; and `nav-toggle-fg` (default `brand-800`) on the status green `#16AD85` at least 4.5:1, otherwise set `nav-toggle-fg` and `nav-toggle-fg-hover` to a darker colour. Then run the guard.
+Check: white on the primary, on `brand-700` and on `em-blue` all at least 4.5:1; headings on white at least 4.5:1; and `nav-toggle-fg` (default `brand-800`) on the brand green `#16AD85` at least 4.5:1, otherwise set `nav-toggle-fg` and `nav-toggle-fg-hover` to a darker colour. Then run the guard.
 
 ## 6. What to tell the user (THM-13)
 
@@ -171,9 +174,9 @@ Report in this order, briefly:
 6. **What you could not verify** (for example, you did not run the product to look at the screens).
 
 ## 7. Mistakes to avoid
-- Typing a client hex code anywhere except the theme file.
+- Typing a client hex code anywhere except the project's token file.
 - Estimating colours by eye from a logo or screenshot instead of running `logo_colours.py`.
-- Editing `tokens.css` or `components.css` to change colours. Use the theme.
+- Editing `tokens.css` or `components.css` to change colours, or editing inside the generated block by hand. Run `make_theme.py`.
 - Overriding a status colour because it "looks off" next to the brand colour.
 - Skipping the shades: changing only the primary leaves EncoreMed navy in hover and tinted states (the guard warns about this).
 - Shipping a primary colour that fails contrast with white text.
@@ -186,11 +189,12 @@ Guard messages start with the clause they check, for example `[THM-3]`.
 
 | Message | Meaning and fix |
 |---|---|
-| `theme: --x is a status colour ... cannot change it` | remove it from the theme |
-| `theme: --x is not a design token (did you mean ...)` | a typo in a token name; fix it, or if it is a new client colour name it `--client-<name>` |
-| `theme: --x must be a colour` | the value is not a hex, `rgb()` or `hsl()` colour |
-| `theme: the brand colours were changed but these related shades were not` | run `make_theme.py` instead of editing by hand, or set the listed shades |
+| `[THM-3] --x is a status colour ... cannot change it` | remove the override from the token file |
+| `[SCP-4] project token --x ... looks like --y: a typo?` | a misspelt token name: fix it, or ignore it if it really is a new token |
+| `[SCP-3] --x must be a colour` | the override's value is not a hex, `rgb()`, `hsl()` or `var()` colour |
+| `[THM-5] the brand colours were changed but these related shades were not` | run `make_theme.py` instead of editing by hand |
+| `[THM-1] theme.css is from an older package` | move its contents into `app-tokens.css` (or `theme.json` into `app-tokens.json`), or simply run `make_theme.py` again |
 | `contrast ... needs 4.5:1` | pick a darker or lighter colour; the message names the pair |
-| `colour #xxxxxx is not in the design palette` | a colour in the project's code that is not a token: use the token it names, or add the colour to the theme as an `--extra` |
-| `the project has a theme.css but this page does not load it` | add the `<link>` right after `tokens.css` |
-| `raw colour ... a client's brand colours go in theme.css` | move the colour into the theme and use the token |
+| `colour #xxxxxx is not in the design palette` | a colour in the project's code that is not a token: use the token it names, or add the colour to the token file with `--extra` |
+| `the project has an app-tokens.css but this page does not load it` | add the `<link>` right after `tokens.css` |
+| `raw colour ... project colours go in app-tokens.css` | move the colour into the token file and use the token |

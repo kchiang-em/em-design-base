@@ -23,7 +23,7 @@
   --border: #dcdfe3;
   --border-strong: #c7ccd2;
   --ink-300: #b4bdc6;
-  --ink-400: #7c8b98;
+  --ink-400: #616f7b;
   --ink-500: #5a6c7d;
   --ink-600: var(--em-slate);
   --ink-700: var(--em-grey-dark);
@@ -54,10 +54,33 @@
   --danger-700: #b91c1c;
   --danger-300: #fca5a5;
   --danger-50: #fef2f2;
-  --warning-600: #b36b28;
+  --warning-700: #9a5a1f;     /* text (5.5:1 on white, 5.0:1 on the warning tint) */
+  --warning-600: #b36b28;     /* icons and borders (4.2:1 on white: not for text) */
   --warning-400: #d78b4c;
   --warning-50: #fff2e4;
-  --info-100: #d7e7f7;
+  --info-100: #d7e7f7;       /* soft blue tint (also used for avatar tints) */
+  /* Status: positive / success / live. The classic status green, separate from the brand green (accent-*). */
+  --success-50: #f0fdf4;
+  --success-500: #16a34a;     /* fills only (3.3:1 on white) */
+  --success-600: #15803d;     /* dots and icons; text on white (5.0:1) */
+  --success-700: #166534;     /* text on the success tint */
+  /* Status: information. The brand guideline's secondary blue, fixed so a client theme does not move it. */
+  --info-50: #e3eaef;
+  --info-600: #16537a;
+  /* Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background */
+  --border-control: #808c98;
+  /* Data visualisation (FND-17): the DEFAULT categorical series colours; a project may replace them. Used in this order, on a white surface. chart-1 to chart-4 are the
+     official palette and the colour-blind-safe set 02; chart-5 to chart-7 were chosen to reach 3:1 on white and stay apart from
+     each other, from chart-1 to chart-4 and from the status colours, including for colour-blind readers. */
+  --chart-surface: var(--white);   /* what is BEHIND the charts: the card, or the page background when charts are transparent. Contrast is checked against it */
+  --chart-1: var(--em-navy-core);
+  --chart-2: #de6872;          /* coral */
+  --chart-3: #256d73;          /* dark teal */
+  --chart-4: #a6678c;          /* plum */
+  --chart-5: #119d78;          /* brand green, darkened to 3.4:1 */
+  --chart-6: #5b92a7;          /* teal, darkened to 3.4:1 */
+  --chart-7: #8567cc;          /* violet (4.4:1); mint cannot reach 3:1 without becoming another green */
+  --chart-other: #737373;      /* neutral grey for "Other", totals and reference lines (slate looks like chart-3 to colour-blind readers) */
   /* white overlays (sidebar, login panel) */
   --white-10: rgb(255 255 255 / 10%);
   --white-15: rgb(255 255 255 / 15%);
@@ -100,7 +123,7 @@
   --shadow-md: 0 8px 24px rgb(2 60 110 / 14%);
   --shadow-lg: 0 20px 48px rgb(1 28 52 / 26%);
   --shadow-brand: 0 5px 14px rgb(2 60 110 / 22%);
-  --focus-ring: 0 0 0 3px rgb(2 60 110 / 18%);
+  --focus-ring: 0 0 0 2px var(--white), 0 0 0 4px var(--brand-600);   /* double ring: navy shows on light surfaces, white on dark ones */
 }
 
 /* ===================================================================
@@ -118,6 +141,7 @@
   --control-h-2xl: 48px;
   --control-radius: var(--radius-md);
   --control-transition: 150ms;
+  --toast-duration: 6000ms;   /* how long a toast stays (CMP-17); it pauses while the pointer is over it */
   --disabled-opacity: .55;
 
   /* ----- pressed (clicked) state, shared by all controls ----- */
@@ -136,8 +160,11 @@
   --field-padding-x: var(--space-lg);
   --field-bg: var(--white);
   --field-fg: var(--ink-700);
-  --field-border: var(--border);
-  --field-border-hover: var(--border-strong);
+  --field-border: var(--border-control);
+  --field-border-hover: var(--ink-500);
+  --field-border-error: var(--danger-600);
+  --field-error-fg: var(--danger-700);
+  --field-error-gap: var(--space-xs);
   --field-border-focus: var(--brand-400);
   --field-ring-focus: var(--focus-ring);
   --field-bg-disabled: var(--bg);
@@ -268,8 +295,8 @@
   --dd-trigger-h-sm: var(--control-h-sm);
   --dd-trigger-bg: var(--white);
   --dd-trigger-fg: var(--ink-700);
-  --dd-trigger-border: var(--border);
-  --dd-trigger-border-hover: var(--ink-300);
+  --dd-trigger-border: var(--border-control);
+  --dd-trigger-border-hover: var(--ink-500);
   --dd-trigger-border-open: var(--brand-400);
   --dd-chevron-fg: var(--ink-400);
   --dd-panel-bg: var(--white);

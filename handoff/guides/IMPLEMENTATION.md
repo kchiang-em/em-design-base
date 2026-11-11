@@ -6,8 +6,8 @@ This guide explains **how** to implement the UI policies in `../policy/` on web 
 
 | Folder | What it holds |
 |---|---|
-| `../policy/` | the rules (UI-1 to UI-5), with clause IDs. Read them first. |
-| `../tokens/` | `design-tokens.json`, the portable source of every value; `DESIGN-TOKENS.md`, the same as a readable list; `theme.example.css` and `theme.example.json`, client theme templates (UI-5) |
+| `../policy/` | the rules (UI-1 to UI-6), with clause IDs. Read them first. |
+| `../tokens/` | `design-tokens.json`, the portable source of every value; `DESIGN-TOKENS.md`, the same as a readable list |
 | `../tools/` | `guard.py` (the conformance checker), `make_theme.py` and `logo_colours.py` (client themes). See `../tools/README.md`. |
 | `../web/` | the web reference implementation: `tokens.css`, `components.css`, `app.js` (component behaviour) and `export_tokens.py` |
 | `THEMING.md` | the step-by-step procedure for re-colouring a product for a client (implements UI-5) |
@@ -16,15 +16,14 @@ This guide explains **how** to implement the UI policies in `../policy/` on web 
 
 **Web.** Copy `web/tokens.css` and `web/components.css` into the project. Every page loads the stylesheets in this order:
 
-1. `tokens.css` (the design tokens)
-2. `theme.css` (a client's colours, optional, THM-1)
-3. `app-tokens.css` (the product's own tokens, optional)
-4. `components.css` (the shared components)
-5. `app.css` (the product's own rules)
+1. `tokens.css` (the shared design tokens)
+2. `app-tokens.css` (the product's own tokens, optional: its new tokens and its overrides, including a client's brand colours, THM-1)
+3. `components.css` (the shared components)
+4. `app.css` (the product's own rules)
 
 You may extend or modify the two shared files; add new tokens and classes rather than renaming or deleting existing ones (SCP-4). Use the markup in section 7.
 
-**Native or other.** Generate the platform's constants (colours, spacing, radii, type sizes, durations) from `tokens/design-tokens.json`, keeping the token names (SCP-3). Then build screens from the component clauses in `../policy/UI-4-components.md`, using section 5 for the platform mapping.
+**Native or other.** Generate the platform's constants (colours, spacing, radii, type sizes, durations) from `tokens/design-tokens.json`, with the product's own `app-tokens.json` (format `{"colors": {"name": "#hex"}}`) on top, keeping the token names (SCP-3). Then build screens from the component clauses in `../policy/UI-4-components.md`, using section 5 for the platform mapping.
 
 ## 3. Tokens
 
@@ -38,15 +37,19 @@ Tokens come in three tiers, each built from the one before:
 
 - **Naming:** `{component}-{variant?}-{property}-{state?}`, for example `btn-primary-bg-hover`. In CSS they are written `--btn-primary-bg-hover`.
 - **`design-tokens.json`** lists every token with its type (`color`, `dimension`, `shadow`, `fontFamily`, `fontWeight`, `number`, `duration`, `other`), its alias (`{brand-600}`) and its resolved value. Generate constants from it, or copy values from `DESIGN-TOKENS.md`.
-- **Raw colours** appear only in the palette and semantic tiers of `tokens.css` and in a client theme (SCP-3, THM-1). Component tokens alias semantic tokens.
-- **Computed values:** a few values are written as a colour plus an opacity: white overlays on the navy sidebar (white at 10, 15, 50, 70 and 80%), the keyboard focus ring (navy at 18%, 3px, ACC-5) and the pressed ring (amber `#FFB020` at 55%, 3px, ACC-3).
+- **Raw colours** appear only where tokens are defined (SCP-3): the palette and semantic tiers of `tokens.css`, the project's own `app-tokens.css` (project colours such as its chart colours), and a client theme (THM-1). Component tokens and stylesheet rules use tokens.
+- **Project colours** go in `app-tokens.css`, not in the shared `tokens.css`, so the shared file stays identical to the baseline. Override a baseline token there (for example `--chart-2`) or add a new one with a project prefix.
+- **Computed values:** a few values are written as a colour plus an opacity: white overlays on the navy sidebar (white at 10, 15, 50, 70 and 80%) and the pressed ring (amber `#FFB020` at 55%, 3px, ACC-3).
+- **Focus ring (ACC-5):** `focus-ring` is two box shadows, `0 0 0 2px var(--white), 0 0 0 4px var(--brand-600)`. On native platforms draw the same two strokes outside the control. Because it refers to `brand-600`, a client theme recolours it without a separate entry. If a component sets its own `box-shadow` (as the active navigation item does), give it a `:focus-visible` rule that adds the ring, or the ring disappears.
 
 **Where each rule's values live:**
 
 | Clause | Tokens |
 |---|---|
 | FND-1 palette | `em-*` |
-| FND-2, FND-3 system and status colours | `danger-*` (red), `warning-*` (orange), `accent-*` and `em-green*`, `em-mint` (green), `amber-*` (pressed) |
+| FND-1 brand greens | `em-green-core`, `em-green-soft`, `em-green`, `em-mint` and `accent-*` (brand uses only: navigation edge and toggle, logo tile, switch on, decorative marks) |
+| FND-2, FND-3 status colours | `danger-*` (red; text `danger-700`), `warning-*` (orange; text `warning-700`), `success-*` (status green; dots and icons `success-600`, text on tint `success-700`), `info-*` (information blue; `info-600` on `info-50`) |
+| ACC-3 pressed | `amber-*` |
 | FND-5 typeface, FND-7 type scale | `font-sans`, `text-*`; weights `weight-medium` (400, Regular), `weight-semibold` and `weight-bold` (both 700, Bold). The names are historical: only 400 and 700 are used. |
 | FND-8 spacing | `space-2xs` to `space-5xl` |
 | FND-9 control sizes | `control-h-sm` to `control-h-2xl` |
@@ -56,7 +59,12 @@ Tokens come in three tiers, each built from the one before:
 | ACC-3 pressed | `pressed-bg`, `pressed-border`, `pressed-fg`, `pressed-on-dark`, `pressed-ring` |
 | ACC-4 disabled | `disabled-opacity` and each component's `-disabled` tokens |
 | ACC-5 focus | `focus-ring` |
-| ACC-6 soft grey | `ink-400` (placeholders, helper text and icons only) |
+| ACC-6 text greys | `ink-700` to `ink-400`, all at least 4.5:1 on white and on the page background; `ink-300` is for borders and disabled marks only, never text |
+| ACC-6 control borders | `border-control` (3:1 on white and on the page background), used by `field-border` and `dd-trigger-border`; `border` stays for cards and dividers, which do not identify a control |
+| CMP-2 invalid field | `field-border-error`, `field-error-fg`, `field-error-gap` |
+| CMP-17 toast | `toast-duration` (6000ms) |
+| CMP-1, CMP-21 danger button | `btn-danger-*` |
+| FND-17 charts | `chart-1` to `chart-7` in order, `chart-other`; `chart-surface` names what is behind the charts (set it to `var(--bg)` for transparent charts on the page) |
 | UI-4 components | `btn-*` (CMP-1), `field-*` (CMP-2), `pw-*` (CMP-3), `clear-btn-*`, `search-*` (CMP-4), `checkbox-*`, `remember-*` (CMP-5), `toggle-*` (CMP-6), `dd-*` (CMP-7), `ms-*` (CMP-8), `card-*` (CMP-9, interactive surfaces), `pager-*` (CMP-10), `nav-*` (CMP-11), `logo-mark-*` (CMP-20) |
 
 ## 4. Typeface (FND-5, FND-6)
@@ -69,7 +77,7 @@ Tokens come in three tiers, each built from the one before:
 
 | Baseline | Web | iOS (SwiftUI/UIKit) | Android (Compose/Views) | Desktop / cross-platform |
 |---|---|---|---|---|
-| Colours | CSS variables | an asset catalog or a `Color` extension generated from the tokens | `colors.xml` or a Compose `ColorScheme` | a theme file |
+| Colours | CSS variables | an asset catalog or a `Color` extension generated from the tokens | `colors.xml` or a Compose `ColorScheme` | the framework's colour constants |
 | Type | `--font-sans` stack | Acumin if licensed, else SF Pro; sizes from `text-*` | Acumin if licensed, else Roboto | system font fallback |
 | Spacing, size, radius | `--space-*`, `--control-h-*`, `--radius-*` | constants in points | `dp` values | constants |
 | Elevation (FND-11) | box shadows | shadow matching the three levels | `elevation` matching the three levels | same |
@@ -85,7 +93,7 @@ The anatomy, sizes and behaviour of each component are set by its clause in `../
 
 | Clause | Web classes (`web/components.css`) | Behaviour (`web/app.js`) |
 |---|---|---|
-| CMP-1 Buttons | `.primary-btn`, `.secondary-btn`, `.icon-button`, `.link-btn`, `.back-btn` | none |
+| CMP-1 Buttons | `.primary-btn`, `.secondary-btn`, `.danger-btn`, `.icon-button`, `.link-btn`, `.back-btn` | none |
 | CMP-2, CMP-3 Text and password field | `.field`, `.filter-field`, `.pw-wrap`, `.pw-toggle` | show/hide password |
 | CMP-4 Search field | `.search-wrap`, `.search__clear` | clear button only while there is text |
 | CMP-5, CMP-6 Checkbox and switch | `.remember`, `.toggle` | toggles `aria-checked` |
@@ -95,8 +103,9 @@ The anatomy, sizes and behaviour of each component are set by its clause in `../
 | CMP-11 Navigation | `.app-shell`, `.sidebar`, `.nav-item`, `.profile`, `.profile-menu` | collapse and expand, staff menu |
 | CMP-12 Page header | `.page-header`, `.section-head` | none |
 | CMP-13 to CMP-15 Status pill, banner, card | `.status-pill`, `.banner`, `.card` | none |
-| CMP-16 Dialog | `.modal-backdrop`, `.modal-card`, `.modal-card--wide` | **not in the reference:** add the focus trap and Escape-to-cancel that CMP-16 requires |
-| CMP-17 Toast | `.toast` | removed after about 2 seconds |
+| CMP-16 Dialog | `.modal-backdrop`, `.modal-card`, `.modal-card--wide` | focus trap; Escape clicks the dialog's `*-cancel` action; initial focus from `data-autofocus` |
+| CMP-21 Destructive confirmation | `.modal-card--wide` with `.modal-icon--danger`, `.danger-btn` | opens before the action; focus starts on Cancel; returns to the opening control |
+| CMP-17 Toast | `.toast` | removed after `--toast-duration` (6 seconds); the timer pauses while the pointer is over it |
 | CMP-18 States | `.state`, `.state--error`, `.spinner`, `.empty-note` | none |
 | CMP-20 Logo tile | `.logo`, `.logo__mark` | none |
 
@@ -149,6 +158,7 @@ Add `class="open"` to `.profile` while its menu is open.
 <button class="primary-btn">Save</button>                         <!-- solid navy; add disabled -->
 <button class="secondary-btn"><svg>…</svg>Cancel</button>        <!-- white, tinted border -->
 <button class="icon-button" aria-label="…"><svg>…</svg></button> <!-- square, outlined -->
+<button class="danger-btn">Delete device</button>                 <!-- solid red: only the confirming button of a destructive action -->
 <button class="link-btn">Need help?</button>                      <!-- text link -->
 <button class="back-btn"><svg>…</svg>Back</button>                <!-- text with arrow -->
 ```
@@ -157,6 +167,10 @@ Modifiers: `.min-160` / `.min-150` set a minimum width.
 ### Text field, label, password eye
 ```html
 <label><span class="label">Staff ID</span><input class="field" type="email" /></label>
+
+<!-- invalid field (CMP-2): aria-invalid on the field, the message linked with aria-describedby -->
+<label><span class="label">Date of birth</span><input class="field" aria-invalid="true" aria-describedby="dob-err" /></label>
+<div class="field-error" id="dob-err"><svg>…alert…</svg><span>Enter a date as YYYY-MM-DD, for example 1948-03-07.</span></div>
 <div class="pw-wrap">
   <input class="field" type="password" />
   <button type="button" class="pw-toggle" aria-label="Show password"><svg>…</svg></button>
@@ -255,10 +269,17 @@ Show at most **5 page numbers** in a sliding window (`First` and `Last` jump to 
   <div class="modal-actions modal-actions--end"><button class="secondary-btn">Keep current</button><button class="primary-btn">Apply</button></div>
 </div></div>
 
+<!-- destructive confirmation (CMP-21): alertdialog, red icon, Cancel first and focused, red button repeats the verb -->
+<div class="modal-backdrop"><div class="modal-card modal-card--wide" role="alertdialog" aria-modal="true" aria-labelledby="m3" aria-describedby="m3d">
+  <div class="modal-icon modal-icon--danger"><svg>…trash…</svg></div><h2 id="m3">Delete Scale 07?</h2>
+  <p id="m3d">What is lost, what is kept, and how to get it back.</p>
+  <div class="modal-actions modal-actions--end"><button class="secondary-btn" data-autofocus>Cancel</button><button class="danger-btn">Delete device</button></div>
+</div></div>
+
 <!-- section heading inside page content; add section-head--tight for a smaller subtitle -->
 <div class="section-head"><div><h2>Section title</h2><p>Section subtitle.</p></div><!-- optional right-hand content --></div>
 
-<div class="toast" role="status"><span class="toast__check"><svg>…</svg></span>Scan complete</div>   <!-- remove after about 2 seconds -->
+<div class="toast" role="status"><span class="toast__check"><svg>…</svg></span>Scan complete</div>   <!-- remove after --toast-duration (6 s); pause while hovered -->
 
 <div class="state" role="status" aria-live="polite"><div class="spinner" aria-hidden="true"></div>Loading…</div>
 <div class="state state--error" role="alert"><strong>Couldn't load data.</strong> … <button class="secondary-btn">Retry</button></div>
@@ -268,11 +289,11 @@ Utilities: `.truncate` (single-line ellipsis), `.sr-only` (visually hidden text 
 
 ## 8. Web behaviour (`web/app.js`)
 
-The markup in section 7 is CSS only. Opening, closing and focus behaviour for the dropdowns, multi-select, sidebar toggle and staff menu live in `web/app.js`: event delegation on `data-action`, one state object, and a `render()` function that rebuilds the page and restores focus. Copy the patterns, not the demo content (SCP-8). The reference does not yet implement the dialog's focus trap and Escape-to-cancel (CMP-16); add them.
+The markup in section 7 is CSS only. Opening, closing and focus behaviour for the dropdowns, multi-select, sidebar toggle and staff menu live in `web/app.js`: event delegation on `data-action`, one state object, and a `render()` function that rebuilds the page and restores focus. Copy the patterns, not the demo content (SCP-8): the Rossmax Connect product name, the residents, devices, zones and readings, and the staff names are all fictional demo data.
 
 ## 9. Known limits
 
 - The typeface is not bundled (FND-6).
-- There is no phone layout (FND-14) and no dark mode (FND-15).
-- The soft grey `ink-400` is 3.5:1 on white: placeholders, helper text and icons only (ACC-6).
+- Phone layouts (FND-16) are defined as rules but not implemented in the web reference. There is no dark mode (FND-15).
+- The web reference does not show every UI-6 rule: its demo data uses relative times such as "Yesterday, 16:42" (CNT-2 allows relative times only within 24 hours).
 - The checker (`../tools/guard.py`) checks colours on every platform and CSS on web. It cannot judge layout, markup or behaviour, so the hand checks in SCP-9 still apply.

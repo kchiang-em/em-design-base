@@ -100,7 +100,7 @@
       "$group": "Colour: neutrals, text, brand, status"
     },
     "ink-400": {
-      "$value": "#7c8b98",
+      "$value": "#616f7b",
       "$type": "color",
       "$group": "Colour: neutrals, text, brand, status"
     },
@@ -252,10 +252,17 @@
       "$type": "color",
       "$group": "accent (logo green): live / positive signals"
     },
+    "warning-700": {
+      "$value": "#9a5a1f",
+      "$type": "color",
+      "$group": "accent (logo green): live / positive signals",
+      "$description": "text (5.5:1 on white, 5.0:1 on the warning tint)"
+    },
     "warning-600": {
       "$value": "#b36b28",
       "$type": "color",
-      "$group": "accent (logo green): live / positive signals"
+      "$group": "accent (logo green): live / positive signals",
+      "$description": "icons and borders (4.2:1 on white: not for text)"
     },
     "warning-400": {
       "$value": "#d78b4c",
@@ -270,7 +277,101 @@
     "info-100": {
       "$value": "#d7e7f7",
       "$type": "color",
-      "$group": "accent (logo green): live / positive signals"
+      "$group": "accent (logo green): live / positive signals",
+      "$description": "soft blue tint (also used for avatar tints)"
+    },
+    "success-50": {
+      "$value": "#f0fdf4",
+      "$type": "color",
+      "$group": "Status: positive / success / live. The classic status green, separate from the brand green (accent-*)."
+    },
+    "success-500": {
+      "$value": "#16a34a",
+      "$type": "color",
+      "$group": "Status: positive / success / live. The classic status green, separate from the brand green (accent-*).",
+      "$description": "fills only (3.3:1 on white)"
+    },
+    "success-600": {
+      "$value": "#15803d",
+      "$type": "color",
+      "$group": "Status: positive / success / live. The classic status green, separate from the brand green (accent-*).",
+      "$description": "dots and icons; text on white (5.0:1)"
+    },
+    "success-700": {
+      "$value": "#166534",
+      "$type": "color",
+      "$group": "Status: positive / success / live. The classic status green, separate from the brand green (accent-*).",
+      "$description": "text on the success tint"
+    },
+    "info-50": {
+      "$value": "#e3eaef",
+      "$type": "color",
+      "$group": "Status: information. The brand guideline's secondary blue, fixed so a client theme does not move it."
+    },
+    "info-600": {
+      "$value": "#16537a",
+      "$type": "color",
+      "$group": "Status: information. The brand guideline's secondary blue, fixed so a client theme does not move it."
+    },
+    "border-control": {
+      "$value": "#808c98",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background"
+    },
+    "chart-surface": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$resolved": "#ffffff",
+      "$description": "what is BEHIND the charts: the card, or the page background when charts are transparent. Contrast is checked against it"
+    },
+    "chart-1": {
+      "$value": "{em-navy-core}",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$resolved": "#023c6e"
+    },
+    "chart-2": {
+      "$value": "#de6872",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$description": "coral"
+    },
+    "chart-3": {
+      "$value": "#256d73",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$description": "dark teal"
+    },
+    "chart-4": {
+      "$value": "#a6678c",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$description": "plum"
+    },
+    "chart-5": {
+      "$value": "#119d78",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$description": "brand green, darkened to 3.4:1"
+    },
+    "chart-6": {
+      "$value": "#5b92a7",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$description": "teal, darkened to 3.4:1"
+    },
+    "chart-7": {
+      "$value": "#8567cc",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$description": "violet (4.4:1); mint cannot reach 3:1 without becoming another green"
+    },
+    "chart-other": {
+      "$value": "#737373",
+      "$type": "color",
+      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$description": "neutral grey for \"Other\", totals and reference lines (slate looks like chart-3 to colour-blind readers)"
     },
     "white-10": {
       "$value": "rgb(255 255 255 / 10%)",
@@ -458,9 +559,11 @@
       "$group": "elevation"
     },
     "focus-ring": {
-      "$value": "0 0 0 3px rgb(2 60 110 / 18%)",
+      "$value": "0 0 0 2px {white}, 0 0 0 4px {brand-600}",
       "$type": "shadow",
-      "$group": "elevation"
+      "$group": "elevation",
+      "$resolved": "0 0 0 2px #ffffff, 0 0 0 4px #023c6e",
+      "$description": "double ring: navy shows on light surfaces, white on dark ones"
     }
   },
   "component": {
@@ -499,6 +602,12 @@
       "$value": "150ms",
       "$type": "duration",
       "$group": "control size scale: every button, field and trigger takes one of these heights"
+    },
+    "toast-duration": {
+      "$value": "6000ms",
+      "$type": "duration",
+      "$group": "control size scale: every button, field and trigger takes one of these heights",
+      "$description": "how long a toast stays (CMP-17); it pauses while the pointer is over it"
     },
     "disabled-opacity": {
       "$value": ".55",
@@ -539,7 +648,7 @@
       "$value": "{focus-ring}",
       "$type": "shadow",
       "$group": "keyboard focus",
-      "$resolved": "0 0 0 3px rgb(2 60 110 / 18%)"
+      "$resolved": "0 0 0 2px #ffffff, 0 0 0 4px #023c6e"
     },
     "field-h": {
       "$value": "{control-h-2xl}",
@@ -572,16 +681,34 @@
       "$resolved": "#3a3a3c"
     },
     "field-border": {
-      "$value": "{border}",
+      "$value": "{border-control}",
       "$type": "color",
       "$group": "text field",
-      "$resolved": "#dcdfe3"
+      "$resolved": "#808c98"
     },
     "field-border-hover": {
-      "$value": "{border-strong}",
+      "$value": "{ink-500}",
       "$type": "color",
       "$group": "text field",
-      "$resolved": "#c7ccd2"
+      "$resolved": "#5a6c7d"
+    },
+    "field-border-error": {
+      "$value": "{danger-600}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#dc2626"
+    },
+    "field-error-fg": {
+      "$value": "{danger-700}",
+      "$type": "color",
+      "$group": "text field",
+      "$resolved": "#b91c1c"
+    },
+    "field-error-gap": {
+      "$value": "{space-xs}",
+      "$type": "dimension",
+      "$group": "text field",
+      "$resolved": "4px"
     },
     "field-border-focus": {
       "$value": "{brand-400}",
@@ -593,7 +720,7 @@
       "$value": "{focus-ring}",
       "$type": "shadow",
       "$group": "text field",
-      "$resolved": "0 0 0 3px rgb(2 60 110 / 18%)"
+      "$resolved": "0 0 0 2px #ffffff, 0 0 0 4px #023c6e"
     },
     "field-bg-disabled": {
       "$value": "{bg}",
@@ -605,7 +732,7 @@
       "$value": "{ink-400}",
       "$type": "color",
       "$group": "text field",
-      "$resolved": "#7c8b98"
+      "$resolved": "#616f7b"
     },
     "btn-primary-h": {
       "$value": "{control-h-2xl}",
@@ -880,7 +1007,7 @@
       "$value": "{ink-400}",
       "$type": "color",
       "$group": "button: icon only (square, outlined)",
-      "$resolved": "#7c8b98"
+      "$resolved": "#616f7b"
     },
     "btn-icon-border": {
       "$value": "{border}",
@@ -1000,7 +1127,7 @@
       "$value": "{ink-400}",
       "$type": "color",
       "$group": "button: text / link",
-      "$resolved": "#7c8b98"
+      "$resolved": "#616f7b"
     },
     "btn-link-fg-pressed": {
       "$value": "{pressed-fg}",
@@ -1201,16 +1328,16 @@
       "$resolved": "#3a3a3c"
     },
     "dd-trigger-border": {
-      "$value": "{border}",
+      "$value": "{border-control}",
       "$type": "color",
       "$group": "dropdown (single select) and multi-select",
-      "$resolved": "#dcdfe3"
+      "$resolved": "#808c98"
     },
     "dd-trigger-border-hover": {
-      "$value": "{ink-300}",
+      "$value": "{ink-500}",
       "$type": "color",
       "$group": "dropdown (single select) and multi-select",
-      "$resolved": "#b4bdc6"
+      "$resolved": "#5a6c7d"
     },
     "dd-trigger-border-open": {
       "$value": "{brand-400}",
@@ -1222,7 +1349,7 @@
       "$value": "{ink-400}",
       "$type": "color",
       "$group": "dropdown (single select) and multi-select",
-      "$resolved": "#7c8b98"
+      "$resolved": "#616f7b"
     },
     "dd-panel-bg": {
       "$value": "{white}",
@@ -1338,7 +1465,7 @@
       "$value": "{ink-400}",
       "$type": "color",
       "$group": "dropdown (single select) and multi-select",
-      "$resolved": "#7c8b98"
+      "$resolved": "#616f7b"
     },
     "dd-chevron-right": {
       "$value": "12px",
@@ -1574,7 +1701,7 @@
       "$value": "{ink-400}",
       "$type": "color",
       "$group": "checkbox (multi-select option, \"remember this device\")",
-      "$resolved": "#7c8b98"
+      "$resolved": "#616f7b"
     },
     "checkbox-bg": {
       "$value": "{white}",
@@ -1963,7 +2090,7 @@
       "$value": "{ink-400}",
       "$type": "color",
       "$group": "password eye (show/hide) button, inside the field",
-      "$resolved": "#7c8b98"
+      "$resolved": "#616f7b"
     },
     "pw-eye-fg-hover": {
       "$value": "{ink-600}",

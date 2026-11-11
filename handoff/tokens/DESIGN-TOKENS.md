@@ -50,7 +50,7 @@
 | `--border` | `#dcdfe3` |  |
 | `--border-strong` | `#c7ccd2` |  |
 | `--ink-300` | `#b4bdc6` |  |
-| `--ink-400` | `#7c8b98` |  |
+| `--ink-400` | `#616f7b` |  |
 | `--ink-500` | `#5a6c7d` |  |
 | `--ink-600` | `var(--em-slate)` | `#4c6173` |
 | `--ink-700` | `var(--em-grey-dark)` | `#3a3a3c` |
@@ -89,10 +89,42 @@
 | `--danger-700` | `#b91c1c` |  |
 | `--danger-300` | `#fca5a5` |  |
 | `--danger-50` | `#fef2f2` |  |
-| `--warning-600` | `#b36b28` |  |
+| `--warning-700` | `#9a5a1f` <br><sub>text (5.5:1 on white, 5.0:1 on the warning tint)</sub> |  |
+| `--warning-600` | `#b36b28` <br><sub>icons and borders (4.2:1 on white: not for text)</sub> |  |
 | `--warning-400` | `#d78b4c` |  |
 | `--warning-50` | `#fff2e4` |  |
-| `--info-100` | `#d7e7f7` |  |
+| `--info-100` | `#d7e7f7` <br><sub>soft blue tint (also used for avatar tints)</sub> |  |
+
+### Status: positive / success / live. The classic status green, separate from the brand green (accent-*).
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--success-50` | `#f0fdf4` |  |
+| `--success-500` | `#16a34a` <br><sub>fills only (3.3:1 on white)</sub> |  |
+| `--success-600` | `#15803d` <br><sub>dots and icons; text on white (5.0:1)</sub> |  |
+| `--success-700` | `#166534` <br><sub>text on the success tint</sub> |  |
+
+### Status: information. The brand guideline's secondary blue, fixed so a client theme does not move it.
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--info-50` | `#e3eaef` |  |
+| `--info-600` | `#16537a` |  |
+
+### Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--border-control` | `#808c98` |  |
+| `--chart-surface` | `var(--white)` <br><sub>what is BEHIND the charts: the card, or the page background when charts are transparent. Contrast is checked against it</sub> | `#ffffff` |
+| `--chart-1` | `var(--em-navy-core)` | `#023c6e` |
+| `--chart-2` | `#de6872` <br><sub>coral</sub> |  |
+| `--chart-3` | `#256d73` <br><sub>dark teal</sub> |  |
+| `--chart-4` | `#a6678c` <br><sub>plum</sub> |  |
+| `--chart-5` | `#119d78` <br><sub>brand green, darkened to 3.4:1</sub> |  |
+| `--chart-6` | `#5b92a7` <br><sub>teal, darkened to 3.4:1</sub> |  |
+| `--chart-7` | `#8567cc` <br><sub>violet (4.4:1); mint cannot reach 3:1 without becoming another green</sub> |  |
+| `--chart-other` | `#737373` <br><sub>neutral grey for "Other", totals and reference lines (slate looks like chart-3 to colour-blind readers)</sub> |  |
 
 ### White overlays (sidebar, login panel)
 
@@ -155,7 +187,7 @@
 | `--shadow-md` | `0 8px 24px rgb(2 60 110 / 14%)` |  |
 | `--shadow-lg` | `0 20px 48px rgb(1 28 52 / 26%)` |  |
 | `--shadow-brand` | `0 5px 14px rgb(2 60 110 / 22%)` |  |
-| `--focus-ring` | `0 0 0 3px rgb(2 60 110 / 18%)` |  |
+| `--focus-ring` | `0 0 0 2px var(--white), 0 0 0 4px var(--brand-600)` <br><sub>double ring: navy shows on light surfaces, white on dark ones</sub> | `0 0 0 2px #ffffff, 0 0 0 4px #023c6e` |
 
 ## Component tokens
 
@@ -170,6 +202,7 @@
 | `--control-h-2xl` | `48px` |  |
 | `--control-radius` | `var(--radius-md)` | `8px` |
 | `--control-transition` | `150ms` |  |
+| `--toast-duration` | `6000ms` <br><sub>how long a toast stays (CMP-17); it pauses while the pointer is over it</sub> |  |
 | `--disabled-opacity` | `.55` |  |
 
 ### Pressed (clicked) state, shared by all controls
@@ -186,7 +219,7 @@
 
 | Token | Value | Resolves to |
 |---|---|---|
-| `--btn-focus-ring` | `var(--focus-ring)` | `0 0 0 3px rgb(2 60 110 / 18%)` |
+| `--btn-focus-ring` | `var(--focus-ring)` | `0 0 0 2px #ffffff, 0 0 0 4px #023c6e` |
 
 ### Text field
 
@@ -197,12 +230,15 @@
 | `--field-padding-x` | `var(--space-lg)` | `16px` |
 | `--field-bg` | `var(--white)` | `#ffffff` |
 | `--field-fg` | `var(--ink-700)` | `#3a3a3c` |
-| `--field-border` | `var(--border)` | `#dcdfe3` |
-| `--field-border-hover` | `var(--border-strong)` | `#c7ccd2` |
+| `--field-border` | `var(--border-control)` | `#808c98` |
+| `--field-border-hover` | `var(--ink-500)` | `#5a6c7d` |
+| `--field-border-error` | `var(--danger-600)` | `#dc2626` |
+| `--field-error-fg` | `var(--danger-700)` | `#b91c1c` |
+| `--field-error-gap` | `var(--space-xs)` | `4px` |
 | `--field-border-focus` | `var(--brand-400)` | `#3f7ab5` |
-| `--field-ring-focus` | `var(--focus-ring)` | `0 0 0 3px rgb(2 60 110 / 18%)` |
+| `--field-ring-focus` | `var(--focus-ring)` | `0 0 0 2px #ffffff, 0 0 0 4px #023c6e` |
 | `--field-bg-disabled` | `var(--bg)` | `#f2f2f2` |
-| `--field-fg-disabled` | `var(--ink-400)` | `#7c8b98` |
+| `--field-fg-disabled` | `var(--ink-400)` | `#616f7b` |
 
 ### Button: primary (solid navy)
 
@@ -278,7 +314,7 @@
 | Token | Value | Resolves to |
 |---|---|---|
 | `--btn-icon-size` | `var(--control-h-md)` | `36px` |
-| `--btn-icon-fg` | `var(--ink-400)` | `#7c8b98` |
+| `--btn-icon-fg` | `var(--ink-400)` | `#616f7b` |
 | `--btn-icon-border` | `var(--border)` | `#dcdfe3` |
 | `--btn-icon-border-hover` | `var(--ink-300)` | `#b4bdc6` |
 | `--btn-icon-fg-hover` | `var(--brand-600)` | `#023c6e` |
@@ -313,7 +349,7 @@
 | Token | Value | Resolves to |
 |---|---|---|
 | `--btn-link-fg` | `var(--brand-600)` | `#023c6e` |
-| `--btn-text-fg` | `var(--ink-400)` | `#7c8b98` |
+| `--btn-text-fg` | `var(--ink-400)` | `#616f7b` |
 | `--btn-link-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
 | `--btn-text-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
 
@@ -368,10 +404,10 @@
 | `--dd-trigger-h-sm` | `var(--control-h-sm)` | `32px` |
 | `--dd-trigger-bg` | `var(--white)` | `#ffffff` |
 | `--dd-trigger-fg` | `var(--ink-700)` | `#3a3a3c` |
-| `--dd-trigger-border` | `var(--border)` | `#dcdfe3` |
-| `--dd-trigger-border-hover` | `var(--ink-300)` | `#b4bdc6` |
+| `--dd-trigger-border` | `var(--border-control)` | `#808c98` |
+| `--dd-trigger-border-hover` | `var(--ink-500)` | `#5a6c7d` |
 | `--dd-trigger-border-open` | `var(--brand-400)` | `#3f7ab5` |
-| `--dd-chevron-fg` | `var(--ink-400)` | `#7c8b98` |
+| `--dd-chevron-fg` | `var(--ink-400)` | `#616f7b` |
 | `--dd-panel-bg` | `var(--white)` | `#ffffff` |
 | `--dd-panel-border` | `var(--border)` | `#dcdfe3` |
 | `--dd-panel-radius` | `var(--radius-md)` | `8px` |
@@ -391,7 +427,7 @@
 | `--ms-trigger-padding-right-active` | `62px` |  |
 | `--ms-placeholder-fg` | `var(--ink-500)` | `#5a6c7d` |
 | `--ms-search-h` | `var(--control-h-md)` | `36px` |
-| `--ms-empty-fg` | `var(--ink-400)` | `#7c8b98` |
+| `--ms-empty-fg` | `var(--ink-400)` | `#616f7b` |
 
 ### Dropdown and multi-select: layout and variants (small = rows per page, dark = sidebar zone)
 
@@ -448,7 +484,7 @@
 | Token | Value | Resolves to |
 |---|---|---|
 | `--checkbox-size` | `18px` |  |
-| `--checkbox-border` | `var(--ink-400)` | `#7c8b98` |
+| `--checkbox-border` | `var(--ink-400)` | `#616f7b` |
 | `--checkbox-bg` | `var(--white)` | `#ffffff` |
 | `--checkbox-bg-checked` | `var(--brand-600)` | `#023c6e` |
 | `--checkbox-fg-checked` | `var(--white)` | `#ffffff` |
@@ -546,7 +582,7 @@
 | `--pw-eye-icon-size` | `20px` |  |
 | `--pw-eye-inset` | `var(--space-sm)` <br><sub>gap from the field's right edge</sub> | `8px` |
 | `--pw-eye-radius` | `var(--control-radius)` | `8px` |
-| `--pw-eye-fg` | `var(--ink-400)` | `#7c8b98` |
+| `--pw-eye-fg` | `var(--ink-400)` | `#616f7b` |
 | `--pw-eye-fg-hover` | `var(--ink-600)` | `#4c6173` |
 | `--pw-eye-bg-hover` | `var(--bg)` | `#f2f2f2` |
 | `--pw-eye-fg-pressed` | `var(--pressed-fg)` | `#b45309` |

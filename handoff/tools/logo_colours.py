@@ -289,7 +289,7 @@ def main():
         cmd += f' --secondary "{secondary["hex"]}"'
     for j, c in enumerate(extras, 1):
         cmd += f' --extra accent{j}="{c["hex"]}"'
-    cmd += " --css theme.css"
+    cmd += " --css app-tokens.css"
     print(f"\nSuggested starting point: {cmd}")
     print("CONFIRM WITH THE USER before you run it (THM-10): the most prominent colour is not always the brand colour, and a logo can use "
           "colours that are not meant for the interface. Add --adjust if the primary must be darkened to carry white text.")

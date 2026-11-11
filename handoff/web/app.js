@@ -91,12 +91,24 @@
     return { parts: path.split("/").filter(Boolean), state: params.get("state") || qs.get("state") };
   }
 
+  // Toasts stay for --toast-duration (CMP-17) and pause while the pointer is over them.
+  let toastClear = null;
+  const toastMs = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--toast-duration")) || 6000;
+  function armToast(clear) {
+    toastClear = clear;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toastClear = null; clear(); render(); }, toastMs());
+  }
   function notify(msg) {
     S.toast = msg;
     render();
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => { S.toast = ""; render(); }, 2200);
+    armToast(() => { S.toast = ""; });
   }
+  document.addEventListener("mouseover", (e) => { if (toastClear && e.target.closest(".toast")) clearTimeout(toastTimer); });
+  document.addEventListener("mouseout", (e) => {
+    const t = e.target.closest(".toast");
+    if (toastClear && t && !t.contains(e.relatedTarget)) armToast(toastClear);
+  });
 
   // ---------- shared pieces ----------
   const toastHtml = (msg) => `<div class="toast" role="status"><span class="toast__check">${ic("check", 13)}</span>${esc(msg)}</div>`;
@@ -435,7 +447,20 @@
         </div>
         <div class="device-grid">${forced ? `<div class="devices-empty">${forced}</div>` : cards || '<div class="devices-empty">No devices paired to this gateway.</div>'}</div>
       </div>`;
-    return shell("devices", body);
+    const dd = S.danger && S.devices.find((d) => d.id === S.danger.id);
+    const dangerModal = dd ? (S.danger.kind === "remove" ? {
+      title: `Delete ${dd.name}?`, text: "The device is removed from this gateway and its pairing is lost. Readings already saved are kept. To use it again, pair it as a new device.", ok: "Delete device", icon: "trash" } : {
+      title: `Unpair ${dd.name}?`, text: "The device stops sending readings to this gateway until it is paired again. Readings already saved are kept.", ok: "Unpair device", icon: "unlink" }) : null;
+    const overlay = dangerModal ? `
+      <div class="modal-backdrop"><div class="modal-card modal-card--wide" role="alertdialog" aria-modal="true" aria-labelledby="m3" aria-describedby="m3d">
+        <div class="modal-icon modal-icon--danger">${ic(dangerModal.icon, 21)}</div>
+        <h2 id="m3">${esc(dangerModal.title)}</h2>
+        <p id="m3d">${dangerModal.text}</p>
+        <div class="modal-actions modal-actions--end">
+          <button class="secondary-btn" data-action="danger-cancel" data-autofocus>Cancel</button>
+          <button class="danger-btn" data-action="danger-ok">${dangerModal.ok}</button>
+        </div></div></div>` : "";
+    return shell("devices", body, overlay);
   }
 
   function settingsScreen() {
@@ -458,7 +483,7 @@
         <p>Changing this configuration will briefly interrupt device synchronization. The current configuration will remain active if the new connection fails.</p>
         <div class="verified">${ic("check", 15)}New connection successfully verified</div>
         <div class="modal-actions modal-actions--end">
-          <button class="secondary-btn" data-action="confirm-cancel">Keep current settings</button>
+          <button class="secondary-btn" data-action="confirm-cancel" data-autofocus>Keep current settings</button>
           <button class="primary-btn" data-action="confirm-ok">Apply changes</button>
         </div></div></div>` : "";
     const foot = S.unlocked ? `
@@ -613,11 +638,19 @@
     resident: (el) => go("#/residents/" + el.dataset.id),
     capture: (el) => capture(el.dataset.id),
     "capture-all": () => S.readings.filter((r) => r.status !== "captured").forEach((r, i) => setTimeout(() => capture(r.id), i * 180)),
-    "save-readings": () => { S.saved = true; render(); setTimeout(() => { S.saved = false; render(); }, 2300); },
+    "save-readings": () => { S.saved = true; render(); armToast(() => { S.saved = false; }); },
     scan: () => { S.scanning = true; render(); setTimeout(() => { S.scanning = false; notify("Scan complete · 1 nearby device found"); }, 1800); },
     discoverable: () => { S.discoverable = !S.discoverable; render(); },
-    unpair: (el) => { S.devices = S.devices.map((d) => (d.id === +el.dataset.id ? { ...d, connected: false } : d)); notify("Device unpaired"); },
-    remove: (el) => { S.devices = S.devices.filter((d) => d.id !== +el.dataset.id); notify("Device removed"); },
+    // destructive actions always ask first (CMP-21); the dialog opens with focus on Cancel
+    unpair: (el) => { S.danger = { kind: "unpair", id: +el.dataset.id }; render(); },
+    remove: (el) => { S.danger = { kind: "remove", id: +el.dataset.id }; render(); },
+    "danger-cancel": () => { const d = S.danger; S.danger = null; S.refocus = `[data-action="${d.kind}"][data-id="${d.id}"]`; render(); },
+    "danger-ok": () => {
+      const { kind, id } = S.danger;
+      S.danger = null;
+      if (kind === "unpair") { S.devices = S.devices.map((d) => (d.id === id ? { ...d, connected: false } : d)); S.refocus = `[data-action="unpair"][data-id="${id}"]`; notify("Device unpaired"); }
+      else { S.devices = S.devices.filter((d) => d.id !== id); S.refocus = ".device-action"; notify("Device removed"); }
+    },
     "unlock-open": () => { S.unlockOpen = true; render(); },
     "unlock-cancel": () => { S.unlockOpen = false; S.pin = ""; render(); },
     "unlock-ok": () => { S.unlocked = true; S.unlockOpen = false; S.pin = ""; render(); },
@@ -656,6 +689,20 @@
   });
   document.addEventListener("keydown", (e) => {
     const ae = document.activeElement;
+    // every dialog: Escape cancels and Tab stays inside (CMP-16, ACC-10)
+    const modal = app.querySelector(".modal-card");
+    if (modal) {
+      if (e.key === "Escape") { e.preventDefault(); const c = modal.querySelector('[data-action$="-cancel"]'); if (c) c.click(); return; }
+      if (e.key === "Tab") {
+        const f = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]), select, textarea, a[href], [tabindex]:not([tabindex="-1"])')];
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (!modal.contains(ae)) { e.preventDefault(); first.focus(); }
+        else if (e.shiftKey && ae === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && ae === last) { e.preventDefault(); first.focus(); }
+      }
+      return;
+    }
     if (e.key === "Escape" && S.profileOpen) { e.preventDefault(); S.profileOpen = false; S.refocus = ".profile"; render(); return; }
     if (!S.openDd) {   // ArrowDown on a closed dropdown opens it
       if (e.key === "ArrowDown" && ae && ae.classList && ae.classList.contains("dd__trigger")) { e.preventDefault(); ae.click(); }

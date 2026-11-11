@@ -10,9 +10,9 @@ The package separates **rules** from **implementation**:
 
 | Folder | Holds | Changes when |
 |---|---|---|
-| `policy/` | **the rules**: five policies (UI-1 to UI-5) with numbered clauses such as FND-9 or THM-3. No code. Each file is written to become one Jira policy ticket. | the policy owner changes a rule |
+| `policy/` | **the rules**: six policies (UI-1 to UI-6) with numbered clauses such as FND-9 or THM-3. No code. Each file is written to become one Jira policy ticket. | the policy owner changes a rule |
 | `guides/` | **how to build**: the implementation guide and the client theming procedure. They cite clause IDs and do not restate the rules. | the way of implementing changes |
-| `tokens/` | **the values**: `design-tokens.json` (every value, for any platform), a readable copy, and client theme templates | a value changes |
+| `tokens/` | **the values**: `design-tokens.json` (every value, for any platform) and a readable copy. A product keeps its own tokens, including a client's colours, in its own `app-tokens.css` or `app-tokens.json` | a value changes |
 | `tools/` | **the scripts**: the conformance checker (`guard.py`) and the theme helpers. Their messages cite clause IDs. | a check or helper changes |
 | `web/` | **the web reference implementation**: CSS and the JS behaviour patterns | the web reference changes |
 
@@ -26,7 +26,7 @@ The package separates **rules** from **implementation**:
 
 2. **Web product:** copy `web/tokens.css` and `web/components.css` into your project (`guides/IMPLEMENTATION.md` section 2 has the stylesheet order and section 7 the markup).
 3. **Native or other product:** generate your platform's constants from `tokens/design-tokens.json`, then build screens from the component clauses in `policy/UI-4-components.md` (`guides/IMPLEMENTATION.md` section 5 maps them to iOS, Android and desktop).
-4. **Changing colours for a client?** Give your assistant the client's colour codes (or the logo file) and tell it to follow `guides/THEMING.md`. Status colours (red, orange, green) never change (THM-3).
+4. **Changing colours for a client?** Give your assistant the client's colour codes (or the logo file) and tell it to follow `guides/THEMING.md`. Status colours (red, orange, status green, information blue) never change (THM-3).
 5. **Check your work** (needs Python 3, no packages):
 
    ```bash
@@ -40,8 +40,7 @@ The package separates **rules** from **implementation**:
 ## Known limits
 
 - The typeface, Acumin Variable (an Adobe font), is not included because its licence controls the files (FND-6). Ask your team lead or the brand team whether EncoreMed holds a licence and what kind. Until then use Arial on web and the system font on native.
-- There is no phone layout (FND-14) and no dark mode (FND-15).
-- The web reference does not yet implement the dialog's focus trap and Escape-to-cancel (CMP-16).
+- Phone layouts are defined as rules (FND-16) but the web reference does not implement them yet. There is no dark mode (FND-15).
 - The checker covers colours (every platform) and CSS (web). Layout, markup and behaviour need the hand checks in SCP-9.
 
 ## For maintainers
