@@ -1,13 +1,13 @@
 # Design tokens
 
-> Generated from `tokens.css` by `export_tokens.py`. Do not edit by hand: change `tokens.css`, then run `uv run export_tokens.py`.
-> Machine-readable copy: `design-tokens.json` (aliases written as `{token-name}`, ready to import as Figma variables).
+> Generated from `tokens.css` by `export_tokens.py`. Do not edit by hand: change `tokens.css`, then run `python3 export_tokens.py`.
+> Machine-readable copy: `design-tokens.json` (aliases written as `{token-name}`, for generating platform constants or importing into design tools).
 
 ## How the tokens are layered
 
 | Tier | What it holds | Who uses it |
 |---|---|---|
-| **Palette** | The official EncoreMed colours (`--em-*`), from `EM_Style_Guideline.pdf` and `EM_official_color_colorBlindSafe.jpeg`. | Only the semantic tier. |
+| **Palette** | The official EncoreMed colours (`--em-*`), from the official brand guideline (CMYK converted to sRGB) and its colour-blind-safe set. | Only the semantic tier. |
 | **Semantic** | Roles built from the palette: neutrals, text, brand, accent, status, type, spacing, radius, shadow. | Component tokens, and layout rules. |
 | **Component** | Sizes, colours and states for each control: buttons, fields, dropdowns, pagination, checkbox, toggle, sidebar nav. | Component rules (`components.css`). New components should start here. |
 | **App** | Screen-specific values (login panel, residents table columns, filter bar, list rows), in `app-tokens.css`. Not part of the reusable design system. | `app.css` only. |
@@ -26,11 +26,11 @@
 
 | Token | Value | Resolves to |
 |---|---|---|
-| `--em-navy-core` | `#023c6e` <br><sub>PDF core: navy</sub> |  |
-| `--em-green-core` | `#16ad85` <br><sub>PDF core: green</sub> |  |
-| `--em-blue` | `#16537a` <br><sub>PDF secondary: blue</sub> |  |
-| `--em-green-soft` | `#4faa91` <br><sub>PDF secondary: mint-green</sub> |  |
-| `--em-grey-dark` | `#3a3a3c` <br><sub>PDF secondary: dark grey</sub> |  |
+| `--em-navy-core` | `#023c6e` <br><sub>brand core: navy</sub> |  |
+| `--em-green-core` | `#16ad85` <br><sub>brand core: green</sub> |  |
+| `--em-blue` | `#16537a` <br><sub>brand secondary: blue</sub> |  |
+| `--em-green-soft` | `#4faa91` <br><sub>brand secondary: mint-green</sub> |  |
+| `--em-grey-dark` | `#3a3a3c` <br><sub>brand secondary: dark grey</sub> |  |
 | `--em-navy` | `#0e4473` <br><sub>colour-blind safe: navy</sub> |  |
 | `--em-slate` | `#4c6173` <br><sub>colour-blind safe: slate</sub> |  |
 | `--em-green` | `#4ba67b` <br><sub>colour-blind safe: green</sub> |  |

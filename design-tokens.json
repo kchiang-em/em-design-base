@@ -5,31 +5,31 @@
       "$value": "#023c6e",
       "$type": "color",
       "$group": "Official palette",
-      "$description": "PDF core: navy"
+      "$description": "brand core: navy"
     },
     "em-green-core": {
       "$value": "#16ad85",
       "$type": "color",
       "$group": "Official palette",
-      "$description": "PDF core: green"
+      "$description": "brand core: green"
     },
     "em-blue": {
       "$value": "#16537a",
       "$type": "color",
       "$group": "Official palette",
-      "$description": "PDF secondary: blue"
+      "$description": "brand secondary: blue"
     },
     "em-green-soft": {
       "$value": "#4faa91",
       "$type": "color",
       "$group": "Official palette",
-      "$description": "PDF secondary: mint-green"
+      "$description": "brand secondary: mint-green"
     },
     "em-grey-dark": {
       "$value": "#3a3a3c",
       "$type": "color",
       "$group": "Official palette",
-      "$description": "PDF secondary: dark grey"
+      "$description": "brand secondary: dark grey"
     },
     "em-navy": {
       "$value": "#0e4473",
@@ -1517,7 +1517,7 @@
     },
     "ms-search-padding": {
       "$value": "{space-sm} {space-sm} {space-xs}",
-      "$type": "shadow",
+      "$type": "other",
       "$group": "dropdown: field variant (sits in the filter bar, same height and look as a text field)",
       "$resolved": "8px 8px 4px"
     },

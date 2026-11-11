@@ -1,7 +1,7 @@
 // Rossmax Connect: vanilla-JS port of the designer's Make app. No dependencies.
 // Routes: #/login, #/residents, #/residents/RM-20418, #/devices, #/settings
 // Force a list state with ?state=loading|empty|error on #/residents and #/devices.
-// Routes also work as a query (/?route=/devices&session=test) so Figma's #figmacapture=... hash is left alone.
+// Routes also work as a query (/?route=/devices&session=test) so any #hash in the URL is left alone.
 (function () {
   const D = window.TEST_DATA;
   const app = document.getElementById("app");

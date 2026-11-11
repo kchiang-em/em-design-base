@@ -25,6 +25,7 @@ If the user pastes colours or a logo, or asks you to change, re-brand or re-them
 2. **Web:** copy `web/tokens.css` and `web/components.css` into the project and use the markup in `HANDOFF.md` section 9. Load order: `tokens.css`, `theme.css` (a client's colours, if any), `app-tokens.css` (the project's own), `components.css`, `app.css` (the project's own). You may extend or modify the two shared files; add new tokens and classes rather than renaming or deleting existing ones.
 3. **Native or other:** generate constants from `design-tokens.json` (colours, spacing, radii, type sizes, durations) in the platform's idiom (see `HANDOFF.md` section 6), then build screens from the component specs in section 5.
 4. Do not copy this demo's fictional data or names (Rossmax, residents, devices) into the new product.
+5. **Typeface:** do not download, add or bundle Acumin font files; its licence controls them. Use the `--font-sans` stack on web (Arial fallback) and the system font on native unless the user confirms the company holds a licence that covers it. See "Getting the typeface" in `HANDOFF.md` section 3.
 
 ## When sources disagree
 If `HANDOFF.md`, the tokens and the user's request disagree: the tokens are the truth for values; the user's request decides what to build. Do not silently follow whichever is easier. Tell the user about the mismatch and what you chose.

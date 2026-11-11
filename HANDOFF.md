@@ -62,6 +62,13 @@ Not in the guideline, chosen for this system: red (errors, delete), amber (warni
 
 **Typeface.** Acumin Variable (Concept), with Arial as the system fallback (`--font-sans`). Regular and Bold only. Acumin is not bundled; it renders only where installed, so everywhere else you get Arial.
 
+**Getting the typeface.** Acumin is an Adobe font. Its licence decides who may use the font files and how, so they are not in this package.
+- **Who to ask:** the company has not yet named an owner for the Adobe font licence. Ask your team lead or the brand or design team whether EncoreMed holds an Acumin licence, and which kind (desktop, web, app embedding).
+- **Web:** if the company has an Adobe Fonts web kit with Acumin, load that kit and keep `--font-sans` as it is (Acumin first, Arial after). Without one, use Arial; `--font-sans` already falls back to it.
+- **Native apps:** use the system font (SF Pro on Apple platforms, Roboto on Android, Segoe UI on Windows) unless the company confirms a licence that allows embedding Acumin in an app. A desktop or web licence usually does not cover this.
+- **Never** commit Acumin font files (`.otf`, `.ttf`, `.woff`, `.woff2`) to a repository, bundle them into an app, or download them from an unofficial site.
+- The layout is designed to hold with the fallback: only Regular and Bold are used, and every size comes from the `text-*` tokens.
+
 **Colour use rules**
 - Body and secondary text must stay at **4.5:1** contrast or better on its background. `--ink-700` (11.4:1) and `--ink-600` (6.4:1) are safe on white. The soft grey `--ink-400` is only 3.5:1 on white (3.1:1 on the page background), so use it for placeholders, helper text and icons, not for important text.
 - **Green and mint are for fills, dots and icons, not text.** `#16AD85` on white is only 2.9:1. Text on a green fill uses the dark navy `--brand-800`.

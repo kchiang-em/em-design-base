@@ -48,7 +48,7 @@ It is a baseline, not a framework. Extend it when your product needs more; the g
 
 ## Known limits
 
-- The typeface, Acumin Variable, is not included. Without a licence use Arial on web and the system font on native.
+- The typeface, Acumin Variable (an Adobe font), is not included because its licence controls the files. Ask your team lead or the brand team whether EncoreMed holds a licence and what kind. Until then use Arial on web and the system font on native, and never commit the font files to a repo. Details: "Getting the typeface" in `HANDOFF.md` section 3.
 - There is no phone layout and no dark mode defined; derive them from the same tokens and components.
 - The guard checks colours (every platform) and CSS (web). It cannot judge layout, markup or behaviour; use the hand-check list in `AGENTS.md`.
 - The soft grey `ink-400` is only 3.5:1 on white. Use it for placeholders and icons, not for important text.

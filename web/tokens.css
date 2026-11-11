@@ -3,12 +3,12 @@
 :root {
   /* colour */
   /* ===== Official EncoreMed palette =====
-     Source: EM_Style_Guideline.pdf (CMYK, converted to sRGB) + EM_official_color_colorBlindSafe.jpeg */
-  --em-navy-core: #023c6e;   /* PDF core: navy */
-  --em-green-core: #16ad85;  /* PDF core: green */
-  --em-blue: #16537a;        /* PDF secondary: blue */
-  --em-green-soft: #4faa91;  /* PDF secondary: mint-green */
-  --em-grey-dark: #3a3a3c;   /* PDF secondary: dark grey */
+     Source: the official EncoreMed brand guideline (CMYK, converted to sRGB) + its colour-blind-safe set */
+  --em-navy-core: #023c6e;   /* brand core: navy */
+  --em-green-core: #16ad85;  /* brand core: green */
+  --em-blue: #16537a;        /* brand secondary: blue */
+  --em-green-soft: #4faa91;  /* brand secondary: mint-green */
+  --em-grey-dark: #3a3a3c;   /* brand secondary: dark grey */
   --em-navy: #0e4473;        /* colour-blind safe: navy */
   --em-slate: #4c6173;       /* colour-blind safe: slate */
   --em-green: #4ba67b;       /* colour-blind safe: green */

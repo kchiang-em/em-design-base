@@ -1,6 +1,6 @@
 """Generate design-tokens.json and DESIGN-TOKENS.md from tokens.css and app-tokens.css (standard library only).
 
-Run:  uv run export_tokens.py
+Run:  python3 export_tokens.py
 
 tokens.css (reusable design system) and app-tokens.css (this app's screens) are the source of truth. Both outputs are
 generated, so edit those files, then re-run this.
@@ -74,7 +74,8 @@ def kind(name, resolved):
     v = resolved.strip()
     if re.match(r"^(#[0-9a-fA-F]{3,8}|rgb\(|color-mix\()", v):
         return "color"
-    if name.startswith(("shadow", "focus-ring", "pressed-ring")) or re.match(r"^(inset\s+)?-?\d+(px)?\s+-?\d+(px)?\s", v):
+    if name.startswith(("shadow", "focus-ring", "pressed-ring")) or (
+            re.match(r"^(inset\s+)?-?\d+(px)?\s+-?\d+(px)?\s", v) and re.search(r"#|rgb|color-mix|hsl", v)):
         return "shadow"
     if name.startswith("font-"):
         return "fontFamily"
@@ -141,14 +142,14 @@ def table(rows):
 
 md = ["# Design tokens",
       "",
-      "> Generated from `tokens.css` by `export_tokens.py`. Do not edit by hand: change `tokens.css`, then run `uv run export_tokens.py`.",
-      "> Machine-readable copy: `design-tokens.json` (aliases written as `{token-name}`, ready to import as Figma variables).",
+      "> Generated from `tokens.css` by `export_tokens.py`. Do not edit by hand: change `tokens.css`, then run `python3 export_tokens.py`.",
+      "> Machine-readable copy: `design-tokens.json` (aliases written as `{token-name}`, for generating platform constants or importing into design tools).",
       "",
       "## How the tokens are layered",
       "",
       "| Tier | What it holds | Who uses it |",
       "|---|---|---|",
-      "| **Palette** | The official EncoreMed colours (`--em-*`), from `EM_Style_Guideline.pdf` and `EM_official_color_colorBlindSafe.jpeg`. | Only the semantic tier. |",
+      "| **Palette** | The official EncoreMed colours (`--em-*`), from the official brand guideline (CMYK converted to sRGB) and its colour-blind-safe set. | Only the semantic tier. |",
       "| **Semantic** | Roles built from the palette: neutrals, text, brand, accent, status, type, spacing, radius, shadow. | Component tokens, and layout rules. |",
       "| **Component** | Sizes, colours and states for each control: buttons, fields, dropdowns, pagination, checkbox, toggle, sidebar nav. | Component rules (`components.css`). New components should start here. |",
       "| **App** | Screen-specific values (login panel, residents table columns, filter bar, list rows), in `app-tokens.css`. Not part of the reusable design system. | `app.css` only. |",
