@@ -69,7 +69,8 @@ Lighter and darker shades of these colours, used for hover, tinted backgrounds a
 
 **FND-12 Icons.** *Must.*
 - The icon set is **Lucide** (open source, ISC licence), drawn on a 24px grid with a 1.8px stroke (Lucide's default is 2; set it to 1.8) and round caps and joins, shown at 20px by default and coloured with the text colour of their context.
-- An icon Lucide does not have is drawn in the same style.
+- **Icons come from an official Lucide release, never from memory.** Use Lucide's published packages or files at a pinned version (see https://lucide.dev), and choose icons by their Lucide name. Do not redraw, retype or approximate an icon's shape from memory, and do not hand-edit an icon's drawing; size, stroke width and colour are set through the package's options or the surrounding style.
+- An icon Lucide does not have is first looked for under another Lucide name. Only if there is none, a custom icon is drawn in the same style (24 grid, round caps and joins), kept in the project's own icon folder, and named to the user (SCP-4).
 - *May:* native apps use the platform's system symbols (SF Symbols on Apple platforms, Material Symbols on Android) for standard system actions such as share or back. Do not mix two icon sets within one component or toolbar.
 - An icon that carries meaning has a text label or an accessible name (ACC-8). Icon-only buttons are kept to actions everyone recognises (close, back, search, more). An icon-only navigation rail is allowed only because it opens with its labels (CMP-11); each rail icon also has an accessible name and a tooltip.
 

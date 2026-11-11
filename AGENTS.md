@@ -13,6 +13,7 @@ You were pointed at this directory because the user is building a product (web o
    - `policy/UI-6-content.md` (CNT): wording, dates and times, numbers and units, translation, right-to-left text
 2. **How to build:** `guides/IMPLEMENTATION.md`: setting up a project, the tokens, platform mapping, the web markup.
 3. **The values:** `tokens/design-tokens.json` (or `tokens/DESIGN-TOKENS.md`). Never type a value from memory (SCP-3).
+4. **Icons:** install or download Lucide from an official release at a pinned version (`guides/IMPLEMENTATION.md` section 4b). Never draw or retype an icon from memory (FND-12).
 
 If a policy says it has moved to Jira (`policy/README.md` lists the ticket keys), read the live ticket. If you cannot reach Jira, use the copy here and tell the user it may be out of date.
 

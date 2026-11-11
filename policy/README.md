@@ -63,7 +63,7 @@ All of these are written into the clauses listed.
 | One red for errors, destructive actions and critical clinical results, told apart by icon and wording | FND-3 |
 | Phone layouts: content gets more concise, not smaller; bottom tab bar with icon and short label; lists as cards; "Load more" instead of pages; dialogs as bottom sheets | FND-16 |
 | Toasts stay at least 6 seconds, pause on hover or focus, and are announced to screen readers | CMP-17 |
-| Icon set: Lucide at 1.8 stroke; platform system symbols allowed on native for standard actions | FND-12 |
+| Icon set: Lucide at 1.8 stroke, always taken from an official Lucide release at a pinned version, never drawn from memory; platform system symbols allowed on native for standard actions | FND-12 |
 | Wording: sentence case, verb-first buttons, plain error messages, one term per thing | CNT-4 |
 | Translation and right-to-left text follow the W3C Internationalization best practices, BCP 47, Unicode CLDR and the Unicode Bidirectional Algorithm | CNT-5, CNT-6 |
 | Units follow SI and ISO 80000-1 | CNT-3 |

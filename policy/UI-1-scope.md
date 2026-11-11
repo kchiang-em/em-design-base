@@ -39,7 +39,7 @@ EncoreMed products should look and behave like one family, whatever platform the
 3. run the code check that the implementation provides and the browser check (SCP-12) as part of this, and fix every error; read every warning and note, and fix it or explain it;
 4. report which policies were checked, what the checks found, any clause not met and why, and anything added or changed beyond the baseline.
 
-Clauses that are easy to miss (examples, not the scope): dates and times in the ISO default or the user's chosen setting (CNT-1, CNT-2); singular and plural forms, never "(s)" (CNT-4); redundancy (FND-19); text under 13 (FND-7); a field rebuilt or a focus ring flashing while typing (ACC-12); content running past its container (FND-18); every value from a token (SCP-3); the five control states (ACC-1); keyboard use (ACC-8); contrast (ACC-6); confirmation before a destructive action (CMP-21).
+Clauses that are easy to miss (examples, not the scope): dates and times in the ISO default or the user's chosen setting (CNT-1, CNT-2); singular and plural forms, never "(s)" (CNT-4); redundancy (FND-19); text under 13 (FND-7); a field rebuilt or a focus ring flashing while typing (ACC-12); content running past its container (FND-18); every value from a token (SCP-3); the five control states (ACC-1); keyboard use (ACC-8); contrast (ACC-6); confirmation before a destructive action (CMP-21); icons taken from an official Lucide release, not drawn from memory (FND-12).
 
 **SCP-10 Never weaken a check.** *Must.* Do not edit, disable or bypass a conformance check to make it pass. Fix the work, or explain the deviation to the user.
 

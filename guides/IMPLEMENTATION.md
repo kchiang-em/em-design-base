@@ -81,6 +81,15 @@ Tokens come in three tiers, each built from the one before:
 - **Tabular figures:** on web, `font-variant-numeric: tabular-nums` (already set on tables, pagination and readings in the reference); on native, the platform's monospaced-digits option.
 - Only Regular (400) and Bold (700) are used, and every size comes from the `text-*` tokens, so layouts hold with the fallback.
 
+## 4b. Icons (FND-12)
+
+Use Lucide from an official release. Never draw, type or approximate an icon from memory: install or download it, pinned to one version, and pick icons by their name on https://lucide.dev/icons.
+- **Web with a build step:** add Lucide's package for the framework (`lucide-react`, `lucide-vue-next`, `lucide-svelte`, `lucide-angular`, or `lucide` for plain JavaScript) with an exact version, and set its stroke width to 1.8 and size to 20 (24 grid), with the colour from `currentColor`.
+- **Web without a build step:** download the SVG files you need from the same published release (the `lucide-static` package, `icons/<name>.svg`) into the project's `icons/` folder, keep Lucide's licence with them, and set `stroke-width="1.8"` on each.
+- **Native:** use Lucide's package for the platform where one exists (for example `lucide-react-native`), or import the SVG files from the same release into the platform's asset catalogue as vector assets. Standard system actions may use the platform's own symbols (FND-12).
+- Record the Lucide version the project uses (in its dependency file, or a note beside the `icons/` folder), so a later update is deliberate.
+- If Lucide has no suitable icon under any name, follow FND-12: draw one in the same style, keep it in the project's `icons/` folder, and tell the user.
+
 ## 5. Translating to a platform
 
 | Baseline | Web | iOS (SwiftUI/UIKit) | Android (Compose/Views) | Desktop / cross-platform |
