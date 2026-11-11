@@ -2025,6 +2025,17 @@
       "$type": "dimension",
       "$group": "sidebar: collapsed rail, expanded panel, toggle button"
     },
+    "nav-badge-offset": {
+      "$value": "-5px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "collapsed rail: the badge overhangs the item's top-right corner so it does not cover the icon"
+    },
+    "nav-badge-ring": {
+      "$value": "2px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
     "nav-toggle-icon-size": {
       "$value": "20px",
       "$type": "dimension",

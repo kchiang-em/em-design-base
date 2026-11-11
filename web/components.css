@@ -129,7 +129,9 @@ svg { flex-shrink: 0; }
 .nav-item.active { color: var(--nav-fg-hover); background: var(--nav-bg-active); box-shadow: inset var(--nav-edge-width) 0 var(--nav-edge-active), var(--nav-shadow-active); }
 .nav-item.active:focus-visible { box-shadow: inset var(--nav-edge-width) 0 var(--nav-edge-active), var(--btn-focus-ring); }   /* keep the focus ring on the current page's item */
 .nav-badge { margin-left: auto; border-radius: var(--radius-md); background: var(--white-10); padding: var(--space-2xs) var(--space-sm); font-size: var(--text-xs); }
-.app-shell:not(.nav-expanded) .nav-badge { position: absolute; top: 6px; right: 6px; margin: 0; padding: 0 5px; min-width: var(--nav-badge-min-w); height: var(--nav-badge-h); line-height: var(--nav-badge-h); text-align: center; background: var(--nav-badge-collapsed-bg); color: var(--nav-badge-collapsed-fg); }
+/* collapsed rail: the badge sits on the item's top-right corner, clear of the icon, with a ring in the sidebar colour to separate it */
+.app-shell:not(.nav-expanded) .nav-item:has(.nav-badge) { overflow: visible; }
+.app-shell:not(.nav-expanded) .nav-badge { position: absolute; top: var(--nav-badge-offset); right: var(--nav-badge-offset); box-shadow: 0 0 0 var(--nav-badge-ring) var(--brand-600); margin: 0; padding: 0 5px; min-width: var(--nav-badge-min-w); height: var(--nav-badge-h); line-height: var(--nav-badge-h); text-align: center; background: var(--nav-badge-collapsed-bg); color: var(--nav-badge-collapsed-fg); }
 .sidebar__foot { position: relative; border-top: 1px solid var(--white-10); padding: var(--space-lg) var(--nav-rail-inset); }
 .profile { display: flex; align-items: center; gap: var(--space-sm); width: 100%; min-height: var(--nav-profile-h); margin-bottom: var(--space-md); padding: 0 var(--nav-profile-inset); border-radius: var(--profile-btn-radius); text-align: left; color: inherit; overflow: hidden; transition: background var(--control-transition); }
 .profile:hover { background: var(--profile-btn-bg-hover); }

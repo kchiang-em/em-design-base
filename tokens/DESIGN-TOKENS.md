@@ -562,6 +562,8 @@
 | `--nav-badge-collapsed-fg` | `var(--white)` | `#ffffff` |
 | `--nav-badge-min-w` | `18px` |  |
 | `--nav-badge-h` | `18px` |  |
+| `--nav-badge-offset` | `-5px` <br><sub>collapsed rail: the badge overhangs the item's top-right corner so it does not cover the icon</sub> |  |
+| `--nav-badge-ring` | `2px` |  |
 | `--nav-toggle-icon-size` | `20px` |  |
 | `--nav-toggle-h` | `var(--nav-item-h)` | `44px` |
 | `--nav-toggle-bg` | `var(--accent-500)` | `#16ad85` |
