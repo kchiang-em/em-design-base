@@ -278,6 +278,8 @@ Show at most **5 page numbers** in a sliding window (`First` and `Last` jump to 
   <div class="sheet-actions"><button type="button" class="secondary-btn">Clear all</button><button type="button" class="primary-btn">Show 10 residents</button></div>
 </div></div>
 ```
+**Safe area:** pages that may run full screen on a phone (added to the home screen, or inside a native app's web view) need `viewport-fit=cover` in the viewport tag: `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">`. The phone rules in `components.css` then pad the page header, content, tab bar, sheets and toasts with `env(safe-area-inset-*)`, so nothing sits under the status bar, notch or home indicator. Native apps use the platform's safe-area layout (SwiftUI safe areas, Android window insets).
+
 The tab bar needs no extra markup: on phones the sidebar markup in "Page shell and sidebar" becomes it. Add `<span class="profile__tab-label">Account</span>` inside `.profile`, and a `.profile-menu-item--phone` Sign out item in the staff menu.
 
 ### Status, banner, cards, modal, toast, loading

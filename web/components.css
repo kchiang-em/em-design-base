@@ -274,7 +274,7 @@ svg { flex-shrink: 0; }
   /* the sidebar becomes a bottom tab bar: one tab per destination, icon and a short label */
   .app-shell, .app-shell.nav-expanded, .app-shell.nav-auto { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; height: 100dvh; }
   .main { grid-row: 1; display: flex; min-height: 0; flex-direction: column; }
-  .app-shell .sidebar { grid-row: 2; width: auto; flex-direction: row; align-items: stretch; box-shadow: none; padding-bottom: env(safe-area-inset-bottom); }
+  .app-shell .sidebar { grid-row: 2; width: auto; flex-direction: row; align-items: stretch; box-shadow: none; padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }   /* the navy reaches the screen edges; the tabs stay inside the safe area */
   .sidebar__logo, .sidebar__toggle-row, .sidebar__foot > .nav-item, .profile__who { display: none; }
   .sidebar__nav { display: flex; flex: 2; min-height: 0; margin: 0; overflow: visible; padding: 0; }
   .sidebar__nav > * + * { margin-top: 0; }
@@ -292,8 +292,9 @@ svg { flex-shrink: 0; }
   .profile-menu-item { min-height: var(--control-h-2xl); }
   .profile-menu-item--phone { display: flex; }
   /* page */
-  .page-header { min-height: 0; flex-wrap: wrap; gap: var(--space-sm); padding: var(--space-lg); }
-  .content-scroll { flex: 1; height: auto; min-height: 0; padding: var(--space-lg); }
+  /* safe area (FND-16): content stays clear of the status bar, notch and rounded corners when the page runs full screen; backgrounds still reach the edges */
+  .page-header { min-height: 0; flex-wrap: wrap; gap: var(--space-sm); padding: calc(var(--space-lg) + env(safe-area-inset-top)) calc(var(--space-lg) + env(safe-area-inset-right)) var(--space-lg) calc(var(--space-lg) + env(safe-area-inset-left)); }
+  .content-scroll { flex: 1; height: auto; min-height: 0; padding: var(--space-lg) calc(var(--space-lg) + env(safe-area-inset-right)) var(--space-lg) calc(var(--space-lg) + env(safe-area-inset-left)); }
   .section-head { flex-direction: column; align-items: flex-start; gap: var(--space-md); }
   .filter-field, .ms__search-input, .field { font-size: var(--text-base); }   /* 16 or more, so the browser does not zoom in on focus */
   .icon-button { width: var(--control-h-xl); height: var(--control-h-xl); }
@@ -309,6 +310,6 @@ svg { flex-shrink: 0; }
   .modal-actions, .modal-actions--end { display: grid; grid-template-columns: 1fr; }
   .modal-actions > * { min-height: var(--control-h-xl); }
   /* toasts sit above the tab bar, full width */
-  .toast { left: var(--space-lg); right: var(--space-lg); bottom: calc(var(--nav-tab-h) + var(--space-lg) + env(safe-area-inset-bottom)); }
+  .toast { left: calc(var(--space-lg) + env(safe-area-inset-left)); right: calc(var(--space-lg) + env(safe-area-inset-right)); bottom: calc(var(--nav-tab-h) + var(--space-lg) + env(safe-area-inset-bottom)); }
 }
 

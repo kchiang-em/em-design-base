@@ -87,6 +87,7 @@ Lighter and darker shades of these colours, used for hover, tinted backgrounds a
 - **Dialogs** become bottom sheets at full width (CMP-16 behaviour still applies).
 - **The main action** of a screen stays reachable at the bottom of the screen.
 - Touch targets stay at least 44×44 (ACC-9). Icon-only controls follow FND-12.
+- **Safe area:** content and controls stay inside the device's safe area, clear of the status bar, the notch or camera cut-out, the home indicator and rounded corners, in portrait and landscape. Backgrounds (the page header, the tab bar, sheets) may extend under them to the screen edge.
 
 **FND-17 Chart colours.** The chart colours are chosen per project. *Should:* start from this default set, used in this order for categories (series, segments). Colours 1 to 4 are the official palette and the colour-blind-safe set 02; colours 5 to 7 are derived from the same families to reach 3:1:
 
