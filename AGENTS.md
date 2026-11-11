@@ -16,6 +16,8 @@ You were pointed at this directory because the user is building a product (web o
 
 If a policy says it has moved to Jira (`policy/README.md` lists the ticket keys), read the live ticket. If you cannot reach Jira, use the copy here and tell the user it may be out of date.
 
+**About `web/`:** `tokens.css` and `components.css` are the shared baseline: use them. The screens in `app.js` are only a reference: they show one way to meet the policies. Design the user's layouts as their product needs; any layout is fine as long as it complies with the policies (SCP-8). Never copy the demo's data or names.
+
 ## 2. Special cases
 
 - **The user gives you colour codes or a logo, or asks to re-colour, re-brand or re-theme:** stop and follow `guides/THEMING.md` step by step. Do not edit colours by hand, and do not change `tokens.css` or `components.css`.

@@ -28,7 +28,10 @@ EncoreMed products should look and behave like one family, whatever platform the
 
 **SCP-7 When sources disagree.** *Must.* The UI policies decide the rules. The design tokens are the implemented values. The user's request decides what to build. When two of them disagree, do not silently follow whichever is easier: tell the user about the mismatch and what you chose.
 
-**SCP-8 No demo content.** *Must.* Do not copy the demo data, names or screens of a reference implementation into a product. Reference implementations show patterns, not content.
+**SCP-8 The reference is an example, not a template.** The reference implementation (the screens and behaviour in `web/`) shows one way to meet the policies. It is a source to learn from, not a layout to reproduce.
+- *May:* design a product's own layouts, screens and flows as its users and content need, as long as the result complies with the policies. A layout that differs from the reference is not a deviation; a layout that breaks a clause is.
+- *Must:* the shared values and component styles (the design tokens and `components.css`, or their native equivalents) are still used (SCP-3). Only the arrangement is free; the look comes from the baseline.
+- *Must:* do not copy the demo data, names or screens of a reference implementation into a product. Reference implementations show patterns, not content.
 
 **SCP-9 Check the work against the policies before calling it done.** *Must.* Before work is reported as done:
 1. go through the policies (UI-1 to UI-6, and the engineering policies listed in SCP-11) and check the work against **every clause that applies** to the screens and components that were built or changed, by any method (reading the screens, the code or their text, or a script of one's own). A clause applies when the work contains what it governs: a table edit brings in the table, text, colour, content and accessibility clauses, not the sign-in or theming ones;

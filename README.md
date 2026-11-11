@@ -14,7 +14,7 @@ The package separates **rules** from **implementation**:
 | `guides/` | **how to build**: the implementation guide and the client theming procedure. They cite clause IDs and do not restate the rules. | the way of implementing changes |
 | `tokens/` | **the values**: `design-tokens.json` (every value, for any platform) and a readable copy. A product keeps its own tokens, including a client's colours, in its own `app-tokens.css` or `app-tokens.json` | a value changes |
 | `tools/` | **the scripts**: the conformance checker (`guard.py`) and the theme helpers. Their messages cite clause IDs. | a check or helper changes |
-| `web/` | **the web reference implementation**: CSS and the JS behaviour patterns | the web reference changes |
+| `web/` | **the web reference implementation**: the shared CSS (`tokens.css`, `components.css`) that products use, and example screens and behaviour (`app.js`) that are a reference only. Products design their own layouts, as long as they comply with the policies (SCP-8) | the web reference changes |
 
 `AGENTS.md` tells an AI assistant what to read, in what order.
 
