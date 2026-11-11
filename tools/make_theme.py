@@ -18,6 +18,8 @@ Colours (hex: #RGB or #RRGGBB):
   --text        body text colour                                                      -> em-grey-dark   (default: unchanged)
   --muted-text  secondary text and labels                                             -> em-slate       (default: unchanged)
   --background  page background                                                       -> em-grey-light  (default: unchanged)
+  --accent      the client's accent colour, replacing the EncoreMed brand green: navigation edge and toggle,
+                logo tile, switch on, level bars                                      -> em-green-core + accent-* shades (default: unchanged)
   --extra NAME=HEX   another client colour with no EncoreMed role                     -> --client-NAME (repeatable)
 Output:
   --css PATH    write the block into this CSS token file (usually app-tokens.css; created if missing)
@@ -87,7 +89,10 @@ END = "/* <<< brand colours */"
 BEGIN_RE = re.compile(r"/\* >>> brand colours.*?<<< brand colours \*/", re.S)
 
 WHITE = (255, 255, 255)
-GREEN_STATUS = parse_hex("#16ad85")   # accent-500: the EncoreMed brand green; the sidebar toggle label sits on it in dark brand navy
+BRAND_GREEN = parse_hex("#16ad85")   # accent-500: the EncoreMed brand green; the sidebar toggle label sits on it in dark brand navy
+# How the accent shades are derived from the accent colour (they reproduce the EncoreMed green family from #16AD85)
+ACCENT_TINTS = {"accent-50": 0.10, "accent-100": 0.23, "em-mint": 0.45, "em-green-soft": 0.80}
+ACCENT_DARKER = {"accent-600": 0.82, "accent-700": 0.68}
 STATUS_HUES = {"red (error)": 0, "orange (warning)": 29, "green (positive)": 142}   # danger-600, warning-600, success-600
 
 # How each brand shade is derived from the primary colour. The numbers reproduce the EncoreMed navy scale from #023C6E.
@@ -103,6 +108,7 @@ def main(argv=None):
     ap.add_argument("--text")
     ap.add_argument("--muted-text", dest="muted")
     ap.add_argument("--background")
+    ap.add_argument("--accent")
     ap.add_argument("--extra", action="append", default=[], metavar="NAME=HEX")
     ap.add_argument("--css")
     ap.add_argument("--json")
@@ -113,7 +119,7 @@ def main(argv=None):
     try:
         primary = parse_hex(a.primary)
         given = {k: parse_hex(v) for k, v in (("secondary", a.secondary), ("heading", a.heading), ("text", a.text),
-                                               ("muted", a.muted), ("background", a.background)) if v}
+                                               ("muted", a.muted), ("background", a.background), ("accent", a.accent)) if v}
         extras = {}
         for e in a.extra:
             if "=" not in e:
@@ -163,22 +169,30 @@ def main(argv=None):
         colours["em-slate"] = given["muted"]
     if "background" in given:
         colours["em-grey-light"] = given["background"]
+    accent = given.get("accent", BRAND_GREEN)
+    if "accent" in given:   # the brand green family (not the status green, which never changes)
+        colours["em-green-core"] = accent
+        colours["em-green"] = accent
+        for name, t in ACCENT_TINTS.items():
+            colours[name] = mix_white(accent, t)
+        for name, k in ACCENT_DARKER.items():
+            colours[name] = scale_lightness(accent, k)
 
     # 2. contrast checks on the pairs the design relies on
     checks = [("white text on the secondary colour (active navigation item)", WHITE, colours["em-blue"]),
               ("white text on the darker hover shade", WHITE, colours["brand-700"]),
               ("headings on white", colours["em-navy"], WHITE)]
-    # the sidebar toggle label is dark brand text on the status green (which cannot change): keep it readable
+    # the sidebar toggle label sits on the accent (brand green by default): keep it readable, white if the accent is dark
     toggle_fg = None
-    if contrast(colours["brand-800"], GREEN_STATUS) < 4.5:
-        for cand in (colours["brand-900"], colours["brand-950"], (10, 10, 10)):
-            if contrast(cand, GREEN_STATUS) >= 4.5:
+    if contrast(colours["brand-800"], accent) < 4.5:
+        for cand in (colours["brand-900"], colours["brand-950"], (10, 10, 10), WHITE):
+            if contrast(cand, accent) >= 4.5:
                 toggle_fg = cand
                 break
         if toggle_fg is None:
-            problems.append("no dark colour reads on the brand green for the sidebar toggle label (should not happen)")
+            problems.append(f"no text colour reads on the accent {to_hex(accent)} for the sidebar toggle label: pick a lighter or darker accent")
         else:
-            notes.append(f"[THM-6] the sidebar toggle label (on the brand green) was darkened to {to_hex(toggle_fg)} so it keeps 4.5:1.")
+            notes.append(f"[THM-6] the sidebar toggle label (on the accent colour) was set to {to_hex(toggle_fg)} so it keeps 4.5:1.")
     base_text, base_bg = parse_hex("#3a3a3c"), colours.get("em-grey-light", parse_hex("#f2f2f2"))
     checks.append(("body text on the page background", colours.get("em-grey-dark", base_text), base_bg))
     checks.append(("secondary text on the page background", colours.get("em-slate", parse_hex("#4c6173")), base_bg))
@@ -188,13 +202,16 @@ def main(argv=None):
             problems.append(f"{label}: {r:.2f}:1 (needs 4.5:1)")
 
     # 3. a brand colour close to a status colour is allowed, but worth telling the user
-    h = hls(primary)[0] * 360
-    for label, hue in STATUS_HUES.items():
-        d = min(abs(h - hue), 360 - abs(h - hue))
-        if d <= 20 and hls(primary)[2] > 0.25:
-            notes.append(f"[THM-9] primary hue is close to the status colour {label}. Allowed, but the status colours cannot change, so errors or "
-                         f"warnings may look like the brand. Do not rely on colour alone: keep icons and text labels on status messages. Tell the user.")
-            break
+    for which, col in (("primary", primary), ("accent", given.get("accent"))):
+        if col is None:
+            continue
+        h = hls(col)[0] * 360
+        for label, hue in STATUS_HUES.items():
+            d = min(abs(h - hue), 360 - abs(h - hue))
+            if d <= 20 and hls(col)[2] > 0.25:
+                notes.append(f"[THM-9] {which} hue is close to the status colour {label}. Allowed, but the status colours cannot change, so status "
+                             f"messages may look like the brand. Do not rely on colour alone: keep icons and text labels on status messages. Tell the user.")
+                break
 
     if problems:
         print("ERROR [THM-6]: the colours do not meet the design's contrast rules:")
@@ -206,7 +223,12 @@ def main(argv=None):
     # 4. write the theme
     names = {f"--{k}": to_hex(v) for k, v in colours.items()}
     if toggle_fg is not None:
-        names["--nav-toggle-fg"] = names["--nav-toggle-fg-hover"] = to_hex(toggle_fg)
+        names["--nav-toggle-fg"] = to_hex(toggle_fg)
+    # on hover the toggle turns to the light accent tint: its label must read there too
+    hover_bg = colours.get("accent-100", parse_hex("#c9eee1"))
+    hover_fg = next((c for c in (toggle_fg or colours["brand-800"], colours["brand-800"], colours["brand-900"], (10, 10, 10)) if contrast(c, hover_bg) >= 4.5), None)
+    if hover_fg is not None and (toggle_fg is not None or "accent" in given):
+        names["--nav-toggle-fg-hover"] = to_hex(hover_fg)
     # shadows are tinted with the brand colour in the baseline: keep their shape, change the tint.
     # (The focus ring needs no entry: it is drawn from --white and --brand-600, so it follows the theme by itself.)
     prgb, drgb = " ".join(str(round(v)) for v in primary), " ".join(str(round(v)) for v in colours["brand-900"])
@@ -220,7 +242,10 @@ def main(argv=None):
              "brand-400": "primary, interactive accent (focus border)", "brand-700": "primary, hover shade", "brand-800": "primary, dark surface",
              "brand-900": "primary, darker surface", "brand-950": "primary, darkest", "em-grey-dark": "body text",
              "em-slate": "secondary text and labels", "em-grey-light": "page background",
-             "nav-toggle-fg": "label on the sidebar toggle (kept readable on the brand green)",
+             "nav-toggle-fg": "label on the sidebar toggle (kept readable on the accent)",
+             "em-green-core": "accent (navigation edge and toggle, logo tile)", "em-green": "accent: switch on, level bars",
+             "accent-50": "accent, very light tint", "accent-100": "accent, light tint (toggle hover)", "em-mint": "accent, soft tint (badge text on navy)",
+             "em-green-soft": "accent, softened (decorative marks)", "accent-600": "accent, darker", "accent-700": "accent, darkest",
              "nav-toggle-fg-hover": "label on the sidebar toggle, hover",
              "shadow-md": "raised surfaces (brand tint)",
              "shadow-lg": "dialogs (dark brand tint)", "shadow-brand": "primary button shadow (brand tint)"}
@@ -256,7 +281,7 @@ def main(argv=None):
     print("\nBrand colours written. Mapping (use this in your report to the user):")
     for k, v in names.items():
         print(f"  {k[2:]:<14} {v}   {roles.get(k[2:], 'extra client colour')}")
-    print("\nUnchanged on purpose: the status colours (red, orange, green, information blue; THM-3), the brand green (change it only if the client asks), and every non-colour token (THM-4).")
+    print("\nUnchanged on purpose: the status colours (red, orange, green, information blue; THM-3), the brand green unless --accent was given, and every non-colour token (THM-4).")
     for n in notes:
         print("NOTE:", n)
     print("Next: make sure every page loads app-tokens.css right after tokens.css (web), or generate your platform's colours from "

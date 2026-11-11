@@ -17,7 +17,7 @@ People read EncoreMed products quickly, often under pressure, and sometimes in a
 - **Extended format** on screen: `14:30`, with seconds only when they matter (`14:30:05`). **Basic format** (`143005`) only in compact identifiers.
 - **Date and time together:** in data exchange, files and logs, the full form with a time-zone offset: `2026-11-11T14:30:00+08:00` (basic: `20261111T143000+0800`). On screen, date and time may be separated by a space for readability: `2026-11-11 14:30`.
 - Show the time zone or offset when the people reading a time may be in different time zones.
-- *May:* relative times ("2 min ago") for events in the last 24 hours, with the exact date and time available on the same screen (for example on hover, focus or in a details view).
+- *May:* relative times ("2 min ago") for events in the last 24 hours, always shown together with the exact time: "2 min ago · 15:08", with the date added when it is not today ("3 h ago · 2026-11-10 23:50"). The exact time is visible, not only on hover: hover does not exist on touch screens or for keyboard users.
 
 **CNT-3 Numbers and units.** *Must.* Rounding of decimal values follows EE-52 (SCP-11). Units follow the SI and ISO 80000-1 conventions: a space between the number and the unit symbol (`120 mmHg`, `36.8 °C`, `72 kg`), and the unit's official symbol, never an invented abbreviation.
 

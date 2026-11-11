@@ -318,59 +318,90 @@
       "$type": "color",
       "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background"
     },
+    "avatar-tint-1": {
+      "$value": "{info-100}",
+      "$type": "color",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
+      "$resolved": "#d7e7f7"
+    },
+    "avatar-tint-2": {
+      "$value": "#e7ddf4",
+      "$type": "color",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker."
+    },
+    "avatar-tint-3": {
+      "$value": "#f8e1d8",
+      "$type": "color",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker."
+    },
+    "avatar-tint-4": {
+      "$value": "#dcebe4",
+      "$type": "color",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker."
+    },
+    "avatar-tint-5": {
+      "$value": "#f1e5d5",
+      "$type": "color",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker."
+    },
+    "avatar-tint-6": {
+      "$value": "#e1e7f4",
+      "$type": "color",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker."
+    },
     "chart-surface": {
       "$value": "{white}",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$resolved": "#ffffff",
       "$description": "what is BEHIND the charts: the card, or the page background when charts are transparent. Contrast is checked against it"
     },
     "chart-1": {
       "$value": "{em-navy-core}",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$resolved": "#023c6e"
     },
     "chart-2": {
       "$value": "#de6872",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$description": "coral"
     },
     "chart-3": {
       "$value": "#256d73",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$description": "dark teal"
     },
     "chart-4": {
       "$value": "#a6678c",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$description": "plum"
     },
     "chart-5": {
       "$value": "#119d78",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$description": "brand green, darkened to 3.4:1"
     },
     "chart-6": {
       "$value": "#5b92a7",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$description": "teal, darkened to 3.4:1"
     },
     "chart-7": {
       "$value": "#8567cc",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$description": "violet (4.4:1); mint cannot reach 3:1 without becoming another green"
     },
     "chart-other": {
       "$value": "#737373",
       "$type": "color",
-      "$group": "Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background",
+      "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
       "$description": "neutral grey for \"Other\", totals and reference lines (slate looks like chart-3 to colour-blind readers)"
     },
     "white-10": {
@@ -399,9 +430,10 @@
       "$group": "white overlays (sidebar, login panel)"
     },
     "font-sans": {
-      "$value": "\"Acumin Variable Concept\", \"Acumin Pro\", Arial, \"Helvetica Neue\", Helvetica, sans-serif",
+      "$value": "\"Public Sans\", Arial, \"Helvetica Neue\", Helvetica, sans-serif",
       "$type": "fontFamily",
-      "$group": "type"
+      "$group": "type",
+      "$description": "FND-5 default: open licence; the files are downloaded into fonts/ (see components.css)"
     },
     "text-xs": {
       "$value": "13px",
@@ -1307,7 +1339,7 @@
       "$value": "1100px",
       "$type": "dimension",
       "$group": "pagination: text variant (labelled First / Previous / Next / Last; icon-only below the compact breakpoint)",
-      "$description": "documentation token: CSS media queries cannot read custom properties, so components.css repeats this value (export_tokens.py checks they match)"
+      "$description": "documentation token: CSS media queries cannot read custom properties, so components.css repeats this value (the token export checks they match)"
     },
     "dd-trigger-h-sm": {
       "$value": "{control-h-sm}",
@@ -1849,6 +1881,42 @@
       "$value": "200ms",
       "$type": "duration",
       "$group": "sidebar: collapsed rail, expanded panel, toggle button"
+    },
+    "nav-hover-open-delay": {
+      "$value": "150ms",
+      "$type": "duration",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "mouse: how long the pointer rests on the rail before it opens (CMP-11)"
+    },
+    "nav-hover-close-delay": {
+      "$value": "300ms",
+      "$type": "duration",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "mouse: how long after the pointer leaves before it closes"
+    },
+    "phone-breakpoint": {
+      "$value": "767px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "documentation token: phones are narrower than 768px (FND-16); the token export checks it matches the @media query in components.css"
+    },
+    "nav-tab-h": {
+      "$value": "56px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "phones: height of the bottom tab bar (FND-16)"
+    },
+    "nav-tab-label-size": {
+      "$value": "{text-xs}",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$resolved": "13px"
+    },
+    "nav-tab-avatar-size": {
+      "$value": "28px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "phones: the account tab's avatar; initials stay at the 13px minimum (FND-7)"
     },
     "nav-icon-size": {
       "$value": "20px",

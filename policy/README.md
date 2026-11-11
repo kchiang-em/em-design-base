@@ -69,6 +69,8 @@ All of these are written into the clauses listed.
 | Units follow SI and ISO 80000-1 | CNT-3 |
 | The engineering policies are authoritative; the UI policies follow their changes without a separate decision. Policy reviews happen when needed, with no fixed cadence | SCP-11 |
 | Every destructive action asks for confirmation in a dialog that starts on Cancel | CMP-21 |
+| Sidebar: with a mouse it opens over the page on hover or keyboard focus; on touch screens the toggle button controls it; a long item list scrolls while the toggle and profile stay in place | CMP-11 |
+| The typeface is chosen per product; the default is Public Sans (open licence, downloaded by each project from its official source; chosen over Archivo because Archivo's capital I and lower-case l are identical). Acumin is allowed with a suitable licence; any face must meet FND-5: one family in Regular and Bold, distinct I / l / 1 and O / 0, tabular figures, a licence that covers the use | FND-5, FND-6 |
 | A client's colours live in the project's own token file (`app-tokens`) as overrides of the brand tokens; there is no separate theme file | THM-1 |
 | All chart colours (categories and scales) are chosen per project. The default set (the official palette and the colour-blind-safe set 02, plus three derived colours) is a starting point; any set must reach 3:1 against whatever is behind the chart (charts may be transparent), stay distinct for colour-blind readers and avoid the status colours | FND-17 |
 

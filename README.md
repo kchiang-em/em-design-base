@@ -24,7 +24,7 @@ The package separates **rules** from **implementation**:
 
    > Use the EncoreMed design baseline in `<path to this directory>`. Read `AGENTS.md` and follow it. We are building `<what, and on which platform>`. When you finish, run the guard as `AGENTS.md` describes and report what it says.
 
-2. **Web product:** copy `web/tokens.css` and `web/components.css` into your project (`guides/IMPLEMENTATION.md` section 2 has the stylesheet order and section 7 the markup).
+2. **Web product:** copy `web/tokens.css` and `web/components.css` into your project and download the default font, Public Sans (`guides/IMPLEMENTATION.md` section 4) (`guides/IMPLEMENTATION.md` section 2 has the stylesheet order and section 7 the markup).
 3. **Native or other product:** generate your platform's constants from `tokens/design-tokens.json`, then build screens from the component clauses in `policy/UI-4-components.md` (`guides/IMPLEMENTATION.md` section 5 maps them to iOS, Android and desktop).
 4. **Changing colours for a client?** Give your assistant the client's colour codes (or the logo file) and tell it to follow `guides/THEMING.md`. Status colours (red, orange, status green, information blue) never change (THM-3).
 5. **Check your work** (needs Python 3, no packages):
@@ -39,8 +39,7 @@ The package separates **rules** from **implementation**:
 
 ## Known limits
 
-- The typeface, Acumin Variable (an Adobe font), is not included because its licence controls the files (FND-6). Ask your team lead or the brand team whether EncoreMed holds a licence and what kind. Until then use Arial on web and the system font on native.
-- Phone layouts are defined as rules (FND-16) but the web reference does not implement them yet. There is no dark mode (FND-15).
+- There is no dark mode (FND-15).
 - The checker covers colours (every platform) and CSS (web). Layout, markup and behaviour need the hand checks in SCP-9.
 
 ## For maintainers

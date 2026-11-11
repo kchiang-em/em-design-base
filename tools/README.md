@@ -1,14 +1,13 @@
 # Tools: conformance checker and theme helpers
 
-These scripts **implement and check** the UI policies in `../policy/`. They contain no rules of their own: when a rule changes, the policy changes first, then the scripts follow. All three need only Python 3, with no packages.
+These scripts **implement and check** the UI policies in `../policy/`. They contain no rules of their own: when a rule changes, the policy changes first, then the scripts follow. Both need only Python 3, with no packages.
 
 | Script | What it does | Implements |
 |---|---|---|
 | `guard.py` | checks a project against the policies and the baseline, and reports what it finds | SCP-9 (the automated part) |
 | `make_theme.py` | turns a client's colour codes into brand-colour overrides: derives the shades, checks contrast, and writes them into the project's `app-tokens.css` or `app-tokens.json` (a block it replaces on every run) | UI-5 (THM-1, THM-5, THM-6, THM-9) |
-| `logo_colours.py` | measures the colours in a client's logo file (SVG or PNG; JPEG and others with Pillow) and suggests a `make_theme.py` command | THM-10 |
 
-The theme procedure that uses the last two is in `../guides/THEMING.md`.
+The theme procedure that uses `make_theme.py` is in `../guides/THEMING.md`; for a logo, it explains how to measure the colours with a short script.
 
 ## guard.py
 
@@ -46,6 +45,7 @@ It prints `PASS` or `FAIL` and exits with code 1 on any error. **Every message s
 | SCP-5 | the project overrides a baseline size, spacing or other non-colour token | any | warning |
 | SCP-4 | a new project token whose name looks like a misspelt baseline token | any | warning |
 | THM-5 | the main brand colour changed without its shades | any | warning |
+| FND-5 | a local file a stylesheet needs is missing, such as the default font in `fonts/` (download it, implementation guide section 4) | web | warning |
 | [web] | stylesheet load order; `!important`, `@import` and external URLs on the developer's lines; stale `design-tokens.json` when `export_tokens.py` is in the project | web | error or warning |
 
 ### What it cannot check

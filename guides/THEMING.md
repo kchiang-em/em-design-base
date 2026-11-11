@@ -50,6 +50,7 @@ python3 <handoff directory>/tools/make_theme.py --primary "<hex>" [options] --js
 | `--text` | body text | `em-grey-dark` (default: unchanged) |
 | `--muted-text` | secondary text and labels | `em-slate` (default: unchanged) |
 | `--background` | page background | `em-grey-light` (default: unchanged) |
+| `--accent` | the client's accent colour, replacing the EncoreMed brand green: navigation edge and toggle, logo tile, switch on, level bars. Never a status colour | `em-green-core` and the accent shades (default: unchanged) |
 | `--extra name=hex` | another client colour with no EncoreMed role (repeat as needed) | a new token `--client-<name>` |
 | `--adjust` | primary is too light for white text: darken it until it passes (otherwise the tool stops and suggests a colour) | |
 
@@ -91,29 +92,30 @@ python3 <handoff directory>/tools/guard.py <project folder>
 | one colour | it is the **primary** |
 | two colours, labelled "primary" and "secondary" | use the labels |
 | two unlabelled colours | the darker or more saturated one is the primary, the other is the secondary. **Say which you assumed.** |
-| three or more colours | very light neutral becomes `--background`; dark neutral becomes `--text`; the main brand colour is the primary; a second brand colour is the secondary; **every other colour becomes an `--extra`**. Do not invent roles for them. |
+| three or more colours | very light neutral becomes `--background`; dark neutral becomes `--text`; the main brand colour is the primary; a second brand colour is the secondary; a bright or light brand colour that suits highlights (the role EncoreMed's green plays) can be the `--accent`; **every other colour becomes an `--extra`**. Do not invent roles for them. |
 | "accent" or "highlight" colour | `--extra`, used for decoration or brand emphasis only. Never for a status. |
 | a colour for "success", "error" or "warning" | do not apply it. Explain that status colours are universal (THM-3). |
 | a colour for a specific part ("sidebar blue", "link colour") | the sidebar and links are the primary; a different sidebar colour is a design change, so ask the user. |
-| a logo (SVG or PNG file) instead of colour codes | go to section 3b: extract the colours with `logo_colours.py`, confirm them with the user, then continue |
+| a logo (SVG or PNG file) instead of colour codes | go to section 3b: measure the colours from the file, confirm them with the user, then continue |
 | a gradient, illustration or photo | out of scope for a theme (THM-12): imagery is an asset the client supplies. Tell the user. |
-| a typeface | not part of a colour theme (THM-12): ask the user first (SCP-5; the baseline typeface is FND-5). |
+| a typeface | not part of a colour theme (THM-12). A product may choose its typeface within FND-5: check it against those rules and tell the user. |
 | a request for dark mode | not defined by the baseline (FND-15, THM-12); tell the user it is a separate piece of work. |
 
 When something is genuinely ambiguous (which of two colours is the primary), pick the most likely one, state it, and make it easy to swap by running the tool again.
 
 ## 3b. When the user gives a logo instead of colour codes
 
-A logo is a reliable source of the brand colours, **if you read it with the tool and not by eye**. Colours judged from how an image looks are unreliable (anti-aliasing, JPEG blur, screen colour). Never write a hex code you only estimated (THM-10).
+A logo is a reliable source of the brand colours, **if you measure them from the file and not by eye**. Colours judged from how an image looks are unreliable (anti-aliasing, JPEG blur, screen colour). Never write a hex code you only estimated (THM-10).
 
-1. **Get the file.** You need the logo as a file you can run the tool on, ideally **SVG** (exact colours) or **PNG**. If the user pasted or attached the image in the chat, first check whether your tool saved it to disk (look for a file path in the attachment information, a temporary or attachments folder, or ask your tool): if there is a path, use it. If the image exists only in the conversation and there is no file, you can see it but you cannot measure it, so ask the user to save it and give you the path, or to give you the colour codes. You may look at the image to sanity-check the tool's result, but never use your own visual estimate as the colour value. JPEG, WebP and GIF work only if the Pillow package is installed; otherwise ask for a PNG or SVG. Screenshots of a logo are a weaker source than the logo file itself (they are often recompressed or colour-shifted).
-2. **Run the extractor** from the project folder:
-   ```bash
-   python3 <handoff directory>/tools/logo_colours.py path/to/logo.svg
-   ```
-   It lists the brand colours (most prominent first, with how much of the logo each covers and whether white text is readable on it), the neutrals, and a suggested `make_theme.py` command.
+1. **Get the file.** You need the logo as a file you can read, ideally **SVG** (exact colours) or **PNG**. If the user pasted or attached the image in the chat, first check whether your tool saved it to disk (look for a file path in the attachment information, a temporary or attachments folder, or ask your tool): if there is a path, use it. If the image exists only in the conversation and there is no file, you can see it but you cannot measure it, so ask the user to save it and give you the path, or to give you the colour codes. You may look at the image to sanity-check your measurement, but never use your own visual estimate as the colour value. Screenshots of a logo are a weaker source than the logo file itself (they are often recompressed or colour-shifted).
+2. **Measure the colours with a short script you write** (any language; in Python, the standard library can read SVG, and Pillow, if installed, reads PNG and JPEG). It must:
+   - **SVG:** collect the `fill` and `stroke` colours (hex, `rgb()`, named colours) from attributes and `style`, and count how many shapes use each;
+   - **PNG or JPEG:** count the colours of the opaque pixels;
+   - set aside the background and neutrals: transparent pixels, near-white (lightness above about 93%) and low-saturation greys and blacks (report the neutrals separately; they are usually the wordmark);
+   - merge near-identical colours (anti-aliased edges and JPEG noise are shades of the real colour), and drop groups under about 3% of the coloured pixels;
+   - list the remaining colours, most prominent first, with their hex code, their share of the logo, and the contrast of white text on them (4.5:1 or more means it can be a primary).
 3. **Confirm with the user before applying** (THM-10). The most prominent colour is not always the brand colour, and a logo can contain colours that are not meant for an interface. Show the candidates and your proposed roles in one short message, for example: "Your logo uses #7A1F3D (about 70%) and #F2A900 (about 20%). I plan to use #7A1F3D as the primary and keep #F2A900 as an extra accent colour, because it is too light for white text. Is that right?" If the user said to just use the logo, go ahead, state the assumption, and make it easy to change.
-4. **Run `make_theme.py` with the confirmed colours** and continue with step 3 onwards in section 2.
+4. **Run `make_theme.py` with the confirmed colours** and continue with step 3 onwards in section 2. A colour too light for white text can be the `--accent`, or an `--extra`.
 
 Cases:
 
@@ -134,7 +136,7 @@ Cases:
 | Changes with a theme | Never changes |
 |---|---|
 | primary and its shades (buttons, sidebar, links, focus, hover, dark surfaces, tints) | status colours: red `danger-*`, orange `warning-*`, status green `success-*`, information blue `info-*` |
-| the brand greens (`em-green*`, `em-mint`, `accent-*`), only if the client asks: `make_theme.py` leaves them as they are | |
+| the brand greens (`em-green*`, `em-mint`, `accent-*`), when the client has an accent colour: `make_theme.py --accent` | |
 | secondary (active navigation item, gradients) | sizes, spacing, radii, type scale |
 | headings, text, secondary text, page background (only if the user gave them) | the five control states and their structure |
 | the shadow tints (the focus ring follows the primary automatically) | the amber **pressed** colour, unless the user asks (see below) |
@@ -175,7 +177,7 @@ Report in this order, briefly:
 
 ## 7. Mistakes to avoid
 - Typing a client hex code anywhere except the project's token file.
-- Estimating colours by eye from a logo or screenshot instead of running `logo_colours.py`.
+- Estimating colours by eye from a logo or screenshot instead of measuring them from the file (section 3b).
 - Editing `tokens.css` or `components.css` to change colours, or editing inside the generated block by hand. Run `make_theme.py`.
 - Overriding a status colour because it "looks off" next to the brand colour.
 - Skipping the shades: changing only the primary leaves EncoreMed navy in hover and tinted states (the guard warns about this).

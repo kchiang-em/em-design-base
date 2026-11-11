@@ -57,9 +57,13 @@ Users move between EncoreMed products. The same component should have the same p
 - On narrow screens, the four labelled buttons become icon-only, keeping their accessible names. On phones, pagination follows FND-16.
 
 **CMP-11 Navigation (sidebar).**
-- Two states: an icon **rail** (72 wide) and an expanded **panel** (248 wide), animated over about 200ms (FND-13). *Must:* it changes only from its own toggle button, never on hover, so it works on touch screens.
+- Two states: an icon **rail** (72 wide) and an expanded **panel** (248 wide), animated over about 200ms (FND-13). *Must:* how it opens depends on the input device:
+  - **Mouse or trackpad:** it rests as the rail and opens as a panel *over* the page when the pointer rests on it (about 150ms) or keyboard focus moves into it, and closes about 300ms after the pointer leaves, when focus leaves, or on Escape (WCAG 1.4.13). The page content does not move. There is no toggle button.
+  - **Touch screen:** the toggle button opens and closes it, never hover, and the page content moves over to make room. The choice is remembered.
+  - **Both (a touch laptop):** hovering opens it as on a mouse, and the toggle button pins it open as on touch.
+- *Must:* a long list of items scrolls on its own; the logo, the toggle button and the profile row stay in place, so they are always reachable.
 - Items are 44 tall (44×44 squares when collapsed) with a 20 icon and a label. The active item is brand blue with a 3 green edge. An item may carry a count badge.
-- Top: the logo tile (CMP-20). Above the profile row: the expand/collapse button, full width, green with dark navy text (a brand use of green, FND-3). Bottom: the profile row (a 34 avatar, the user's name and role) that opens an account menu, and a sign-out item.
+- Top: the logo tile (CMP-20). Above the profile row (touch screens only): the expand/collapse button, full width, green with dark navy text (a brand use of green, FND-3). Bottom: the profile row (a 34 avatar, the user's name and role) that opens an account menu, and a sign-out item.
 - Rows keep the same height in both states, and icons stay in place, so nothing jumps.
 - On native apps, the sidebar becomes the platform's navigation pattern (tab bar, navigation rail or drawer), keeping the item order, labels and active-state style. On phones, navigation follows FND-16.
 

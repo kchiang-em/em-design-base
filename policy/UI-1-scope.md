@@ -22,7 +22,7 @@ EncoreMed products should look and behave like one family, whatever platform the
 - add rather than rename or remove shared tokens and components;
 - tell the user what was added or changed and why.
 
-**SCP-5 Ask first.** *Must.* Ask the user before changing the control size scale (FND-9) or the typeface (FND-5), or before removing a baseline token or component.
+**SCP-5 Ask first.** *Must.* Ask the user before changing the control size scale (FND-9) or the type scale (FND-7), or before removing a baseline token or component.
 
 **SCP-6 Native apps feel native.** *Should.* Native apps prefer the platform's own controls and navigation (pickers, sheets, navigation bars, back gestures) and restyle them with the tokens, keeping the baseline's look: palette, type, spacing, radii and states. Do not rebuild a native control only to copy the web version.
 

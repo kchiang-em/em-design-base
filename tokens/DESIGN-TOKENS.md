@@ -1,6 +1,6 @@
 # Design tokens
 
-> Generated from `tokens.css` by `export_tokens.py`. Do not edit by hand: change `tokens.css`, then run `python3 export_tokens.py`.
+> Generated from `tokens.css`. Do not edit by hand: the package maintainers regenerate it whenever `tokens.css` changes.
 > Machine-readable copy: `design-tokens.json` (aliases written as `{token-name}`, for generating platform constants or importing into design tools).
 
 ## How the tokens are layered
@@ -116,6 +116,17 @@
 | Token | Value | Resolves to |
 |---|---|---|
 | `--border-control` | `#808c98` |  |
+
+### Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--avatar-tint-1` | `var(--info-100)` | `#d7e7f7` |
+| `--avatar-tint-2` | `#e7ddf4` |  |
+| `--avatar-tint-3` | `#f8e1d8` |  |
+| `--avatar-tint-4` | `#dcebe4` |  |
+| `--avatar-tint-5` | `#f1e5d5` |  |
+| `--avatar-tint-6` | `#e1e7f4` |  |
 | `--chart-surface` | `var(--white)` <br><sub>what is BEHIND the charts: the card, or the page background when charts are transparent. Contrast is checked against it</sub> | `#ffffff` |
 | `--chart-1` | `var(--em-navy-core)` | `#023c6e` |
 | `--chart-2` | `#de6872` <br><sub>coral</sub> |  |
@@ -140,7 +151,7 @@
 
 | Token | Value | Resolves to |
 |---|---|---|
-| `--font-sans` | `"Acumin Variable Concept", "Acumin Pro", Arial, "Helvetica Neue", Helvetica, sans-serif` |  |
+| `--font-sans` | `"Public Sans", Arial, "Helvetica Neue", Helvetica, sans-serif` <br><sub>FND-5 default: open licence; the files are downloaded into fonts/ (see components.css)</sub> |  |
 | `--text-xs` | `13px` |  |
 | `--text-sm` | `14px` |  |
 | `--text-base` | `15px` |  |
@@ -395,7 +406,7 @@
 | `--pager-nav-padding-x` | `var(--space-md)` | `12px` |
 | `--pager-nav-padding-x-compact` | `var(--space-sm)` | `8px` |
 | `--pager-nav-gap` | `var(--space-xs)` | `4px` |
-| `--pager-compact-breakpoint` | `1100px` <br><sub>documentation token: CSS media queries cannot read custom properties, so components.css repeats this value (export_tokens.py checks they match)</sub> |  |
+| `--pager-compact-breakpoint` | `1100px` <br><sub>documentation token: CSS media queries cannot read custom properties, so components.css repeats this value (the token export checks they match)</sub> |  |
 
 ### Dropdown (single select) and multi-select
 
@@ -526,6 +537,12 @@
 | `--nav-w-collapsed` | `72px` |  |
 | `--nav-w-expanded` | `248px` |  |
 | `--nav-duration` | `200ms` |  |
+| `--nav-hover-open-delay` | `150ms` <br><sub>mouse: how long the pointer rests on the rail before it opens (CMP-11)</sub> |  |
+| `--nav-hover-close-delay` | `300ms` <br><sub>mouse: how long after the pointer leaves before it closes</sub> |  |
+| `--phone-breakpoint` | `767px` <br><sub>documentation token: phones are narrower than 768px (FND-16); the token export checks it matches the @media query in components.css</sub> |  |
+| `--nav-tab-h` | `56px` <br><sub>phones: height of the bottom tab bar (FND-16)</sub> |  |
+| `--nav-tab-label-size` | `var(--text-xs)` | `13px` |
+| `--nav-tab-avatar-size` | `28px` <br><sub>phones: the account tab's avatar; initials stay at the 13px minimum (FND-7)</sub> |  |
 | `--nav-icon-size` | `20px` <br><sub>every sidebar icon uses this slot, so icons stay pinned when collapsing</sub> |  |
 | `--nav-rail-inset` | `14px` <br><sub>collapsed rail 72 - 2 x 14 = 44: buttons are squares, and the same width rule animates to expanded</sub> |  |
 | `--nav-icon-inset` | `12px` |  |

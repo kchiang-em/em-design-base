@@ -283,6 +283,9 @@ def check_css(defs):
             before = css[:m.start()]
             if "prefers-reduced-motion" not in before[before.rfind("@media"):] and own(m.start()):
                 warn(f"[web] {n}:{line_of(css, m.start())}: !important")
+        for m in re.finditer(r"url\(\s*['\"]?(?!https?:|data:)([^'\")]+)", css):   # a local file the stylesheet needs, such as the bundled font
+            if not (PROJECT / m.group(1)).exists():
+                warn(f"[FND-5] {n}:{line_of(css, m.start())}: {m.group(1)} is missing (a font falls back to another face without it): download it as guides/IMPLEMENTATION.md section 4 describes")
         for m in re.finditer(r"@import|url\(\s*['\"]?https?:", css):
             if own(m.start()):
                 warn(f"[web] {n}:{line_of(css, m.start())}: external stylesheet or URL")

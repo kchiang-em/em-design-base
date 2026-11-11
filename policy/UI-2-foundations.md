@@ -4,7 +4,7 @@ Draft key: UI-2 · Clause prefix: `FND` · Version 1 (draft, 11 Nov 2026) · Own
 
 ## Purpose
 
-The palette, typeface, icons and scales are what make a product recognisably EncoreMed. This policy fixes them.
+The palette, icons and scales are what make a product recognisably EncoreMed. This policy fixes them, and sets the rules a product's typeface must meet.
 
 ## Clauses
 
@@ -45,13 +45,16 @@ Lighter and darker shades of these colours, used for hover, tinted backgrounds a
 - Status text uses the darker value of its family listed in FND-2, so it meets ACC-6.
 - *Should:* the navigation uses the primary navy; the page background uses grey light; cards are white with a light border.
 
-**FND-5 Typeface.** *Must.* Acumin Variable (Concept). Regular (400) and Bold (700) only. Where Acumin is not licensed or not installed, use Arial on web and the system font on native (SF Pro on Apple platforms, Roboto on Android, Segoe UI on Windows). Layouts must hold with the fallback font.
+**FND-5 Typeface.** The typeface is chosen per product. *Should:* use the default, **Public Sans** (open licence; a neo-grotesque close in feel to the brand guideline's Acumin), with Arial on web and the system font on native (SF Pro on Apple platforms, Roboto on Android, Segoe UI on Windows) as the fallback. *May:* use another face, for example Acumin where the company holds a suitable licence, or the face on the company website, and tell the user (SCP-4). *Must:* whatever face a product uses meets these rules:
+- One sans-serif family for all interface text, in Regular (400) and Bold (700) only. *May:* a second, display face for large headings on brand surfaces (the sign-in panel, empty-state illustrations), never for body text, labels, controls or data.
+- Characters that are easily confused stay distinct: capital I, lower-case l and the digit 1; capital O and the digit 0. Staff IDs, serial numbers and clinical values depend on it.
+- Numbers in tables, readings and anything compared in a column use tabular (equal-width) figures.
+- The type scale (FND-7) and the layouts hold with the chosen face and with its fallback.
+- The font's licence covers how the product uses it (FND-6).
 
-**FND-6 Typeface licensing.** *Must.* Acumin is an Adobe font; its licence controls who may use the font files and how.
-- Never commit Acumin font files (`.otf`, `.ttf`, `.woff`, `.woff2`) to a repository, bundle them into an app, or download them from an unofficial site.
-- On web, use Acumin only through a company-held web licence (for example an Adobe Fonts web kit).
-- In native apps, embed Acumin only if the company confirms a licence that allows app embedding; a desktop or web licence usually does not.
-- The owner of the company's Adobe font licence has not been named yet. Until then, ask your team lead or the brand or design team.
+**FND-6 Font licensing.** *Must.*
+- Prefer fonts under an open licence (such as the SIL Open Font License), which may be bundled into apps and committed to repositories. The default, Public Sans, is one; keep its licence file with the font files.
+- A commercially licensed font (Acumin is an Adobe font) is used only as its licence allows: never commit its files (`.otf`, `.ttf`, `.woff`, `.woff2`) to a repository, bundle them into an app, or download them from an unofficial site, unless the company confirms a licence that allows it. A desktop or web licence usually does not allow app embedding.
 
 **FND-7 Type scale.** *Must.* Text sizes are 13, 14, 15, 16, 18, 20, 26 and 36. Page titles are 26; section headings 20; labels and buttons 14. Nothing smaller than 13.
 
@@ -78,8 +81,9 @@ Lighter and darker shades of these colours, used for hover, tinted backgrounds a
 **FND-16 Phone layouts.** *Must.* On phones, content gets more concise, not smaller:
 - **Text keeps its size.** Body text stays at 16 (and text fields at 16 or more on web, so the browser does not zoom in when they gain focus); nothing is smaller than 13 (FND-7). Labels may be shortened; they are not shrunk.
 - **One column.** Side-by-side panels stack; filters move into a sheet or a full-screen panel opened from a filter button.
-- **Navigation:** a bottom tab bar with up to five destinations, each an icon with a short text label; further destinations go under "More". The side navigation (CMP-11) is not used on phones.
-- **Lists and tables** become stacked rows or cards that show the two or three most important fields, with the rest one tap away. Pagination (CMP-10) becomes a "Load more" button below the list with the "Showing 1–20 of 24" count.
+- **Navigation:** a bottom tab bar with up to five destinations, each an icon with a short text label; further destinations go under "More". The last tab is the account (the user's avatar and "Account"): it opens a sheet with the account menu and Sign out, and it is the current tab on screens reached from it. The side navigation (CMP-11) is not used on phones.
+- **Lists and tables** become stacked rows or cards that show the two or three most important fields, with the rest one tap away; column titles are hidden. Pagination (CMP-10) becomes a "Load more" button below the list with the "Showing 1–20 of 24" count.
+- **Filters:** the search field stays on screen; other filters move into a Filters sheet, as plain lists of radio buttons and checkboxes rather than dropdowns. The Filters button shows how many filters are on, and the sheet's main button says how many results they give ("Show 10 residents").
 - **Dialogs** become bottom sheets at full width (CMP-16 behaviour still applies).
 - **The main action** of a screen stays reachable at the bottom of the screen.
 - Touch targets stay at least 44×44 (ACC-9). Icon-only controls follow FND-12.

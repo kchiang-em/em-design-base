@@ -72,6 +72,13 @@
   /* Data visualisation (FND-17): the DEFAULT categorical series colours; a project may replace them. Used in this order, on a white surface. chart-1 to chart-4 are the
      official palette and the colour-blind-safe set 02; chart-5 to chart-7 were chosen to reach 3:1 on white and stay apart from
      each other, from chart-1 to chart-4 and from the status colours, including for colour-blind readers. */
+  /* Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker. */
+  --avatar-tint-1: var(--info-100);
+  --avatar-tint-2: #e7ddf4;
+  --avatar-tint-3: #f8e1d8;
+  --avatar-tint-4: #dcebe4;
+  --avatar-tint-5: #f1e5d5;
+  --avatar-tint-6: #e1e7f4;
   --chart-surface: var(--white);   /* what is BEHIND the charts: the card, or the page background when charts are transparent. Contrast is checked against it */
   --chart-1: var(--em-navy-core);
   --chart-2: #de6872;          /* coral */
@@ -88,7 +95,7 @@
   --white-70: rgb(255 255 255 / 70%);
   --white-80: rgb(255 255 255 / 80%);
   /* type */
-  --font-sans: "Acumin Variable Concept", "Acumin Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --font-sans: "Public Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;   /* FND-5 default: open licence; the files are downloaded into fonts/ (see components.css) */
   --text-xs: 13px;
   --text-sm: 14px;
   --text-base: 15px;
@@ -289,7 +296,7 @@
   --pager-nav-padding-x: var(--space-md);
   --pager-nav-padding-x-compact: var(--space-sm);
   --pager-nav-gap: var(--space-xs);
-  --pager-compact-breakpoint: 1100px; /* documentation token: CSS media queries cannot read custom properties, so components.css repeats this value (export_tokens.py checks they match) */
+  --pager-compact-breakpoint: 1100px; /* documentation token: CSS media queries cannot read custom properties, so components.css repeats this value (the token export checks they match) */
 
   /* ----- dropdown (single select) and multi-select ----- */
   --dd-trigger-h-sm: var(--control-h-sm);
@@ -399,6 +406,12 @@
   --nav-w-collapsed: 72px;
   --nav-w-expanded: 248px;
   --nav-duration: 200ms;
+  --nav-hover-open-delay: 150ms;   /* mouse: how long the pointer rests on the rail before it opens (CMP-11) */
+  --nav-hover-close-delay: 300ms;  /* mouse: how long after the pointer leaves before it closes */
+  --phone-breakpoint: 767px;   /* documentation token: phones are narrower than 768px (FND-16); the token export checks it matches the @media query in components.css */
+  --nav-tab-h: 56px;           /* phones: height of the bottom tab bar (FND-16) */
+  --nav-tab-label-size: var(--text-xs);
+  --nav-tab-avatar-size: 28px;   /* phones: the account tab's avatar; initials stay at the 13px minimum (FND-7) */
   --nav-icon-size: 20px;                  /* every sidebar icon uses this slot, so icons stay pinned when collapsing */
   --nav-rail-inset: 14px;                 /* collapsed rail 72 - 2 x 14 = 44: buttons are squares, and the same width rule animates to expanded */
   --nav-icon-inset: 12px;

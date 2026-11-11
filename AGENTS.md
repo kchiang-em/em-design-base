@@ -6,7 +6,7 @@ You were pointed at this directory because the user is building a product (web o
 
 1. **The rules:** `policy/README.md`, then all six policies:
    - `policy/UI-1-scope.md` (SCP): scope, levels (must, should, may), deviations, checking your work
-   - `policy/UI-2-foundations.md` (FND): palette, status colours, typeface, scales
+   - `policy/UI-2-foundations.md` (FND): palette, status colours, typeface rules, scales
    - `policy/UI-3-states-accessibility.md` (ACC): the five control states, contrast, keyboard, touch
    - `policy/UI-4-components.md` (CMP): component anatomy and behaviour
    - `policy/UI-5-client-themes.md` (THM): client colour themes

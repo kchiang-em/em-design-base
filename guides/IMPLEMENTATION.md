@@ -8,13 +8,13 @@ This guide explains **how** to implement the UI policies in `../policy/` on web 
 |---|---|
 | `../policy/` | the rules (UI-1 to UI-6), with clause IDs. Read them first. |
 | `../tokens/` | `design-tokens.json`, the portable source of every value; `DESIGN-TOKENS.md`, the same as a readable list |
-| `../tools/` | `guard.py` (the conformance checker), `make_theme.py` and `logo_colours.py` (client themes). See `../tools/README.md`. |
-| `../web/` | the web reference implementation: `tokens.css`, `components.css`, `app.js` (component behaviour) and `export_tokens.py` |
+| `../tools/` | `guard.py` (the conformance checker) and `make_theme.py` (client brand colours). See `../tools/README.md`. |
+| `../web/` | the web reference implementation: `tokens.css`, `components.css` and `app.js` (component behaviour) |
 | `THEMING.md` | the step-by-step procedure for re-colouring a product for a client (implements UI-5) |
 
 ## 2. Setting up a project
 
-**Web.** Copy `web/tokens.css` and `web/components.css` into the project. Every page loads the stylesheets in this order:
+**Web.** Copy `web/tokens.css` and `web/components.css` into the project, and download the default font into a `fonts/` folder next to `components.css` (section 4). Every page loads the stylesheets in this order:
 
 1. `tokens.css` (the shared design tokens)
 2. `app-tokens.css` (the product's own tokens, optional: its new tokens and its overrides, including a client's brand colours, THM-1)
@@ -64,13 +64,21 @@ Tokens come in three tiers, each built from the one before:
 | CMP-2 invalid field | `field-border-error`, `field-error-fg`, `field-error-gap` |
 | CMP-17 toast | `toast-duration` (6000ms) |
 | CMP-1, CMP-21 danger button | `btn-danger-*` |
+| CMP-19 avatar tints | `avatar-tint-1` to `avatar-tint-6` (data colours; store the tint number with the person, not a hex code) |
 | FND-17 charts | `chart-1` to `chart-7` in order, `chart-other`; `chart-surface` names what is behind the charts (set it to `var(--bg)` for transparent charts on the page) |
 | UI-4 components | `btn-*` (CMP-1), `field-*` (CMP-2), `pw-*` (CMP-3), `clear-btn-*`, `search-*` (CMP-4), `checkbox-*`, `remember-*` (CMP-5), `toggle-*` (CMP-6), `dd-*` (CMP-7), `ms-*` (CMP-8), `card-*` (CMP-9, interactive surfaces), `pager-*` (CMP-10), `nav-*` (CMP-11), `logo-mark-*` (CMP-20) |
 
 ## 4. Typeface (FND-5, FND-6)
 
-- **Web:** `--font-sans` lists Acumin first and Arial after. If the company has an Adobe Fonts web kit with Acumin, load the kit and keep `--font-sans` as it is; otherwise Arial is used automatically.
-- **Native:** use the system font (SF Pro, Roboto, Segoe UI) unless the company confirms a licence that allows embedding Acumin in an app.
+- **Default: Public Sans** (SIL Open Font License, plus a public-domain dedication for its US-government changes). The font files are not in this package: download them from the official source, https://github.com/uswds/public-sans, and keep its `LICENSE.md` with them.
+  - **Web:** download `fonts/webfonts/PublicSans-Regular.woff2` and `fonts/webfonts/PublicSans-Bold.woff2` into a `fonts/` folder next to `components.css`, which declares them with `@font-face`. `--font-sans` lists Public Sans first with Arial as the fallback. The guard warns if the files are missing.
+    ```bash
+    mkdir -p fonts && for w in Regular Bold; do curl -sL -o fonts/PublicSans-$w.woff2 https://raw.githubusercontent.com/uswds/public-sans/develop/fonts/webfonts/PublicSans-$w.woff2; done
+    curl -sL -o fonts/LICENSE.md https://raw.githubusercontent.com/uswds/public-sans/develop/LICENSE.md
+    ```
+  - **Native:** bundle the Regular and Bold files from the same repository (`fonts/otf/` or `fonts/ttf/`) in the app, with the licence. Fall back to the system font (SF Pro, Roboto, Segoe UI).
+- **Another face:** set `--font-sans` in the product's `app-tokens.css` (web), or the font family in its platform constants (native), with the system font as the fallback. Check the face against FND-5: Regular and Bold, distinct I / l / 1 and O / 0, tabular figures, a licence that covers the use. Acumin is allowed where the company holds a suitable licence (FND-6).
+- **Tabular figures:** on web, `font-variant-numeric: tabular-nums` (already set on tables, pagination and readings in the reference); on native, the platform's monospaced-digits option.
 - Only Regular (400) and Bold (700) are used, and every size comes from the `text-*` tokens, so layouts hold with the fallback.
 
 ## 5. Translating to a platform
@@ -78,7 +86,7 @@ Tokens come in three tiers, each built from the one before:
 | Baseline | Web | iOS (SwiftUI/UIKit) | Android (Compose/Views) | Desktop / cross-platform |
 |---|---|---|---|---|
 | Colours | CSS variables | an asset catalog or a `Color` extension generated from the tokens | `colors.xml` or a Compose `ColorScheme` | the framework's colour constants |
-| Type | `--font-sans` stack | Acumin if licensed, else SF Pro; sizes from `text-*` | Acumin if licensed, else Roboto | system font fallback |
+| Type | `--font-sans` stack (Public Sans) | Public Sans bundled in the app, else SF Pro; sizes from `text-*` | Public Sans bundled in the app, else Roboto | Public Sans, else the system font |
 | Spacing, size, radius | `--space-*`, `--control-h-*`, `--radius-*` | constants in points | `dp` values | constants |
 | Elevation (FND-11) | box shadows | shadow matching the three levels | `elevation` matching the three levels | same |
 | Pressed and focus (ACC-3, ACC-5) | amber pressed, focus ring | amber pressed highlight; focus ring on keyboard focus (iPad, Mac) | amber ripple or pressed state; focus indicator for keyboard | same |
@@ -100,7 +108,7 @@ The anatomy, sizes and behaviour of each component are set by its clause in `../
 | CMP-7 Dropdown | `.dd`, `.dd--field`, `.dd--sm`, `.dd--up` | open, close, focus, arrow keys, Escape |
 | CMP-8 Multi-select | `.ms` | search, multiple picks, clear |
 | CMP-9, CMP-10 Table and pagination | `.table-card`, `.table-head`, `.table-foot`, `.pager` | sliding window of five pages |
-| CMP-11 Navigation | `.app-shell`, `.sidebar`, `.nav-item`, `.profile`, `.profile-menu` | collapse and expand, staff menu |
+| CMP-11 Navigation | `.app-shell` (`.nav-expanded`; `.nav-auto` for the mouse overlay), `.sidebar`, `.nav-item`, `.profile`, `.profile-menu` | device detection with `(hover: hover) and (pointer: fine)` and `(any-pointer: coarse)`; hover and focus open the overlay after `--nav-hover-open-delay`, close after `--nav-hover-close-delay`; Escape closes; the toggle (touch) is remembered; staff menu |
 | CMP-12 Page header | `.page-header`, `.section-head` | none |
 | CMP-13 to CMP-15 Status pill, banner, card | `.status-pill`, `.banner`, `.card` | none |
 | CMP-16 Dialog | `.modal-backdrop`, `.modal-card`, `.modal-card--wide` | focus trap; Escape clicks the dialog's `*-cancel` action; initial focus from `data-autofocus` |
@@ -108,6 +116,7 @@ The anatomy, sizes and behaviour of each component are set by its clause in `../
 | CMP-17 Toast | `.toast` | removed after `--toast-duration` (6 seconds); the timer pauses while the pointer is over it |
 | CMP-18 States | `.state`, `.state--error`, `.spinner`, `.empty-note` | none |
 | CMP-20 Logo tile | `.logo`, `.logo__mark` | none |
+| FND-16 Phones (narrower than 768px) | one `@media (max-width: 767px)` block at the end of `components.css` (and of `app.css` for screens): the sidebar becomes the tab bar, `.profile__tab-label` and `.profile-menu-item--phone` appear, `.modal-card` becomes a bottom sheet; `.load-more`, `.choice`, `.choice-group`, `.sheet-actions` | `isPhone()` (`matchMedia("(max-width: 767px)")`): no hover or toggle sidebar modes; lists render "Load more" instead of the pager; the Filters sheet |
 
 ## 7. Web reference: markup catalogue
 
@@ -251,6 +260,26 @@ Use `ms__label placeholder` for the "All …" placeholder text. The panel stays 
 ```
 Show at most **5 page numbers** in a sliding window (`First` and `Last` jump to the ends). Table column grids are screen-specific: define your own grid class in `app.css`.
 
+### Phones: Load more, Filters sheet (FND-16)
+```html
+<!-- below a list, instead of the pager -->
+<div class="load-more"><span class="load-more__count" role="status">Showing <strong>1–20</strong> of <strong>24</strong></span>
+  <button type="button" class="secondary-btn">Load more</button></div>
+
+<!-- Filters sheet: a .modal-card (a bottom sheet on phones) with plain choice lists -->
+<div class="modal-backdrop"><div class="modal-card modal-card--wide" role="dialog" aria-modal="true" aria-labelledby="fs">
+  <h2 id="fs">Filters</h2>
+  <fieldset class="choice-group" role="radiogroup" aria-label="Zone"><legend>Zone</legend>
+    <button type="button" class="choice" role="radio" aria-checked="true"><span class="choice__mark" aria-hidden="true"></span>North Wing</button>
+  </fieldset>
+  <fieldset class="choice-group"><legend>Care area</legend>
+    <button type="button" class="choice" role="checkbox" aria-checked="false"><span class="choice__mark" aria-hidden="true"></span>Memory Care</button>
+  </fieldset>
+  <div class="sheet-actions"><button type="button" class="secondary-btn">Clear all</button><button type="button" class="primary-btn">Show 10 residents</button></div>
+</div></div>
+```
+The tab bar needs no extra markup: on phones the sidebar markup in "Page shell and sidebar" becomes it. Add `<span class="profile__tab-label">Account</span>` inside `.profile`, and a `.profile-menu-item--phone` Sign out item in the staff menu.
+
 ### Status, banner, cards, modal, toast, loading
 ```html
 <span class="status-pill"><span></span> Gateway connected</span>
@@ -293,7 +322,5 @@ The markup in section 7 is CSS only. Opening, closing and focus behaviour for th
 
 ## 9. Known limits
 
-- The typeface is not bundled (FND-6).
-- Phone layouts (FND-16) are defined as rules but not implemented in the web reference. There is no dark mode (FND-15).
-- The web reference does not show every UI-6 rule: its demo data uses relative times such as "Yesterday, 16:42" (CNT-2 allows relative times only within 24 hours).
+- There is no dark mode (FND-15).
 - The checker (`../tools/guard.py`) checks colours on every platform and CSS on web. It cannot judge layout, markup or behaviour, so the hand checks in SCP-9 still apply.
