@@ -30,7 +30,7 @@ If a policy says it has moved to Jira (`policy/README.md` lists the ticket keys)
 
 Treat this like running the tests: do it after **each** edit, not once at the end.
 1. **Code check:** `python3 <this directory>/tools/guard.py <the user's project folder>`.
-2. **Browser check** on the screens you touched: open each one, and each state you changed (a dialog, a sheet, an error state), in a real browser at phone, tablet and desktop width, and confirm what SCP-12 lists: nothing overflows or is cut off (FND-18), typing keeps the field and its focus (ACC-12), no script errors, no text under 13 (FND-7), tap areas of 44 x 44 on phones (ACC-9). Use the project's own tooling; for a native app, use a device or simulator.
+2. **Browser check** on the screens you touched: open each one, and each state you changed (a dialog, a sheet, an error state), in a real browser at phone, tablet and desktop width, with the navigation collapsed and expanded (on a touch tablet, pinned open with its toggle, which narrows the content), and confirm what SCP-12 lists: nothing overflows or is cut off (FND-18), typing keeps the field and its focus (ACC-12), no script errors, no text under 13 (FND-7), tap areas of 44 x 44 on phones (ACC-9). Use the project's own tooling; for a native app, use a device or simulator.
 3. **Fix every problem before your next edit.** Never edit a check to make it pass (SCP-10). Read every warning: fix it or explain it.
 4. **If the user or a reviewer finds a defect the checks missed,** fix it, then tell the user which clause should forbid it and how a check could catch it (SCP-13).
 

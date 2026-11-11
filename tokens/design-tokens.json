@@ -1900,6 +1900,12 @@
       "$group": "sidebar: collapsed rail, expanded panel, toggle button",
       "$description": "mouse: how long after the pointer leaves before it closes"
     },
+    "content-compact-breakpoint": {
+      "$value": "720px",
+      "$type": "dimension",
+      "$group": "sidebar: collapsed rail, expanded panel, toggle button",
+      "$description": "documentation token: below this width of content (not screen), list-detail panes stack and the top bar wraps (FND-18); container queries cannot read custom properties, so components.css repeats it and the token export checks they match"
+    },
     "phone-breakpoint": {
       "$value": "767px",
       "$type": "dimension",

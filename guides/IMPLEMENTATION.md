@@ -142,6 +142,8 @@ The anatomy, sizes and behaviour of each component are set by its clause in `../
 
 **Make columns fit.** Add up the minimum column widths, the gaps between them and the row padding: at the narrowest width that shows the table, the total must not exceed the table's width. If it would, hide lower-priority columns at that width (the reference hides the avatar at 900px and below) or switch to the phone card layout. A row that runs past its table is an FND-18 error; check every table at all three widths (SCP-12).
 
+**Break on the content width, not the screen width.** On a touch tablet the navigation pinned open with its toggle takes 248 of an 820 screen, leaving about 570 for the content (FND-18, CMP-11), and a screen-width `@media` query never notices. Make the content column a size container and switch layouts on its width: the reference sets `container: content / inline-size` on `.main` and uses `@container content (max-width: 720px)` (the `--content-compact-breakpoint` token) to stack the list-detail panes and wrap the top bar. Grids with a minimum column width use `minmax(min(<min>, 100%), 1fr)` so one column can never be wider than its container. Check every screen with the navigation collapsed and expanded (SCP-12).
+
 ## 7. Web reference: markup catalogue
 
 The reference markup for **web** products, using the classes in `web/components.css`. Native products implement the clauses in `../policy/UI-4-components.md` with platform controls. Replace `…` with icons or content. Every interactive element is a real `<button>`, `<input>` or `<a>` (ACC-8).

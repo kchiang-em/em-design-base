@@ -55,7 +55,7 @@ Clauses that are easy to miss (examples, not the scope): dates and times in the 
 
 The engineering policies are authoritative. When one changes, the UI policies follow it without a separate decision; if a UI clause and an engineering policy ever disagree, the engineering policy wins and the UI clause is corrected.
 
-**SCP-12 Browser check after every edit.** *Must.* After every edit that changes what a screen shows or how it behaves, and before reporting it, run the screens the edit touched in a real browser (or on a device or simulator for native apps) at phone, tablet and desktop width, and confirm that:
+**SCP-12 Browser check after every edit.** *Must.* After every edit that changes what a screen shows or how it behaves, and before reporting it, run the screens the edit touched in a real browser (or on a device or simulator for native apps) at phone, tablet and desktop width, with the navigation both collapsed and expanded (on a touch tablet, opened with its toggle so it pushes the content over, CMP-11), and confirm that:
 - nothing extends beyond its container, is cut off, or makes the screen scroll sideways (FND-18);
 - typing into each field keeps that field, its focus and its caret (ACC-12);
 - there are no script errors and every file the screen needs loads;

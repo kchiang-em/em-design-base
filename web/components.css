@@ -150,7 +150,7 @@ svg { flex-shrink: 0; }
 .profile-menu-item small { white-space: nowrap; margin-top: var(--space-2xs); color: var(--ink-400); font-size: var(--text-xs); }
 .profile-menu-item > svg:last-child { margin-left: auto; }
 /* ---------- page header and content ---------- */
-.main { min-width: 0; background: var(--bg); }
+.main { min-width: 0; background: var(--bg); container: content / inline-size; }   /* layouts below follow the width left for the content (FND-18) */
 .page-header { display: flex; min-height: 86px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: var(--white); padding: 0 var(--space-3xl); }
 .page-header h1 { font-size: var(--text-2xl); font-weight: var(--weight-semibold); letter-spacing: -.025em; color: var(--ink-900); }
 .page-header p { margin-top: var(--space-2xs); font-size: var(--text-sm); color: var(--ink-400); }
@@ -318,9 +318,11 @@ svg { flex-shrink: 0; }
 .icon-button--danger:hover { border-color: var(--btn-danger-outline-border-hover); background: var(--btn-danger-outline-bg-hover); color: var(--danger-600); }
 
 /* ===== Tabs (CMP-24) ===== */
-.tabs { display: flex; flex-wrap: wrap; gap: var(--space-xs); border-bottom: 1px solid var(--border); }
+.tabs { display: flex; flex-wrap: nowrap; gap: var(--space-xs); overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--border); }   /* one row at every width; it scrolls sideways when it does not fit (CMP-24) */
 .tab { position: relative; display: inline-flex; min-height: var(--tab-h); align-items: center; gap: var(--space-sm); border-radius: var(--control-radius) var(--control-radius) 0 0; padding: 0 var(--space-md); font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--tab-fg); white-space: nowrap; }
 .tab svg { width: var(--tab-icon-size); height: var(--tab-icon-size); }
+.tab { flex: none; }
+.tab:focus-visible { box-shadow: inset 0 0 0 2px var(--white), inset 0 0 0 4px var(--brand-600); }   /* ACC-5 double ring drawn inside, so the scrolling strip cannot clip it */
 .tab:hover { color: var(--tab-fg-hover); }
 .tab[aria-selected="true"] { color: var(--tab-fg-active); }
 .tab[aria-selected="true"]::after { content: ""; position: absolute; right: var(--space-sm); bottom: -1px; left: var(--space-sm); height: var(--tab-indicator-h); border-radius: var(--tab-indicator-h) var(--tab-indicator-h) 0 0; background: var(--tab-indicator); }
@@ -339,7 +341,7 @@ svg { flex-shrink: 0; }
 .code-chip { display: inline-flex; align-items: center; border-radius: var(--radius-sm); background: var(--code-chip-bg); padding: var(--space-2xs) var(--space-sm); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--code-chip-fg); }
 
 /* ===== Stat cards (CMP-26) ===== */
-.stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--stat-card-min-w), 1fr)); gap: var(--space-lg); }
+.stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(var(--stat-card-min-w), 100%), 1fr)); gap: var(--space-lg); }
 .stat-card { display: flex; min-width: 0; align-items: center; gap: var(--space-lg); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--white); padding: var(--space-lg) var(--space-xl); }
 .stat-card__icon { display: grid; flex: 0 0 var(--stat-icon-size); width: var(--stat-icon-size); height: var(--stat-icon-size); place-items: center; border-radius: var(--radius-md); background: var(--stat-icon-bg); color: var(--stat-icon-fg); }
 .stat-card__icon--success { background: var(--success-50); color: var(--success-600); }
@@ -349,7 +351,7 @@ svg { flex-shrink: 0; }
 .stat-card__label { display: block; font-size: var(--text-sm); color: var(--ink-600); }
 
 /* Check grid and banner tones */
-.check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--check-grid-min-w), 1fr)); gap: var(--space-sm) var(--space-lg); }
+.check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(var(--check-grid-min-w), 100%), 1fr)); gap: var(--space-sm) var(--space-lg); }
 .banner--success .banner__icon { background: var(--success-50); color: var(--success-600); }
 .banner--warning .banner__icon { background: var(--warning-50); color: var(--warning-600); }
 
@@ -358,6 +360,17 @@ svg { flex-shrink: 0; }
   .ld { grid-template-columns: var(--ld-list-w-compact) minmax(0, 1fr); }
   .chip-group { grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
   .ld__detail { padding: var(--space-xl); }
+}
+/* The width left for the content, not the screen's (FND-18): on a touch tablet the navigation pinned open with its toggle
+   pushes the content over (CMP-11), so an 820 screen leaves about 570. Below --content-compact-breakpoint the list-detail
+   panes stack and the top bar wraps its tools under the title. Phones have their own layout below. */
+@media (min-width: 768px) {
+  @container content (max-width: 720px) {
+    .ld { grid-template-columns: minmax(0, 1fr); }
+    .top-bar { flex-wrap: wrap; }
+    .top-bar__title { flex: 1 1 100%; }
+    .top-bar__tools { min-width: 0; flex-wrap: wrap; }
+  }
 }
 
 /* ===== Phones, narrower than 768px (FND-16): content gets more concise, not smaller ===== */
@@ -411,10 +424,8 @@ svg { flex-shrink: 0; }
   .ld, .ld.ld--single { grid-template-columns: minmax(0, 1fr); }
   .ld__detail { padding: var(--space-lg); }
   .stat-cards { grid-template-columns: minmax(0, 1fr); }
-  /* tabs: one row that scrolls sideways when it does not fit (CMP-24); never a second row */
-  .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  .tab { flex: none; padding: 0 var(--space-sm); }
+  /* tabs: tighter, without icons, on phones (the strip already scrolls at every width, CMP-24) */
+  .tab { padding: 0 var(--space-sm); }
   .tab svg { display: none; }
-  .tab:focus-visible { box-shadow: inset 0 0 0 2px var(--white), inset 0 0 0 4px var(--brand-600); }   /* drawn inside, so the scrolling strip cannot clip it */
 }
 

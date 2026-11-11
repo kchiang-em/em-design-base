@@ -540,6 +540,7 @@
 | `--nav-duration` | `200ms` |  |
 | `--nav-hover-open-delay` | `150ms` <br><sub>mouse: how long the pointer rests on the rail before it opens (CMP-11)</sub> |  |
 | `--nav-hover-close-delay` | `300ms` <br><sub>mouse: how long after the pointer leaves before it closes</sub> |  |
+| `--content-compact-breakpoint` | `720px` <br><sub>documentation token: below this width of content (not screen), list-detail panes stack and the top bar wraps (FND-18); container queries cannot read custom properties, so components.css repeats it and the token export checks they match</sub> |  |
 | `--phone-breakpoint` | `767px` <br><sub>documentation token: phones are narrower than 768px (FND-16); the token export checks it matches the @media query in components.css</sub> |  |
 | `--nav-tab-h` | `56px` <br><sub>phones: height of the bottom tab bar (FND-16)</sub> |  |
 | `--nav-tab-label-size` | `var(--text-xs)` | `13px` |

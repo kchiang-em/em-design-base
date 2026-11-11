@@ -113,7 +113,8 @@ Lighter and darker shades of these colours, used for hover, tinted backgrounds a
 - Scales (a value from low to high, or diverging from a midpoint) also use colours chosen per project. *Should:* start from the shades of the primary navy, light to dark. *Must:* the steps are visibly ordered from light to dark and the darkest steps reach 3:1 against what is behind the chart.
 - A project that changes the chart colours sets them in its own token file (or theme), keeps the token names `chart-1` to `chart-7` and `chart-other`, sets `chart-surface` to the colour behind its charts, and tells the user what it chose (SCP-4).
 
-**FND-18 Content stays inside its container.** *Must.* At every supported width (phones from 320, tablets from 768, desktops):
+**FND-18 Content stays inside its container.** *Must.* At every supported width (phones from 320, tablets from 768, desktops), and with the navigation in each of its states:
+- the width that counts is the width left for the content, not the screen's: on a touch screen the navigation opened with its toggle pushes the content over (CMP-11), so a 820-wide tablet with the panel open leaves the content about 570; layouts hold at that width too;
 - no element extends beyond its card, table, row, panel or screen, and nothing is cut off by its container;
 - the screen never scrolls sideways (WCAG 1.4.10);
 - text that does not fit wraps; where it must stay on one line (FND-14) it ends with an ellipsis, and the full text is available (for example in a details view or the accessible name);
