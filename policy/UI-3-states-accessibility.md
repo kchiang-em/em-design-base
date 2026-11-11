@@ -39,3 +39,5 @@ Every control should respond the same way in every EncoreMed product, and every 
 - information the user already entered in a process is filled in or selectable, not asked for again (3.3.7);
 - help (contact, support link) is in the same place on every screen that offers it (3.2.6);
 - time limits can be turned off, adjusted or extended, and content that moves on its own can be paused (2.2.1, 2.2.2).
+
+**ACC-12 Typing never rebuilds the field; nothing flashes.** *Must.* While the user types into a field, that field stays the same element: it keeps its focus, caret, text selection and focus ring, and the results, counts and lists around it update in place. When a tap, pick or toggle redraws part of the screen, nothing visibly flashes or re-opens: focus returns to the same control with its focus ring already shown, and an open dropdown panel or sheet stays open without replaying its opening animation.

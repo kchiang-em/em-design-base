@@ -57,7 +57,7 @@ All of these are written into the clauses listed.
 | Brand green and status green are separate; status uses the classic status green | FND-1, FND-2, FND-3 |
 | Information blue is the brand guideline's secondary blue `#16537A`, not its navy `#0E4473` (the heading colour), so information messages do not look like headings | FND-2 |
 | Borders that identify a control reach 3:1 | ACC-6 |
-| Dates and times follow ISO 8601, extended and basic formats | CNT-1, CNT-2 |
+| Dates and times follow ISO 8601, extended and basic formats (see the display setting below) | CNT-1, CNT-2 |
 | WCAG 2.2 Level AA | ACC-11 |
 | Field errors: red border, red alert icon and dark red message below the field; validate on leaving the field or on submit; error summary when a form has more than three errors | CMP-2 |
 | One red for errors, destructive actions and critical clinical results, told apart by icon and wording | FND-3 |
@@ -71,7 +71,12 @@ All of these are written into the clauses listed.
 | Every destructive action asks for confirmation in a dialog that starts on Cancel | CMP-21 |
 | Sidebar: with a mouse it opens over the page on hover or keyboard focus; on touch screens the toggle button controls it; a long item list scrolls while the toggle and profile stay in place | CMP-11 |
 | The typeface is chosen per product; the default is Public Sans (open licence, downloaded by each project from its official source; chosen over Archivo because Archivo's capital I and lower-case l are identical). Acumin is allowed with a suitable licence; any face must meet FND-5: one family in Regular and Bold, distinct I / l / 1 and O / 0, tabular figures, a licence that covers the use | FND-5, FND-6 |
+| Standard layout patterns: app top bar as an alternative to the sidebar account row, list-detail, tabs, chips and code labels, stat cards | CMP-22 to CMP-26 |
+| After every edit that changes a screen, run the screens in a browser at phone, tablet and desktop width (the browser check); every defect found in review becomes a clause and a check | SCP-12, SCP-13 |
+| Typing never rebuilds the field; content stays inside its container; table columns fit at every width | ACC-12, FND-18, CMP-9 |
 | A client's colours live in the project's own token file (`app-tokens`) as overrides of the brand tokens; there is no separate theme file | THM-1 |
+| From a layout review of the EncoreMed ward app in development, the design intents worth keeping (not its layouts, which stay each product's choice): navigation groups, the page title kept on phones, a context switcher, list toolbars, segmented controls, showing how fresh live data is, an attention list, patient-data masking, defined terms, dashboard panels, long forms, helpful empty states, refresh without hiding content, a clear demo-data label, consistent status labels and plurals, and no text under 13. Avoid redundancy: each action, title and piece of information once per screen | CMP-11, CMP-13, CMP-14, CMP-18, CMP-22, CMP-25, CMP-26, CMP-27 to CMP-34, FND-7, FND-16, FND-19, CNT-4, CNT-5 |
+| Dates and times are ISO 8601 and 24-hour by default; a user or app setting may switch the display to DD-MM-YYYY and the 12-hour clock with AM/PM; data exchange, files, exports and logs stay ISO | CNT-1, CNT-2 |
 | All chart colours (categories and scales) are chosen per project. The default set (the official palette and the colour-blind-safe set 02, plus three derived colours) is a starting point; any set must reach 3:1 against whatever is behind the chart (charts may be transparent), stay distinct for colour-blind readers and avoid the status colours | FND-17 |
 
 ## Open questions for the owner

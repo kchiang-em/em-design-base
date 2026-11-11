@@ -116,7 +116,22 @@ The anatomy, sizes and behaviour of each component are set by its clause in `../
 | CMP-17 Toast | `.toast` | removed after `--toast-duration` (6 seconds); the timer pauses while the pointer is over it |
 | CMP-18 States | `.state`, `.state--error`, `.spinner`, `.empty-note` | none |
 | CMP-20 Logo tile | `.logo`, `.logo__mark` | none |
+| CMP-22 App top bar | `.top-bar`, `.top-bar__title`, `.top-bar__tools`, `.context-chip`, `.top-bar__account`, `.account-btn` (add `.has-top-bar` to `.app-shell`) | the account menu; in the reference, `?shell=topbar` switches it on |
+| CMP-23 List-detail | `.ld` (`.ld--single` for one pane), `.ld__pane`, `.ld__head`, `.count-badge`, `.ld__search`, `.ld__items`, `.ld-item` (`.selected`), `.ld-item__main`, `.ld-item__delete`, `.ld__detail`, `.ld-detail__head`, `.switch-row` | the list filters in place; on phones one pane at a time (`rolesScreen()` in `web/app.js`) |
+| CMP-24 Tabs | `.tabs` (`role="tablist"`), `.tab` (`role="tab"`), `.tab__count`, `.tab-panel` | arrow keys, Home and End; the selected tab kept in view on phones |
+| CMP-25 Chips, code labels | `.chip-groups`, `.chip-group`, `.chip-group__label`, `.chips`, `.chip`, `.chip__meta`, `.code-chip` | none |
+| CMP-26 Stat card | `.stat-cards`, `.stat-card`, `.stat-card__icon` (`--success`, `--warning`), `.stat-card__value`, `.stat-card__total`, `.stat-card__label` | none |
+| CMP-27 to CMP-34 List toolbar, segmented control, data freshness, attention list, masking, defined terms, dashboard panel, long forms | not in the web reference: these are design intents, not fixed layouts. Build them from the clause with the existing tokens and classes (`.filters`, `.search-wrap`, `.card`, `.status-pill`, `.banner`, `.stat-card`, `.code-chip`, `.state`) and tell the user what you added (SCP-4) | each clause's *Must* lines: keyboard use of the segmented control (CMP-28), definitions on hover, focus and tap (CMP-32), the exact update time (CMP-29) |
 | FND-16 Phones (narrower than 768px) | one `@media (max-width: 767px)` block at the end of `components.css` (and of `app.css` for screens): the sidebar becomes the tab bar, `.profile__tab-label` and `.profile-menu-item--phone` appear, `.modal-card` becomes a bottom sheet; `.load-more`, `.choice`, `.choice-group`, `.sheet-actions` | `isPhone()` (`matchMedia("(max-width: 767px)")`): no hover or toggle sidebar modes; lists render "Load more" instead of the pager; the Filters sheet |
+
+## 6b. Two rules that are easy to break (ACC-12, FND-18)
+
+**Update in place; never rebuild the field the user is typing in.** A search box that re-renders the whole page on every keystroke destroys and re-creates the field, so the focus ring flashes and the caret can jump.
+- Apps that render with `innerHTML`: on input, update only the regions that change (the result list, the count, a clear button) and leave the field alone. The reference does this in `refreshResidents()` and `refreshWardList()` in `web/app.js`; open sheets are updated with `refreshSheet()`, which replaces the sheet's contents, not the sheet.
+- React, Vue and similar: keep the field mounted. Do not give it, or a container around it, a `key` that changes with the search text; do not render the field inside the component that is re-created for each result set.
+- When a full redraw is unavoidable (paging, for example), give focus back with the ring already shown, not animated in (`focusQuiet()` in `web/app.js`).
+
+**Make columns fit.** Add up the minimum column widths, the gaps between them and the row padding: at the narrowest width that shows the table, the total must not exceed the table's width. If it would, hide lower-priority columns at that width (the reference hides the avatar at 900px and below) or switch to the phone card layout. A row that runs past its table is an FND-18 error; check every table at all three widths (SCP-12).
 
 ## 7. Web reference: markup catalogue
 
@@ -282,6 +297,52 @@ Show at most **5 page numbers** in a sliding window (`First` and `Last` jump to 
 
 The tab bar needs no extra markup: on phones the sidebar markup in "Page shell and sidebar" becomes it. Add `<span class="profile__tab-label">Account</span>` inside `.profile`, and a `.profile-menu-item--phone` Sign out item in the staff menu.
 
+### App top bar, list-detail, tabs, chips, stat cards (CMP-22 to CMP-26)
+```html
+<!-- top bar: replaces .page-header; add has-top-bar to .app-shell so the sidebar account row is hidden -->
+<header class="top-bar">
+  <div class="top-bar__title"><h1>Staff roles</h1><p>One-line subtitle</p></div>
+  <div class="top-bar__tools">
+    <span class="status-pill"><span></span> Gateway connected</span>
+    <span class="context-chip"><svg>…</svg><span>Gateway <strong>RSM-GW-1408</strong></span></span>
+    <div class="top-bar__account">   <!-- the .profile-menu goes in here while open -->
+      <button type="button" class="account-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Staff menu: Name, Role">
+        <span class="account-btn__avatar">AM</span><span class="account-btn__who"><strong>Name</strong><small>Role</small></span><svg>…</svg>
+      </button></div></div>
+</header>
+
+<!-- list-detail -->
+<div class="ld">
+  <section class="ld__pane" aria-label="Roles">
+    <div class="ld__head"><h2>Roles</h2><span class="count-badge">8</span></div>
+    <div class="ld__search"><div class="search-wrap"><svg>…</svg><input class="filter-field" placeholder="Search roles…" /></div></div>
+    <div class="ld__items">
+      <div class="ld-item selected">
+        <button type="button" class="ld-item__main" aria-current="true"><span class="ld-item__avatar" aria-hidden="true">CN</span>
+          <span class="ld-item__text"><span class="ld-item__name truncate">Charge nurse</span><span class="ld-item__meta truncate">CHARGE_NURSE</span></span><svg>…</svg></button>
+        <button type="button" class="icon-button icon-button--danger ld-item__delete" aria-label="Delete the Charge nurse role"><svg>…</svg></button>
+      </div>
+    </div>
+  </section>
+  <section class="ld__pane ld__detail" aria-labelledby="t">
+    <div class="ld-detail__head"><h2 id="t">Charge nurse</h2><span class="code-chip">CHARGE_NURSE</span>
+      <span class="switch-row"><button class="toggle on" role="switch" aria-checked="true" aria-labelledby="a"><span></span></button><span id="a">Active</span></span></div>
+    <div class="tabs" role="tablist" aria-label="Role details">
+      <button class="tab" role="tab" id="tab-o" aria-selected="true" aria-controls="p" tabindex="0"><svg>…</svg><span>Overview</span></button>
+      <button class="tab" role="tab" id="tab-a" aria-selected="false" aria-controls="p" tabindex="-1"><svg>…</svg><span>Actions</span><span class="tab__count">11</span></button>
+    </div>
+    <div class="tab-panel" role="tabpanel" id="p" aria-labelledby="tab-o">
+      <div class="stat-cards">
+        <div class="stat-card"><div class="stat-card__icon"><svg>…</svg></div><div><div class="stat-card__value">5<span class="stat-card__total"> / 8</span></div><span class="stat-card__label">Pages in the menu</span></div></div>
+      </div>
+      <div class="chip-groups"><div class="chip-group"><div class="chip-group__label">Devices</div>
+        <div class="chips"><span class="chip">Devices<span class="chip__meta">View · Pair · Unpair</span></span></div></div></div>
+    </div>
+  </section>
+</div>
+```
+A checkbox set in columns is `.check-grid` holding `.remember` checkbox rows. Success and warning banners add `.banner--success` or `.banner--warning`. The reference screen is `#/roles` (`rolesScreen()` in `web/app.js`); `?show=role-delete` opens its delete confirmation.
+
 ### Status, banner, cards, modal, toast, loading
 ```html
 <span class="status-pill"><span></span> Gateway connected</span>
@@ -325,4 +386,4 @@ The markup in section 7 is CSS only. Opening, closing and focus behaviour for th
 ## 9. Known limits
 
 - There is no dark mode (FND-15).
-- The checker (`../tools/guard.py`) checks colours on every platform and CSS on web. It cannot judge layout, markup or behaviour, so the hand checks in SCP-9 still apply.
+- The checker (`../tools/guard.py`) checks colours on every platform and CSS on web. It cannot judge layout, markup or behaviour, so checking the work against the policies (SCP-9) and the browser check (SCP-12) still apply.

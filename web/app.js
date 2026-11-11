@@ -20,6 +20,9 @@
 
   // ---------- icons (paths copied from the design) ----------
   const P = {
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    key: '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
+    layers: '<path d="m12 2 10 5-10 5L2 7l10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
     alert: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5"/><path d="M12 16.2v.1"/>',
     home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
     bluetooth: '<path d="m6 7.5 12 9L12 21V3l6 4.5-12 9"/>',
@@ -73,6 +76,8 @@
     password: D.login.password,
     loginErr: {},   // sign-in field -> error message (CMP-2)
     filterSheet: false,   // phones: the Filters sheet is open
+    roles: D.roles.map((x) => ({ ...x, designations: [...x.designations], pages: [...x.pages] })),
+    roleSel: null, roleTab: "overview", roleSearch: "", roleDrafts: {},   // staff roles screen
     pwVisible: false,
     remember: true,
     search: "",
@@ -184,8 +189,16 @@
       <div class="logo__text"><div class="logo__name">Rossmax Connect</div><div class="logo__sub">Care gateway</div></div>
     </div>`;
 
+  // ?shell=topbar puts the page title, the context and the account in a top bar (CMP-22) instead of the sidebar account row
+  const topbarOn = () => new URLSearchParams(location.search).get("shell") === "topbar";
   function header(title, sub, right) {
-    return `<header class="page-header"><div><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${right || ""}</header>`;
+    if (!topbarOn()) return `<header class="page-header"><div><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${right || ""}</header>`;
+    return `<header class="top-bar"><div class="top-bar__title"><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>
+      <div class="top-bar__tools">${right || ""}<span class="context-chip">${ic("wifi", 16)}<span>Gateway <strong>${D.gateway.id}</strong></span></span>
+        <div class="top-bar__account">${S.profileOpen ? staffMenu() : ""}
+          <button type="button" class="account-btn${S.profileOpen ? " open" : ""}" data-action="profile" aria-haspopup="menu" aria-expanded="${S.profileOpen}" aria-label="Staff menu: ${D.user.name}, ${D.user.role}">
+            <span class="account-btn__avatar">${D.user.initials}</span><span class="account-btn__who"><strong>${D.user.name}</strong><small>${D.user.role}</small></span>${ic("chevronDown", 16)}
+          </button></div></div></header>`;
   }
   const gatewayPill = `<span class="status-pill"><span></span> Gateway connected</span>`;
 
@@ -197,24 +210,28 @@
   }
 
   const navToggleHtml = () => `${ic(S.navExpanded ? "chevronsLeft" : "chevronsRight")}<span class="nav-label">${S.navExpanded ? "Collapse menu" : "Expand menu"}</span>`;
+  const staffMenu = () => `
+      <div class="profile-menu">
+        <div class="profile-menu__head">Staff menu</div>
+        <button class="profile-menu-item" data-action="nav" data-to="roles">
+          ${ic("users", 17)}<span><strong>Staff roles</strong><small>Pages and actions</small></span>${ic("chevronRight", 15)}
+        </button>
+        <button class="profile-menu-item" data-action="nav" data-to="settings">
+          ${ic("shield", 17)}<span><strong>System setup</strong><small>Administrator access</small></span>${ic("chevronRight", 15)}
+        </button>
+        <button class="profile-menu-item profile-menu-item--phone" data-action="logout">${ic("logout", 17)}<span><strong>Sign out</strong><small>${D.user.name}</small></span></button>
+      </div>`;
   function shell(page, body, overlay) {
     const nav = [["residents", "home", "Residents"], ["devices", "bluetooth", "Devices"]]
       .map(([id, icon, label]) => `
         <button class="nav-item${page === id ? " active" : ""}" data-action="nav" data-to="${id}" title="${label}" aria-label="${label}"${page === id ? ' aria-current="page"' : ""}>
           ${ic(icon, 20)}<span class="nav-label">${label}</span>${id === "devices" ? `<span class="nav-badge">${S.devices.length}</span>` : ""}
         </button>`).join("");
-    const menu = S.profileOpen ? `
-      <div class="profile-menu">
-        <div class="profile-menu__head">Staff menu</div>
-        <button class="profile-menu-item" data-action="nav" data-to="settings">
-          ${ic("shield", 17)}<span><strong>System setup</strong><small>Administrator access</small></span>${ic("chevronRight", 15)}
-        </button>
-        <button class="profile-menu-item profile-menu-item--phone" data-action="logout">${ic("logout", 17)}<span><strong>Sign out</strong><small>${D.user.name}</small></span></button>
-      </div>` : "";
+    const menu = S.profileOpen && !topbarOn() ? staffMenu() : "";
     const toggleLabel = S.navExpanded ? "Collapse navigation" : "Expand navigation";
     const toggleRow = navMode().toggle ? `<div class="sidebar__toggle-row"><button type="button" class="nav-item sidebar__toggle" data-action="nav-toggle" aria-expanded="${S.navExpanded}" aria-label="${toggleLabel}" title="${toggleLabel}">${navToggleHtml()}</button></div>` : "";
     return `
-      <div class="app-shell${navOpen() ? " nav-expanded" : ""}${navAuto() ? " nav-auto" : ""}">
+      <div class="app-shell${navOpen() ? " nav-expanded" : ""}${navAuto() ? " nav-auto" : ""}${topbarOn() ? " has-top-bar" : ""}">
         <aside class="sidebar">
           <div class="sidebar__logo">${logo(true)}</div>
           <nav class="sidebar__nav" aria-label="Main">
@@ -223,7 +240,7 @@
           ${toggleRow}
           <div class="sidebar__foot">
             ${menu}
-            <button type="button" class="profile${S.profileOpen ? " open" : ""}${page === "settings" ? " current" : ""}" data-action="profile" aria-haspopup="menu" aria-expanded="${S.profileOpen}" aria-label="Staff menu: ${D.user.name}, ${D.user.role}" title="${D.user.name}">
+            <button type="button" class="profile${S.profileOpen ? " open" : ""}${page === "settings" || page === "roles" ? " current" : ""}" data-action="profile" aria-haspopup="menu" aria-expanded="${S.profileOpen}" aria-label="Staff menu: ${D.user.name}, ${D.user.role}" title="${D.user.name}">
               <span class="profile__avatar">${D.user.initials}</span>
               <span class="profile__who"><span class="profile__name truncate">${D.user.name}</span><span class="profile__role">${D.user.role}</span></span>
               <span class="profile__tab-label">Account</span>
@@ -519,7 +536,7 @@
         </div>
       </article>`).join("");
     const body = `
-      ${header("Paired devices", "Configure Rossmax devices for this gateway", gatewayPill)}
+      ${header("Devices", "Configure Rossmax devices for this gateway", gatewayPill)}
       <div class="content-scroll">
         <div class="banner"><div class="banner__icon">${ic("check", 18)}</div>
           <div><strong>One-time device setup</strong><small>Paired devices work for every resident. No assignment needed.</small></div></div>
@@ -626,6 +643,105 @@
   }
 
   // ---------- render ----------
+  function roleToggle(key, el) {
+    const r = roleById(S.roleSel); if (!r) return;
+    const d = S.roleDrafts[r.id] = roleDraft(r), v = el.dataset.value;
+    d[key] = d[key].includes(v) ? d[key].filter((x) => x !== v) : [...d[key], v];
+    S.refocus = `[data-action="${el.dataset.action}"][data-value="${CSS.escape(v)}"]`; render();
+  }
+  // ---------- staff roles: list-detail (CMP-23), tabs (CMP-24), chips (CMP-25), stat cards (CMP-26) ----------
+  const roleById = (id) => S.roles.find((x) => x.id === id);
+  const roleDraft = (r) => S.roleDrafts[r.id] || { designations: [...r.designations], pages: [...r.pages] };
+  const sameSet = (a, b) => a.slice().sort().join("|") === b.slice().sort().join("|");
+  const roleDirty = (r) => { const d = S.roleDrafts[r.id]; return !!d && (!sameSet(d.designations, r.designations) || !sameSet(d.pages, r.pages)); };
+  const actionsTotal = () => D.access.areas.reduce((n, a) => n + a.resources.reduce((m, [, v]) => m + v.length, 0), 0);
+  const roleActionCount = (r) => Object.values(r.actions).reduce((n, v) => n + v.length, 0);
+  const missingData = (r, pages) => D.access.pages.filter((pg) => pages.includes(pg.name) && !(r.actions[pg.needs[0]] || []).includes(pg.needs[1]));
+  const initials2 = (name) => name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+  const statCard = (icon, value, total, label, tone) => `<div class="stat-card"><div class="stat-card__icon${tone ? " stat-card__icon--" + tone : ""}">${ic(icon, 22)}</div>
+    <div><div class="stat-card__value">${value}${total == null ? "" : `<span class="stat-card__total"> / ${total}</span>`}</div><span class="stat-card__label">${label}</span></div></div>`;
+  const chipGroups = (r) => {
+    const groups = D.access.areas.map((a) => {
+      const chips = a.resources.filter(([res]) => (r.actions[res] || []).length)
+        .map(([res]) => `<span class="chip">${esc(res)}<span class="chip__meta">${r.actions[res].join(" · ")}</span></span>`).join("");
+      return chips ? `<div class="chip-group"><div class="chip-group__label">${a.area}</div><div class="chips">${chips}</div></div>` : "";
+    }).join("");
+    return groups ? `<div class="chip-groups">${groups}</div>` : '<p class="empty-note">This role has no data actions.</p>';
+  };
+  function roleListItems() {
+    const q = S.roleSearch.trim().toLowerCase();
+    const list = S.roles.filter((x) => !q || x.name.toLowerCase().includes(q) || x.code.toLowerCase().includes(q));
+    if (!list.length) return '<p class="empty-note">No roles match this search.</p>';
+    return list.map((x) => { const sel = x.id === S.roleSel; return `
+      <div class="ld-item${sel ? " selected" : ""}">
+        <button type="button" class="ld-item__main" data-action="role-open" data-id="${x.id}"${sel ? ' aria-current="true"' : ""}>
+          <span class="ld-item__avatar" aria-hidden="true">${initials2(x.name)}</span>
+          <span class="ld-item__text"><span class="ld-item__name truncate">${esc(x.name)}</span><span class="ld-item__meta truncate">${x.active ? "" : "Inactive · "}${x.code}</span></span>
+          ${ic("chevronRight", 18)}
+        </button>
+        <button type="button" class="icon-button icon-button--danger ld-item__delete" data-action="role-delete" data-id="${x.id}" aria-label="Delete the ${esc(x.name)} role" title="Delete the ${esc(x.name)} role">${ic("trash", 16)}</button>
+      </div>`; }).join("");
+  }
+  function roleDetail(r, phone) {
+    const d = roleDraft(r), dirty = roleDirty(r), nActions = roleActionCount(r), missing = missingData(r, d.pages);
+    const saveBtn = `<div class="role-card__foot"><button type="button" class="primary-btn" data-action="role-save"${dirty ? "" : " disabled"}>${ic("check", 16)}Save</button></div>`;
+    const tabs = [["overview", "Overview", "eye", null], ["pages", "Pages", "layers", d.pages.length], ["actions", "Actions", "key", nActions], ["users", "Users", "users", r.users]];
+    const tabHtml = tabs.map(([k, label, icon, n]) => { const on = S.roleTab === k; return `<button type="button" class="tab" role="tab" id="tab-${k}" aria-selected="${on}" aria-controls="role-panel" tabindex="${on ? 0 : -1}" data-action="role-tab" data-tab="${k}">${ic(icon, 16)}<span>${label}</span>${n == null ? "" : `<span class="tab__count">${n}</span>`}</button>`; }).join("");
+    let panel;
+    if (S.roleTab === "pages") {
+      panel = `<div class="card role-card"><h3>Pages in the menu</h3><p class="role-card__sub">Pick the pages this role sees. Each page also needs its data action (Actions tab).</p>
+        <div class="choice-list">${D.access.pages.map((pg) => { const on = d.pages.includes(pg.name); return `<button type="button" class="choice" role="checkbox" aria-checked="${on}" data-action="role-page" data-value="${esc(pg.name)}"><span class="choice__mark" aria-hidden="true">${on ? ic("check", 12) : ""}</span>${ic(pg.icon, 18)}<span>${esc(pg.name)}</span></button>`; }).join("")}</div>${saveBtn}</div>`;
+    } else if (S.roleTab === "actions") {
+      panel = `<div class="card role-card"><h3>Data actions</h3><p class="role-card__sub">${nActions} of ${actionsTotal()} actions are switched on, by area.</p>${chipGroups(r)}</div>`;
+    } else if (S.roleTab === "users") {
+      panel = `<div class="card role-card"><h3>Staff with this role</h3>${r.users ? `<p class="role-card__sub">${r.users} staff member${r.users === 1 ? " has" : "s have"} this role. Roles are assigned from each person's profile.</p>` : '<p class="empty-note">No staff have this role yet.</p>'}</div>`;
+    } else {
+      const desig = D.access.designations.map((g) => { const on = d.designations.includes(g); return `<button type="button" class="remember${on ? " on" : ""}" role="checkbox" aria-checked="${on}" data-action="role-desig" data-value="${esc(g)}"><span class="remember__box">${on ? ic("check", 14) : ""}</span>${esc(g)}</button>`; }).join("");
+      const preview = D.access.pages.filter((pg) => d.pages.includes(pg.name)).map((pg) => `<li>${ic(pg.icon, 18)}${esc(pg.name)}</li>`).join("");
+      const attention = missing.length
+        ? `<div class="banner banner--warning"><div class="banner__icon">${ic("alert", 18)}</div><div><strong>${missing.length} page${missing.length === 1 ? "" : "s"} would open empty</strong><small>${missing.map((pg) => `${esc(pg.name)} needs ${pg.needs[0]} · ${pg.needs[1]}`).join("; ")}</small></div></div>`
+        : `<div class="banner banner--success"><div class="banner__icon">${ic("check", 18)}</div><div><strong>Every page this role can open can also read its data.</strong></div></div>`;
+      panel = `<div class="card role-card"><h3>What this role is</h3><p class="role-card__sub">Describes the role. It does not grant access: that is the Pages and Actions tabs.</p>
+          <fieldset class="role-fieldset"><legend class="label">Designations</legend><div class="check-grid">${desig}</div></fieldset>${saveBtn}</div>
+        <div class="stat-cards">${statCard("layers", d.pages.length, D.access.pages.length, "Pages in the menu")}${statCard("key", nActions, actionsTotal(), "Data actions allowed")}${statCard(missing.length ? "alert" : "check", missing.length, null, "Pages missing data access", missing.length ? "warning" : "success")}</div>
+        <div class="role-overview-grid">
+          <div class="card role-card"><h3>Menu preview</h3><p class="role-card__sub">The menu as someone in this role sees it.</p>${preview ? `<ul class="menu-preview">${preview}</ul>` : '<p class="empty-note">No pages.</p>'}</div>
+          <div class="role-overview-side">
+            <div class="card role-card"><h3>Needs attention</h3><p class="role-card__sub">Pages this role can open but whose data it cannot read.</p>${attention}</div>
+            <div class="card role-card"><h3>What this role can do</h3><p class="role-card__sub">Every data action switched on, by area.</p>${chipGroups(r)}</div>
+          </div></div>`;
+    }
+    return `${phone ? `<button class="back-btn" data-action="nav" data-to="roles">${ic("arrowLeft", 16)}All roles</button>` : ""}
+      <div class="ld-detail__head"><h2 id="role-title">${esc(r.name)}</h2><span class="code-chip">${r.code}</span>
+        <span class="switch-row"><button type="button" class="toggle${r.active ? " on" : ""}" role="switch" aria-checked="${r.active}" aria-labelledby="role-active-label" data-action="role-active"><span></span></button><span id="role-active-label">Active</span></span></div>
+      <div class="tabs" role="tablist" aria-label="Role details">${tabHtml}</div>
+      <div class="tab-panel" role="tabpanel" id="role-panel" aria-labelledby="tab-${S.roleTab}">${panel}</div>`;
+  }
+  function roleDangerModal() {
+    const r = S.danger && S.danger.kind === "role-delete" && roleById(S.danger.id);
+    if (!r) return "";
+    return `<div class="modal-backdrop"><div class="modal-card modal-card--wide" role="alertdialog" aria-modal="true" aria-labelledby="m4" aria-describedby="m4d">
+      <div class="modal-icon modal-icon--danger">${ic("trash", 21)}</div>
+      <h2 id="m4">Delete the ${esc(r.name)} role?</h2>
+      <p id="m4d">${r.users ? `${r.users} staff member${r.users === 1 ? "" : "s"} with this role will lose its pages and actions.` : "No staff have this role."} This cannot be undone; to use it again, create it as a new role.</p>
+      <div class="modal-actions modal-actions--end"><button class="secondary-btn" data-action="danger-cancel" data-autofocus>Cancel</button><button class="danger-btn" data-action="danger-ok">Delete role</button></div></div></div>`;
+  }
+  function rolesScreen(id) {
+    const phone = isPhone();
+    if (id && !roleById(id)) id = null;
+    S.roleSel = id || (phone ? null : (roleById(S.roleSel) ? S.roleSel : (S.roles[0] || {}).id));
+    const r = S.roleSel && roleById(S.roleSel);
+    const showList = !phone || !r;
+    const list = showList ? `<section class="ld__pane" aria-label="Roles">
+        <div class="ld__head"><h2>Roles</h2><span class="count-badge">${S.roles.length}</span></div>
+        <div class="ld__search"><div class="search-wrap">${ic("search", 18)}<label class="sr-only" for="role-search">Search roles</label><input id="role-search" class="filter-field" data-bind="roleSearch" value="${esc(S.roleSearch)}" placeholder="Search roles…" autocomplete="off" /></div></div>
+        <div class="ld__items">${roleListItems()}</div></section>` : "";
+    const detail = r ? `<section class="ld__pane ld__detail" aria-labelledby="role-title">${roleDetail(r, phone)}</section>` : "";
+    const body = `${header("Staff roles", "Which pages each role sees, and what it can do there", `<div class="header-actions">${gatewayPill}</div>`)}
+      <div class="content-scroll"><div class="ld${list && detail ? "" : " ld--single"}">${list}${detail || (list ? "" : '<p class="empty-note">No roles yet.</p>')}</div></div>`;
+    return shell("roles", body, roleDangerModal());
+  }
+
   // The HTML of the current screen (render() puts it on the page; the partial updates below take pieces from it).
   function screenHtml() {
     const { parts, state } = parseRoute();
@@ -634,8 +750,9 @@
     if (route === "login" && isLoggedIn()) route = "residents";
     let html, title;
     if (route === "login") { html = loginScreen(); title = "Sign in"; }
-    else if (route === "devices") { html = devicesScreen(state); title = "Paired devices"; }
+    else if (route === "devices") { html = devicesScreen(state); title = "Devices"; }
     else if (route === "settings") { html = settingsScreen(); title = "Gateway status"; }
+    else if (route === "roles") { html = rolesScreen(parts[1]); title = "Staff roles"; }
     else if (route === "residents" && parts[1]) {
       if (S.readingsFor !== parts[1]) { S.readingsFor = parts[1]; S.readings = D.readings.map((r) => ({ ...r })); S.sessionStart = new Date(); }   // a new session starts now (CNT-2)
       html = readingsScreen(parts[1]); title = "Resident readings";
@@ -699,6 +816,8 @@
       const sc = app.querySelector(".content-scroll");
       if (sc) sc.scrollTop = scrollTop;
     }
+    const selTab = app.querySelector('[role="tab"][aria-selected="true"]');
+    if (selTab && selTab.parentElement.scrollWidth > selTab.parentElement.clientWidth) selTab.scrollIntoView({ block: "nearest", inline: "nearest" });   // keep the selected tab in view (CMP-24)
     if (S.refocusPager) {
       const cur = app.querySelector(`.table-foot[data-pos="${S.refocusPager}"] .pager__btn.current`);
       S.refocusPager = false;
@@ -756,6 +875,17 @@
       S.page = 1; S.refocus = `.ms__option[data-value="${v.replace(/["\\]/g, "\\$&")}"]`; render();
     },
     "search-clear": () => { S.search = ""; S.page = 1; S.refocus = "#search"; render(); },
+    "role-open": (el) => { S.roleTab = "overview"; S.refocus = `.ld-item__main[data-id="${el.dataset.id}"], #role-title`; go("#/roles/" + el.dataset.id); },
+    "role-tab": (el) => { S.roleTab = el.dataset.tab; S.refocus = `#tab-${S.roleTab}`; render(); },
+    "role-desig": (el) => roleToggle("designations", el),
+    "role-page": (el) => roleToggle("pages", el),
+    "role-save": () => {
+      const r = roleById(S.roleSel), d = r && S.roleDrafts[r.id];
+      if (d) { r.designations = d.designations; r.pages = d.pages; delete S.roleDrafts[r.id]; }
+      S.refocus = '[data-action="role-save"]'; notify(`${r.name} role saved`);
+    },
+    "role-active": () => { const r = roleById(S.roleSel); r.active = !r.active; S.refocus = '[data-action="role-active"]'; render(); },
+    "role-delete": (el) => { S.danger = { kind: "role-delete", id: el.dataset.id }; render(); },
     "filters-open": () => { S.filterSheet = true; render(); },
     "filters-cancel": () => { S.filterSheet = false; S.refocus = ".filters__open"; render(); },
     "sheet-zone": (el) => { const v = el.dataset.value; S.zone = v; S.page = 1; refreshSheet(`.choice[data-value="${v}"]`); },
@@ -787,6 +917,13 @@
     "danger-ok": () => {
       const { kind, id } = S.danger;
       S.danger = null;
+      if (kind === "role-delete") {
+        const gone = roleById(id); S.roles = S.roles.filter((x) => x.id !== id); delete S.roleDrafts[id];
+        if (S.roleSel === id) S.roleSel = null;
+        S.refocus = "#role-search"; notify(`${gone.name} role deleted`);
+        if (location.hash !== "#/roles") go("#/roles");
+        return;
+      }
       if (kind === "unpair") { S.devices = S.devices.map((d) => (d.id === id ? { ...d, connected: false } : d)); S.refocus = `[data-action="unpair"][data-id="${id}"]`; notify("Device unpaired"); }
       else { S.devices = S.devices.filter((d) => d.id !== id); S.refocus = ".device-action"; notify("Device removed"); }
     },
@@ -850,7 +987,7 @@
     const el = e.target.closest("[data-action]");
     const outside = S.openDd && !e.target.closest(`[data-dd="${S.openDd}"]`);   // a click anywhere else closes the open panel
     if (outside) { S.openDd = null; S.wardQuery = ""; }
-    const outsideProfile = S.profileOpen && !e.target.closest(".sidebar__foot");   // ...and the staff menu
+    const outsideProfile = S.profileOpen && !e.target.closest(".sidebar__foot, .top-bar__account");   // ...and the staff menu
     if (outsideProfile) S.profileOpen = false;
     if (el && actions[el.dataset.action] && !el.disabled) actions[el.dataset.action](el);
     else if (outside || outsideProfile) render();
@@ -871,7 +1008,12 @@
       }
       return;
     }
-    if (e.key === "Escape" && S.profileOpen) { e.preventDefault(); S.profileOpen = false; S.refocus = ".profile"; render(); return; }
+    if (ae && ae.getAttribute && ae.getAttribute("role") === "tab" && ["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) {   // tabs: arrows move between them (CMP-24)
+      const tabs = [...ae.parentElement.querySelectorAll('[role="tab"]')]; let i = tabs.indexOf(ae);
+      i = e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : (i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+      e.preventDefault(); tabs[i].click(); return;
+    }
+    if (e.key === "Escape" && S.profileOpen) { e.preventDefault(); S.profileOpen = false; S.refocus = topbarOn() ? ".account-btn" : ".profile"; render(); return; }
     if (e.key === "Escape" && navAuto() && S.navPeek) { e.preventDefault(); setPeek(false, 0); return; }   // hover content can be dismissed without moving the pointer (WCAG 1.4.13)
     if (!S.openDd) {   // ArrowDown on a closed dropdown opens it
       if (e.key === "ArrowDown" && ae && ae.classList && ae.classList.contains("dd__trigger")) { e.preventDefault(); ae.click(); }
@@ -898,6 +1040,7 @@
     else S[key] = e.target.value;
     if (LOGIN_RULES[key] && S.loginErr[key] && !LOGIN_RULES[key](S[key])) { S.loginErr[key] = ""; showLoginErr(key); }   // fixed: clear at once
     if (key === "search") { S.page = 1; refreshResidents(); }
+    if (key === "roleSearch") { const l = app.querySelector(".ld__items"); if (l) l.innerHTML = roleListItems(); }   // the field stays (ACC-12)
     if (key === "wardQuery") refreshWardList();
     // PIN: re-rendering would rebuild the modal and replay its fade-in on every keystroke,
     // so only toggle the Authorize button in place.
@@ -928,6 +1071,7 @@
   if (SHOW === "delete") S.danger = { kind: "remove", id: 3 };
   if (SHOW === "filters") S.filterSheet = true;
   if (SHOW === "account") S.profileOpen = true;
+  if (SHOW === "role-delete") S.danger = { kind: "role-delete", id: "charge-nurse" };
 
   window.addEventListener("hashchange", render);
   render();

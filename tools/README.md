@@ -1,6 +1,6 @@
 # Tools: conformance checker and theme helpers
 
-These scripts **implement and check** the UI policies in `../policy/`. They contain no rules of their own: when a rule changes, the policy changes first, then the scripts follow. Both need only Python 3, with no packages.
+These scripts **implement and check** the UI policies in `../policy/`. They contain no rules of their own: when a rule changes, the policy changes first, then the scripts follow. They need only Python 3, with no packages.
 
 | Script | What it does | Implements |
 |---|---|---|
@@ -50,7 +50,7 @@ It prints `PASS` or `FAIL` and exits with code 1 on any error. **Every message s
 
 ### What it cannot check
 
-Layout, markup, component behaviour, keyboard use, touch target sizes and how the screens look. Those are the hand checks in SCP-9.
+Layout, markup, component behaviour, keyboard use, touch target sizes and how the screens look. Those are covered by the browser check (SCP-12) and by checking the work against the policies (SCP-9).
 
 ## Changing the tools
 

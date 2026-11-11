@@ -96,6 +96,7 @@
   --white-80: rgb(255 255 255 / 80%);
   /* type */
   --font-sans: "Public Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;   /* FND-5 default: open licence; the files are downloaded into fonts/ (see components.css) */
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;   /* codes and identifiers only (FND-5) */
   --text-xs: 13px;
   --text-sm: 14px;
   --text-base: 15px;
@@ -473,4 +474,63 @@
   --remember-size: var(--text-base);
   --remember-weight: var(--weight-medium);
   --remember-fg: var(--ink-500);
+
+  /* App top bar (CMP-22): the page title, the current context and the account, across the top of the main area */
+  --top-bar-min-h: 86px;
+  --top-bar-bg: var(--white);
+  --top-bar-border: var(--border);
+  --context-chip-h: var(--control-h-md);
+  --context-chip-bg: var(--surface-subtle);
+  --context-chip-border: var(--border);
+  --context-chip-fg: var(--ink-600);
+  --account-avatar-size: var(--control-h-md);
+  --account-avatar-bg: var(--info-100);
+  --account-avatar-fg: var(--brand-600);
+
+  /* List-detail layout (CMP-23) */
+  --ld-list-w: 320px;
+  --ld-list-w-compact: 260px;
+  --ld-gap: var(--space-xl);
+  --ld-item-h: 56px;
+  --ld-avatar-size: var(--control-h-md);
+  --ld-item-bg-hover: var(--surface-subtle);
+  --ld-item-bg-selected: var(--brand-50);
+  --ld-item-border-selected: var(--brand-400);
+  --ld-item-fg-selected: var(--brand-600);
+  --ld-avatar-bg: var(--brand-50);
+  --ld-avatar-fg: var(--brand-600);
+  --ld-avatar-bg-selected: var(--brand-600);
+  --ld-avatar-fg-selected: var(--white);
+
+  /* Tabs (CMP-24) */
+  --tab-h: var(--control-h-2xl);
+  --tab-icon-size: 16px;
+  --tab-fg: var(--ink-500);
+  --tab-fg-hover: var(--ink-700);
+  --tab-fg-active: var(--brand-600);
+  --tab-indicator: var(--brand-600);
+  --tab-indicator-h: 3px;
+  --tab-count-bg: var(--surface-muted);
+  --tab-count-fg: var(--ink-600);
+  --tab-count-bg-active: var(--brand-50);
+
+  /* Chips (CMP-25) */
+  --chip-h: var(--control-h-sm);
+  --chip-bg: var(--surface-subtle);
+  --chip-border: var(--border);
+  --chip-fg: var(--ink-700);
+  --chip-meta-fg: var(--ink-500);
+  --chip-group-label-w: 200px;
+  --code-chip-bg: var(--surface-muted);
+  --code-chip-fg: var(--ink-600);
+
+  /* Stat card (CMP-26) */
+  --stat-card-min-w: 220px;
+  --stat-icon-size: var(--control-h-2xl);
+  --stat-icon-bg: var(--brand-50);
+  --stat-icon-fg: var(--brand-600);
+  --stat-value-size: var(--text-2xl);
+
+  /* Check grid: a set of checkboxes laid out in columns (CMP-5) */
+  --check-grid-min-w: 180px;
 }

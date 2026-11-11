@@ -30,11 +30,13 @@ EncoreMed products should look and behave like one family, whatever platform the
 
 **SCP-8 No demo content.** *Must.* Do not copy the demo data, names or screens of a reference implementation into a product. Reference implementations show patterns, not content.
 
-**SCP-9 Check before calling work done.** *Must.* Before work is reported as done:
-1. run the conformance checks that the implementation provides, and fix every error;
-2. read every warning and note, and either fix it or explain it to the user;
-3. check by hand what a script cannot see: every value traces to a token (SCP-3); every interactive control has the five states (ACC-1); keyboard and assistive use works (ACC-8); contrast (ACC-6); touch targets (ACC-9); the screens at tablet width and at a large width, and the navigation in both of its states (CMP-11); components behave as UI-4 describes;
-4. report what was built, what the checks said, and anything added or changed beyond the baseline.
+**SCP-9 Check the work against the policies before calling it done.** *Must.* Before work is reported as done:
+1. go through the policies (UI-1 to UI-6, and the engineering policies listed in SCP-11) and check the work against **every clause that applies** to the screens and components that were built or changed, by any method (reading the screens, the code or their text, or a script of one's own). A clause applies when the work contains what it governs: a table edit brings in the table, text, colour, content and accessibility clauses, not the sign-in or theming ones;
+2. fix anything that does not meet a *Must*; for a *Should* that is not met, fix it or tell the user why;
+3. run the code check that the implementation provides and the browser check (SCP-12) as part of this, and fix every error; read every warning and note, and fix it or explain it;
+4. report which policies were checked, what the checks found, any clause not met and why, and anything added or changed beyond the baseline.
+
+Clauses that are easy to miss (examples, not the scope): dates and times in the ISO default or the user's chosen setting (CNT-1, CNT-2); singular and plural forms, never "(s)" (CNT-4); redundancy (FND-19); text under 13 (FND-7); a field rebuilt or a focus ring flashing while typing (ACC-12); content running past its container (FND-18); every value from a token (SCP-3); the five control states (ACC-1); keyboard use (ACC-8); contrast (ACC-6); confirmation before a destructive action (CMP-21).
 
 **SCP-10 Never weaken a check.** *Must.* Do not edit, disable or bypass a conformance check to make it pass. Fix the work, or explain the deviation to the user.
 
@@ -49,3 +51,12 @@ EncoreMed products should look and behave like one family, whatever platform the
 | Validating a configurable display value when it is saved | EE-56 |
 
 The engineering policies are authoritative. When one changes, the UI policies follow it without a separate decision; if a UI clause and an engineering policy ever disagree, the engineering policy wins and the UI clause is corrected.
+
+**SCP-12 Browser check after every edit.** *Must.* After every edit that changes what a screen shows or how it behaves, and before reporting it, run the screens the edit touched in a real browser (or on a device or simulator for native apps) at phone, tablet and desktop width, and confirm that:
+- nothing extends beyond its container, is cut off, or makes the screen scroll sideways (FND-18);
+- typing into each field keeps that field, its focus and its caret (ACC-12);
+- there are no script errors and every file the screen needs loads;
+- text is 13 or larger (FND-7) and, at phone width, every control's tap area is at least 44 x 44 (ACC-9).
+Use whatever tooling suits the project (a browser's device mode, an automated browser test, a device or simulator). Fix every error before moving on: a defect found later costs more than one found now.
+
+**SCP-13 Every defect becomes a rule and a check.** *Must.* When a defect is found in review or testing that the rules and checks did not catch, add or sharpen a clause that forbids it and extend the checks to detect it, so it cannot come back unnoticed. Changes to the clauses follow EE-1 (SCP-11).

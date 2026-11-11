@@ -12,6 +12,7 @@ Users move between EncoreMed products. The same component should have the same p
 - Sizes are logical pixels: px on web, pt on iOS, dp on Android.
 - Every interactive part follows the five control states (ACC-1) and the accessibility rules (UI-3).
 - On native platforms, a platform control that does the same job may replace a component (SCP-6), keeping the anatomy and behaviour described here.
+- The layout patterns (CMP-22 onwards) describe the design intent: what the pattern is for, the parts it needs and how it should feel. The arrangement, the exact parts and the wording are the product's choice. An example in a clause shows the intent; it is not a layout to copy.
 
 ## Clauses
 
@@ -48,7 +49,7 @@ Users move between EncoreMed products. The same component should have the same p
 - the trigger shows "All …" when nothing is selected and the selected names when something is; a clear (×) button appears when something is selected;
 - the panel stays open while the user picks several options.
 
-**CMP-9 List or table.** A white card (radius 12, 1px border). The header row has small uppercase bold grey titles with wide letter-spacing. Rows have a hover tint and the amber pressed state (ACC-3), and an optional row action arrow (CMP-1). *Must:* column titles never touch; keep a gap of at least 12 to 16 between columns and give each column a minimum width. Clickable column headers follow EE-55, and decimal values in cells follow EE-52 (SCP-11).
+**CMP-9 List or table.** A white card (radius 12, 1px border). The header row has small uppercase bold grey titles with wide letter-spacing. Rows have a hover tint and the amber pressed state (ACC-3), and an optional row action arrow (CMP-1). *Must:* column titles never touch; keep a gap of at least 12 to 16 between columns and give each column a minimum width. *Must:* the columns fit the table at every width that shows it (FND-18): the minimum column widths, the gaps and the row padding together never exceed the table's width. Where they would, hide lower-priority columns at that width, or switch to the card layout of FND-16; never let cells or rows run past the table. Clickable column headers follow EE-55, and decimal values in cells follow EE-52 (SCP-11).
 
 **CMP-10 Pagination.** Shown above and below a paged list. Parts: "Showing 1–10 of 24", a "Rows per page" dropdown (5, 10, 20), and the buttons **First, Previous, up to five page numbers, Next, Last**.
 - Buttons are 32×32 with a 4 gap; the current page is navy with a white number. On touch platforms each tappable area is 44×44 (ACC-9).
@@ -63,15 +64,19 @@ Users move between EncoreMed products. The same component should have the same p
   - **Both (a touch laptop):** hovering opens it as on a mouse, and the toggle button pins it open as on touch.
 - *Must:* a long list of items scrolls on its own; the logo, the toggle button and the profile row stay in place, so they are always reachable.
 - Items are 44 tall (44×44 squares when collapsed) with a 20 icon and a label. The active item is brand blue with a 3 green edge. An item may carry a count badge.
-- Top: the logo tile (CMP-20). Above the profile row (touch screens only): the expand/collapse button, full width, green with dark navy text (a brand use of green, FND-3). Bottom: the profile row (a 34 avatar, the user's name and role) that opens an account menu, and a sign-out item.
+- Top: the logo tile (CMP-20). Above the profile row (touch screens only): the expand/collapse button, full width, green with dark navy text (a brand use of green, FND-3). Bottom (or in the app top bar instead, CMP-22): the profile row (a 34 avatar, the user's name and role) that opens an account menu, and a sign-out item.
 - Rows keep the same height in both states, and icons stay in place, so nothing jumps.
+- *Sections and groups:* related items may be grouped into sections, and an item may hold sub-pages that open in a submenu. The group shows as active while one of its pages is open. *Must:* a submenu behaves as a menu (ACC-10) and closes once an item is chosen.
 - On native apps, the sidebar becomes the platform's navigation pattern (tab bar, navigation rail or drawer), keeping the item order, labels and active-state style. On phones, navigation follows FND-16.
 
 **CMP-12 Page header and section heading.** A header bar (minimum height about 86) with the page title (26) and a one-line subtitle, and an optional status pill and icon button on the right. Section headings are 20 with a 14 subtitle.
 
-**CMP-13 Status pill.** A pill with a 1px border, a 6 status dot in the status colour (FND-2) and a text label (ACC-7).
+**CMP-13 Status pill.** A pill with a 1px border, a 6 status dot (or a status icon) in the status colour (FND-2) and a text label (ACC-7).
+- Labels are in sentence case (CNT-4), and the same state has the same label and look everywhere in a product.
 
 **CMP-14 Banner.** A 36×36 tinted icon square, a bold title and one short line. The default banner is informational (information blue, FND-2); success, warning and error banners use the tint and icon colour of their status family.
+- A note that warns about a consequence is a banner with its icon, not coloured text alone (ACC-7).
+- *Must:* a screen that shows invented or test data (a demo, training or sample patient) says so clearly, in words, so it is never mistaken for real patient data.
 
 **CMP-15 Card.** White, 1px border, radius 12.
 
@@ -83,9 +88,10 @@ Users move between EncoreMed products. The same component should have the same p
 **CMP-17 Toast.** A small card at the bottom right with a status-green check and one line, for confirmations only, never for errors or for anything the user must act on. It stays for at least 6 seconds and pauses while the pointer is over it or it has focus. It is announced to screen readers without taking focus (ACC-11). What it confirms must also be visible elsewhere (the saved item, an updated list), so missing the toast loses nothing.
 
 **CMP-18 Loading, error and empty states.** *Must:* a list or page is never left blank without one of these.
-- *Loading:* a 28 spinner with the word "Loading…".
+- *Loading:* a spinner with the word "Loading…", in place of the content that is loading. When content already on screen is refreshed, it stays visible; the refresh is shown discreetly, not as a spinner over the content.
 - *Error:* one line that says what failed, and a **Retry** button.
-- *Empty:* one centred sentence.
+- *Empty:* a short message that says what is empty and, where it helps, why and what to do next, with the action that fills it when the user can take one. An icon and a title may be added.
+- A detail pane with nothing selected (CMP-23) says what to do ("Select a role to see its permissions").
 
 **CMP-19 Avatar.** A circle with the person's initials on a soft pastel tint. The tints are data colours, not brand colours.
 
@@ -96,3 +102,64 @@ Users move between EncoreMed products. The same component should have the same p
 - Two buttons: **Cancel**, and a solid red button that repeats the action's verb ("Delete device"), never "OK" or "Yes".
 - Focus starts on **Cancel**, so pressing Enter by accident does nothing harmful. Escape cancels and focus returns to the control that opened the dialog (ACC-10).
 - After the action, a toast confirms it (CMP-17).
+
+**CMP-22 App top bar.** An alternative home for the page title and the account, for products that need a global context. A product uses either the top bar or the sidebar account row (CMP-11), never both.
+- Left: the page title (26) and an optional one-line subtitle. Right, in this order: page-level status and actions, the current context (for example the site, ward or gateway) as a chip, notifications if the product has them, and the account button (avatar, name, role, chevron) that opens the account menu with Sign out.
+- Minimum height 86, white, with a bottom border; the navigation rail stays on the left. *May:* a more compact bar for dense operational screens; a product uses one height throughout.
+- *The context chip* shows where the user is working (hospital, ward, gateway); when the user can work in more than one place, it opens a switcher. A long name is shortened with an ellipsis, with the full name available (FND-18).
+- *Should:* the page title appears once, not repeated as a heading in the content (FND-19).
+- *Must:* on phones the page title stays visible, in short form if needed (FND-16). Secondary parts (subtitle, the name beside the avatar, the long context name) are hidden; the avatar opens the account menu as a sheet.
+
+**CMP-23 List-detail layout.** For managing a set of items (roles, devices, templates): a list pane beside a detail pane.
+- *List pane* (320 wide; 260 on tablets): an uppercase title with a count badge, a search field, and one row per item with an avatar or icon, the name, a secondary line (a code or status) and a chevron. The selected row has a brand tint, a brand border and a filled avatar, and is marked as current for assistive technology. A destructive row action (delete) is a separate button, never part of the row's own button, and confirms first (CMP-21).
+- *Detail pane:* the item's name as the pane title (26), its code (CMP-25), an on-off switch with a visible label for its state, then tabs (CMP-24) or sections.
+- Searching the list filters it in place (ACC-12).
+- *Must:* on phones only one pane shows: the list first, then the detail with a Back link to the list (FND-16).
+
+**CMP-24 Tabs.** For switching between views of one item.
+- A row of tabs under the title, 48 high, label 14 bold, an optional icon and an optional count in a small pill. The selected tab is brand-coloured with a 3 underline; the others are grey and darken on hover.
+- *Must:* exposed as a tab list with tabs and one tab panel; the selected tab is the only one in the tab order, the left and right arrow keys move between tabs, and Home and End jump to the first and last.
+- *Must:* tabs never wrap onto a second row. When they do not fit (on a phone), the row scrolls sideways, the icons are hidden, and the selected tab is kept in view (FND-18).
+
+**CMP-25 Chips and code labels.**
+- *Chip:* a rounded label with an optional secondary part in smaller grey text ("Readings · View · Capture"); chips wrap within their area and never run past it. Chips can be grouped under an area heading, beside the chips on wide screens and above them on narrow ones. Chips show information; a chip that does something is a button and follows ACC-1.
+- *Code label:* a code or identifier in the monospaced face (FND-5) on a light grey tint. *May:* a copy button beside identifiers people copy elsewhere.
+- *May:* a small tag after a value that says where it came from ("Pump", "Manual"), so a reader can judge how far to trust it.
+- *Must:* chip text, including the secondary part, is 13 or larger (FND-7).
+
+**CMP-26 Stat card.** A card with a 48 x 48 tinted icon tile, a large number (26 bold, tabular figures), an optional "/ total" in smaller grey text, and a one-line label. A stat that reports a problem uses the status tint of its meaning (FND-2), with a different icon for the good and the bad state (ACC-7). Stat cards sit in a row that wraps to fewer columns, and to one column on phones.
+- *May:* a compact stat strip, several numbers side by side in one card, for the top of a list or a dashboard panel (CMP-33).
+- *Should:* the same kind of number looks the same on every screen of a product. A number in a status colour also says what it means in words or with an icon (ACC-7).
+
+**CMP-27 List toolbar.** The controls that act on a list are gathered in one place above it, so the user finds search, filters and the main action in the same spot on every list.
+- The search comes first and is the widest control; the main action ("New patient") is set apart from the filters, for example at the far end.
+- A short count of what the list shows ("229 patients") sits near the list and updates as the user searches or filters (ACC-12).
+- On phones the toolbar follows FND-16: search stays, other filters move into a sheet.
+
+**CMP-28 Segmented control.** A row of joined options for choosing one of a few related views, such as a period or a severity. The selected option is clearly filled. *Must:* it works with the keyboard and announces the selected option, like a radio group or tabs (ACC-8); a shortened label ("7D") has the full words as its accessible name.
+
+**CMP-29 Live data.** A screen whose data changes while it is open, or comes from devices or other systems, tells the user how fresh it is.
+- A short line near the data says whether it is live and when it last updated, and offers a way to refresh. When updates stop, it says so, with a warning icon.
+- *Must:* the exact time is shown (CNT-2), not only a relative one ("0 s ago").
+- A refresh keeps the current content on screen (CMP-18).
+- Missing values from a device or system are shown as missing, never silently filled in.
+
+**CMP-30 Attention list.** On an overview or health screen, problems that need someone to act are collected in one prominent list.
+- Each item says what happened in plain words, what it affects, and since when; it offers the action that deals with it. Technical detail (codes, counts) is secondary, for support staff.
+- The most severe and oldest items come first, and severity is shown by icon and word as well as colour (ACC-7).
+- An empty list says that nothing needs attention, rather than disappearing.
+
+**CMP-31 Sensitive data masking.** Where other people may see the screen, patient names and identifiers can be masked.
+- Masked values stay distinguishable (for example by keeping initials or the last few characters), so the user can still find the right row.
+- The user can reveal one value at a time, and switch masking for the whole screen; the switch says in words whether data is hidden or shown.
+- *Must:* every reveal control has an accessible name that says what it reveals (ACC-8). Who may reveal, and whether reveals are recorded, follows the product's privacy requirements.
+
+**CMP-32 Defined terms.** A label or metric that needs explaining is visibly marked and shows a short, plain definition. *Must:* the definition is reachable by hover, keyboard focus and touch, and can be dismissed (WCAG 1.4.13).
+
+**CMP-33 Dashboard panel.** An overview screen is built from cards, one per area. Each has a title, the few numbers or items that matter most, a short status summary when something needs review, and a way into the full list. Panels reflow to one column on phones (FND-16). Filters that apply to several panels are set once, above them.
+
+**CMP-34 Long forms.** A long form is split into titled sections, with related fields side by side on wide screens and stacked on phones.
+- *May:* a summary of the key answers beside the form on wide screens.
+- The form's actions are easy to find and in a predictable place; the main action is visually first in importance.
+- One save action per form (FND-19). When one screen really saves several things separately, each part and its button make clear what is being saved.
+- A value with a fixed set of choices is picked, not typed. Required and optional fields follow CMP-2.

@@ -435,6 +435,12 @@
       "$group": "type",
       "$description": "FND-5 default: open licence; the files are downloaded into fonts/ (see components.css)"
     },
+    "font-mono": {
+      "$value": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+      "$type": "fontFamily",
+      "$group": "type",
+      "$description": "codes and identifiers only (FND-5)"
+    },
     "text-xs": {
       "$value": "13px",
       "$type": "dimension",
@@ -2224,6 +2230,279 @@
       "$type": "color",
       "$group": "\"Remember this device\" row (the box uses --checkbox-*)",
       "$resolved": "#5a6c7d"
+    },
+    "top-bar-min-h": {
+      "$value": "86px",
+      "$type": "dimension",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area"
+    },
+    "top-bar-bg": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "#ffffff"
+    },
+    "top-bar-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "#dcdfe3"
+    },
+    "context-chip-h": {
+      "$value": "{control-h-md}",
+      "$type": "dimension",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "36px"
+    },
+    "context-chip-bg": {
+      "$value": "{surface-subtle}",
+      "$type": "color",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "#f8f8f8"
+    },
+    "context-chip-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "#dcdfe3"
+    },
+    "context-chip-fg": {
+      "$value": "{ink-600}",
+      "$type": "color",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "#4c6173"
+    },
+    "account-avatar-size": {
+      "$value": "{control-h-md}",
+      "$type": "dimension",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "36px"
+    },
+    "account-avatar-bg": {
+      "$value": "{info-100}",
+      "$type": "color",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "#d7e7f7"
+    },
+    "account-avatar-fg": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "App top bar (CMP-22): the page title, the current context and the account, across the top of the main area",
+      "$resolved": "#023c6e"
+    },
+    "ld-list-w": {
+      "$value": "320px",
+      "$type": "dimension",
+      "$group": "List-detail layout (CMP-23)"
+    },
+    "ld-list-w-compact": {
+      "$value": "260px",
+      "$type": "dimension",
+      "$group": "List-detail layout (CMP-23)"
+    },
+    "ld-gap": {
+      "$value": "{space-xl}",
+      "$type": "dimension",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "20px"
+    },
+    "ld-item-h": {
+      "$value": "56px",
+      "$type": "dimension",
+      "$group": "List-detail layout (CMP-23)"
+    },
+    "ld-avatar-size": {
+      "$value": "{control-h-md}",
+      "$type": "dimension",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "36px"
+    },
+    "ld-item-bg-hover": {
+      "$value": "{surface-subtle}",
+      "$type": "color",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "#f8f8f8"
+    },
+    "ld-item-bg-selected": {
+      "$value": "{brand-50}",
+      "$type": "color",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "#eef4fb"
+    },
+    "ld-item-border-selected": {
+      "$value": "{brand-400}",
+      "$type": "color",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "#3f7ab5"
+    },
+    "ld-item-fg-selected": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "#023c6e"
+    },
+    "ld-avatar-bg": {
+      "$value": "{brand-50}",
+      "$type": "color",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "#eef4fb"
+    },
+    "ld-avatar-fg": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "#023c6e"
+    },
+    "ld-avatar-bg-selected": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "#023c6e"
+    },
+    "ld-avatar-fg-selected": {
+      "$value": "{white}",
+      "$type": "color",
+      "$group": "List-detail layout (CMP-23)",
+      "$resolved": "#ffffff"
+    },
+    "tab-h": {
+      "$value": "{control-h-2xl}",
+      "$type": "dimension",
+      "$group": "Tabs (CMP-24)",
+      "$resolved": "48px"
+    },
+    "tab-icon-size": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$group": "Tabs (CMP-24)"
+    },
+    "tab-fg": {
+      "$value": "{ink-500}",
+      "$type": "color",
+      "$group": "Tabs (CMP-24)",
+      "$resolved": "#5a6c7d"
+    },
+    "tab-fg-hover": {
+      "$value": "{ink-700}",
+      "$type": "color",
+      "$group": "Tabs (CMP-24)",
+      "$resolved": "#3a3a3c"
+    },
+    "tab-fg-active": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "Tabs (CMP-24)",
+      "$resolved": "#023c6e"
+    },
+    "tab-indicator": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "Tabs (CMP-24)",
+      "$resolved": "#023c6e"
+    },
+    "tab-indicator-h": {
+      "$value": "3px",
+      "$type": "dimension",
+      "$group": "Tabs (CMP-24)"
+    },
+    "tab-count-bg": {
+      "$value": "{surface-muted}",
+      "$type": "color",
+      "$group": "Tabs (CMP-24)",
+      "$resolved": "#edeef0"
+    },
+    "tab-count-fg": {
+      "$value": "{ink-600}",
+      "$type": "color",
+      "$group": "Tabs (CMP-24)",
+      "$resolved": "#4c6173"
+    },
+    "tab-count-bg-active": {
+      "$value": "{brand-50}",
+      "$type": "color",
+      "$group": "Tabs (CMP-24)",
+      "$resolved": "#eef4fb"
+    },
+    "chip-h": {
+      "$value": "{control-h-sm}",
+      "$type": "dimension",
+      "$group": "Chips (CMP-25)",
+      "$resolved": "32px"
+    },
+    "chip-bg": {
+      "$value": "{surface-subtle}",
+      "$type": "color",
+      "$group": "Chips (CMP-25)",
+      "$resolved": "#f8f8f8"
+    },
+    "chip-border": {
+      "$value": "{border}",
+      "$type": "color",
+      "$group": "Chips (CMP-25)",
+      "$resolved": "#dcdfe3"
+    },
+    "chip-fg": {
+      "$value": "{ink-700}",
+      "$type": "color",
+      "$group": "Chips (CMP-25)",
+      "$resolved": "#3a3a3c"
+    },
+    "chip-meta-fg": {
+      "$value": "{ink-500}",
+      "$type": "color",
+      "$group": "Chips (CMP-25)",
+      "$resolved": "#5a6c7d"
+    },
+    "chip-group-label-w": {
+      "$value": "200px",
+      "$type": "dimension",
+      "$group": "Chips (CMP-25)"
+    },
+    "code-chip-bg": {
+      "$value": "{surface-muted}",
+      "$type": "color",
+      "$group": "Chips (CMP-25)",
+      "$resolved": "#edeef0"
+    },
+    "code-chip-fg": {
+      "$value": "{ink-600}",
+      "$type": "color",
+      "$group": "Chips (CMP-25)",
+      "$resolved": "#4c6173"
+    },
+    "stat-card-min-w": {
+      "$value": "220px",
+      "$type": "dimension",
+      "$group": "Stat card (CMP-26)"
+    },
+    "stat-icon-size": {
+      "$value": "{control-h-2xl}",
+      "$type": "dimension",
+      "$group": "Stat card (CMP-26)",
+      "$resolved": "48px"
+    },
+    "stat-icon-bg": {
+      "$value": "{brand-50}",
+      "$type": "color",
+      "$group": "Stat card (CMP-26)",
+      "$resolved": "#eef4fb"
+    },
+    "stat-icon-fg": {
+      "$value": "{brand-600}",
+      "$type": "color",
+      "$group": "Stat card (CMP-26)",
+      "$resolved": "#023c6e"
+    },
+    "stat-value-size": {
+      "$value": "{text-2xl}",
+      "$type": "dimension",
+      "$group": "Stat card (CMP-26)",
+      "$resolved": "26px"
+    },
+    "check-grid-min-w": {
+      "$value": "180px",
+      "$type": "dimension",
+      "$group": "Check grid: a set of checkboxes laid out in columns (CMP-5)"
     }
   },
   "app": {}

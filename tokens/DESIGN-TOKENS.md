@@ -152,6 +152,7 @@
 | Token | Value | Resolves to |
 |---|---|---|
 | `--font-sans` | `"Public Sans", Arial, "Helvetica Neue", Helvetica, sans-serif` <br><sub>FND-5 default: open licence; the files are downloaded into fonts/ (see components.css)</sub> |  |
+| `--font-mono` | `ui-monospace, "SF Mono", Menlo, Consolas, monospace` <br><sub>codes and identifiers only (FND-5)</sub> |  |
 | `--text-xs` | `13px` |  |
 | `--text-sm` | `14px` |  |
 | `--text-base` | `15px` |  |
@@ -616,5 +617,82 @@
 | `--remember-size` | `var(--text-base)` | `15px` |
 | `--remember-weight` | `var(--weight-medium)` | `400` |
 | `--remember-fg` | `var(--ink-500)` | `#5a6c7d` |
+
+### App top bar (CMP-22): the page title, the current context and the account, across the top of the main area
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--top-bar-min-h` | `86px` |  |
+| `--top-bar-bg` | `var(--white)` | `#ffffff` |
+| `--top-bar-border` | `var(--border)` | `#dcdfe3` |
+| `--context-chip-h` | `var(--control-h-md)` | `36px` |
+| `--context-chip-bg` | `var(--surface-subtle)` | `#f8f8f8` |
+| `--context-chip-border` | `var(--border)` | `#dcdfe3` |
+| `--context-chip-fg` | `var(--ink-600)` | `#4c6173` |
+| `--account-avatar-size` | `var(--control-h-md)` | `36px` |
+| `--account-avatar-bg` | `var(--info-100)` | `#d7e7f7` |
+| `--account-avatar-fg` | `var(--brand-600)` | `#023c6e` |
+
+### List-detail layout (CMP-23)
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--ld-list-w` | `320px` |  |
+| `--ld-list-w-compact` | `260px` |  |
+| `--ld-gap` | `var(--space-xl)` | `20px` |
+| `--ld-item-h` | `56px` |  |
+| `--ld-avatar-size` | `var(--control-h-md)` | `36px` |
+| `--ld-item-bg-hover` | `var(--surface-subtle)` | `#f8f8f8` |
+| `--ld-item-bg-selected` | `var(--brand-50)` | `#eef4fb` |
+| `--ld-item-border-selected` | `var(--brand-400)` | `#3f7ab5` |
+| `--ld-item-fg-selected` | `var(--brand-600)` | `#023c6e` |
+| `--ld-avatar-bg` | `var(--brand-50)` | `#eef4fb` |
+| `--ld-avatar-fg` | `var(--brand-600)` | `#023c6e` |
+| `--ld-avatar-bg-selected` | `var(--brand-600)` | `#023c6e` |
+| `--ld-avatar-fg-selected` | `var(--white)` | `#ffffff` |
+
+### Tabs (CMP-24)
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--tab-h` | `var(--control-h-2xl)` | `48px` |
+| `--tab-icon-size` | `16px` |  |
+| `--tab-fg` | `var(--ink-500)` | `#5a6c7d` |
+| `--tab-fg-hover` | `var(--ink-700)` | `#3a3a3c` |
+| `--tab-fg-active` | `var(--brand-600)` | `#023c6e` |
+| `--tab-indicator` | `var(--brand-600)` | `#023c6e` |
+| `--tab-indicator-h` | `3px` |  |
+| `--tab-count-bg` | `var(--surface-muted)` | `#edeef0` |
+| `--tab-count-fg` | `var(--ink-600)` | `#4c6173` |
+| `--tab-count-bg-active` | `var(--brand-50)` | `#eef4fb` |
+
+### Chips (CMP-25)
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--chip-h` | `var(--control-h-sm)` | `32px` |
+| `--chip-bg` | `var(--surface-subtle)` | `#f8f8f8` |
+| `--chip-border` | `var(--border)` | `#dcdfe3` |
+| `--chip-fg` | `var(--ink-700)` | `#3a3a3c` |
+| `--chip-meta-fg` | `var(--ink-500)` | `#5a6c7d` |
+| `--chip-group-label-w` | `200px` |  |
+| `--code-chip-bg` | `var(--surface-muted)` | `#edeef0` |
+| `--code-chip-fg` | `var(--ink-600)` | `#4c6173` |
+
+### Stat card (CMP-26)
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--stat-card-min-w` | `220px` |  |
+| `--stat-icon-size` | `var(--control-h-2xl)` | `48px` |
+| `--stat-icon-bg` | `var(--brand-50)` | `#eef4fb` |
+| `--stat-icon-fg` | `var(--brand-600)` | `#023c6e` |
+| `--stat-value-size` | `var(--text-2xl)` | `26px` |
+
+### Check grid: a set of checkboxes laid out in columns (CMP-5)
+
+| Token | Value | Resolves to |
+|---|---|---|
+| `--check-grid-min-w` | `180px` |  |
 
 ## App tokens (this app's screens only)

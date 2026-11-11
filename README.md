@@ -30,8 +30,10 @@ The package separates **rules** from **implementation**:
 5. **Check your work** (needs Python 3, no packages):
 
    ```bash
-   python3 tools/guard.py path/to/your/project
+   python3 tools/guard.py path/to/your/project                     # reads the code
    ```
+
+   Run it after every edit that changes a screen, and check those screens in a browser at phone, tablet and desktop width (SCP-12).
 
 ## Moving the rules to Jira
 
@@ -40,7 +42,7 @@ The package separates **rules** from **implementation**:
 ## Known limits
 
 - There is no dark mode (FND-15).
-- The checker covers colours (every platform) and CSS (web). Layout, markup and behaviour need the hand checks in SCP-9.
+- The checker covers colours (every platform) and CSS (web). Everything else is covered by checking the work against the policies (SCP-9) and the browser check (SCP-12).
 
 ## For maintainers
 

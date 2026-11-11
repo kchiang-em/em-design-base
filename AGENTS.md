@@ -23,11 +23,17 @@ If a policy says it has moved to Jira (`policy/README.md` lists the ticket keys)
 - **Sources disagree:** follow SCP-7 and tell the user.
 - **The work touches a topic in SCP-11** (decimal rounding, clickable column headers, validating a value on save, policy exceptions): an engineering (EE) policy covers it, and its rules are not copied into this package. Read the live EE ticket. If you cannot reach Jira, tell the user which ticket applies and do not guess what it says.
 
-## 3. Before you say you are done
+## 3. After every edit that changes a screen (SCP-12)
+
+Treat this like running the tests: do it after **each** edit, not once at the end.
+1. **Code check:** `python3 <this directory>/tools/guard.py <the user's project folder>`.
+2. **Browser check** on the screens you touched: open each one, and each state you changed (a dialog, a sheet, an error state), in a real browser at phone, tablet and desktop width, and confirm what SCP-12 lists: nothing overflows or is cut off (FND-18), typing keeps the field and its focus (ACC-12), no script errors, no text under 13 (FND-7), tap areas of 44 x 44 on phones (ACC-9). Use the project's own tooling; for a native app, use a device or simulator.
+3. **Fix every problem before your next edit.** Never edit a check to make it pass (SCP-10). Read every warning: fix it or explain it.
+4. **If the user or a reviewer finds a defect the checks missed,** fix it, then tell the user which clause should forbid it and how a check could catch it (SCP-13).
+
+## 4. Before you say you are done
 
 Follow SCP-9:
-1. Run `python3 <this directory>/tools/guard.py <the user's project folder>`. Each message names the clause it checks; `tools/README.md` explains them.
-2. Fix every error. Never edit the guard to make it pass (SCP-10).
-3. Read every warning and note: fix it, or explain it to the user.
-4. Do the hand checks that SCP-9 lists.
-5. Report: what you built, what the guard said, and anything you added or changed beyond the baseline, with the clause IDs involved.
+1. **Check the work against the policies.** Go through `policy/` (and the EE policies in SCP-11) and check every clause that applies to what you built or changed, by any method you like. Fix every *Must* that is not met; for a *Should*, fix it or tell the user why. SCP-9 lists clauses that are easy to miss.
+2. Both checks above (code and browser) pass, on every screen you built or changed.
+3. Report: which policies you checked, what the checks found, any clause not met and why, and anything you added or changed beyond the baseline, with the clause IDs involved. If a check could not be done (for example no browser available), say so: that is not a pass.
