@@ -3,7 +3,7 @@
 :root {
   /* colour */
   /* ===== Official EncoreMed palette =====
-     Source: the official EncoreMed brand guideline (CMYK, converted to sRGB) + its colour-blind-safe set */
+     The colour codes are the reference (FND-1); they derive from the official EncoreMed brand guideline. */
   --em-navy-core: #023c6e;   /* brand core: navy */
   --em-green-core: #16ad85;  /* brand core: green */
   --em-blue: #16537a;        /* brand secondary: blue */

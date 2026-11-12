@@ -7,7 +7,7 @@
 
 | Tier | What it holds | Who uses it |
 |---|---|---|
-| **Palette** | The official EncoreMed colours (`--em-*`), from the official brand guideline (CMYK converted to sRGB) and its colour-blind-safe set. | Only the semantic tier. |
+| **Palette** | The official EncoreMed colours (`--em-*`), as colour codes (FND-1). | Only the semantic tier. |
 | **Semantic** | Roles built from the palette: neutrals, text, brand, accent, status, type, spacing, radius, shadow. | Component tokens, and layout rules. |
 | **Component** | Sizes, colours and states for each control: buttons, fields, dropdowns, pagination, checkbox, toggle, sidebar nav. | Component rules (`components.css`). New components should start here. |
 | **App** | Screen-specific values (login panel, residents table columns, filter bar, list rows), in `app-tokens.css`. Not part of the reusable design system. | `app.css` only. |

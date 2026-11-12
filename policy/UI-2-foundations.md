@@ -8,7 +8,7 @@ The palette, icons and scales are what make a product recognisably EncoreMed. Th
 
 ## Clauses
 
-**FND-1 Official palette.** *Must.* The EncoreMed palette is the core and secondary colours of the official brand guideline (converted from CMYK to sRGB), combined with its colour-blind-safe set:
+**FND-1 Official palette.** *Must.* The EncoreMed palette is these colour codes (sRGB). They derive from the official brand guideline, but the codes below are the reference: nothing depends on the guideline's files.
 
 | Name | Hex | Used for |
 |---|---|---|
