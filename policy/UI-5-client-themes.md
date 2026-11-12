@@ -12,7 +12,7 @@ Some clients want a product in their own brand colours. This policy says what a 
 
 **THM-2 What a theme may change.** *May.* The brand palette (navy, blue, slate, greys, and the brand greens and mint), the brand scale (the lighter and darker shades for hover, tinted backgrounds and dark surfaces), text colours, surfaces and borders, and the tint of the shadows. The keyboard focus ring (ACC-5) follows the primary colour without a separate entry. The pressed colours only as THM-8 allows.
 
-**THM-3 Status colours never change.** *Must.* A theme never changes red, orange, status green or information blue (FND-2, FND-3). If a user asks to change them, decline and explain that status colours are universal.
+**THM-3 Status colours never change.** *Must.* A theme never changes red, amber, status green or information blue (FND-2, FND-3). If a user asks to change them, decline and explain that status colours are universal.
 
 **THM-4 Only colours are themed.** *Must.* A theme never changes sizes, spacing, radii, the type scale, or the five control states and their structure.
 
@@ -22,9 +22,9 @@ Some clients want a product in their own brand colours. This policy says what a 
 
 **THM-7 Extra client colours.** *May.* A client colour with no EncoreMed role (a second brand colour, a highlight) is added to the project's token file as a new token named after the client's colour and used only through that name. It is never used for a status (FND-3), and text on it keeps 4.5:1.
 
-**THM-8 The pressed state stays amber.** *Must.* The pressed state stays amber by default (ACC-3). If the client's brand is itself amber, orange or yellow, tell the user that pressed may be hard to tell apart, and change the pressed colours only if they ask, keeping pressed text at 4.5:1.
+**THM-8 The pressed state follows the accent.** *Must.* The pressed state uses the accent's tint and darker shade (ACC-3), so a client accent changes it too. Pressed text stays at 4.5:1 on the pressed tint, and the pressed colours never come close to the status green, amber or red: if a client accent does, tell the user and keep the EncoreMed mint-teal for the pressed state.
 
-**THM-9 A primary close to a status colour.** *Must.* A primary colour whose hue is close to red, orange or status green is allowed, but tell the user: because status colours cannot change, errors, warnings or success messages may look like the brand. Status messages keep their icon and text label (ACC-7).
+**THM-9 A primary close to a status colour.** *Must.* A primary colour whose hue is close to red, amber or status green is allowed, but tell the user: because status colours cannot change, errors, warnings or success messages may look like the brand. Status messages keep their icon and text label (ACC-7).
 
 **THM-10 Where theme colours come from.** *Must.*
 - Use colour codes the user gives. Convert other notations (rgb, hsl) to hex. For a colour name ("burgundy") or a brand name, ask for the code; do not guess.

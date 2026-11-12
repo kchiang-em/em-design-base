@@ -4,13 +4,14 @@ You were pointed at this directory because the user is building a product (web o
 
 ## 1. Read, in this order
 
-1. **The rules:** `policy/README.md`, then all six policies:
+1. **The rules:** `policy/README.md`, then all seven policies:
    - `policy/UI-1-scope.md` (SCP): scope, levels (must, should, may), deviations, checking your work
    - `policy/UI-2-foundations.md` (FND): palette, status colours, typeface rules, scales
    - `policy/UI-3-states-accessibility.md` (ACC): the five control states, contrast, keyboard, touch
    - `policy/UI-4-components.md` (CMP): component anatomy and behaviour
    - `policy/UI-5-client-themes.md` (THM): client colour themes
    - `policy/UI-6-content.md` (CNT): wording, dates and times, numbers and units, translation, right-to-left text
+   - `policy/UI-7-user-experience.md` (UX): key tasks and their step budgets, wayfinding, finding the right patient, summaries that lead to their items, data entry, errors, interruptions, clinical safety, testing with users
 2. **How to build:** `guides/IMPLEMENTATION.md`: setting up a project, the tokens, platform mapping, the web markup.
 3. **The values:** `tokens/design-tokens.json` (or `tokens/DESIGN-TOKENS.md`). Never type a value from memory (SCP-3).
 4. **Icons:** install or download Lucide from an official release at a pinned version (`guides/IMPLEMENTATION.md` section 4b). Never draw or retype an icon from memory (FND-12).

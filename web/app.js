@@ -23,6 +23,7 @@
     users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/>',  // lucide: users
     key: '<path d="m2 21 9.6-9.6"/><path d="m7.5 15.5 2.3 2.3a1 1 0 0 1 0 1.4l-2.1 2.1a1 1 0 0 1-1.4 0L4 19"/><circle cx="15.5" cy="7.5" r="5.5"/>',  // lucide: key
     layers: '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',  // lucide: layers
+    warning: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',  // lucide: triangle-alert
     alert: '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>',  // lucide: circle-alert
     home: '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',  // lucide: house
     bluetooth: '<path d="m7 7 10 10-5 5V2l5 5L7 17"/>',  // lucide: bluetooth
@@ -699,11 +700,11 @@
       const desig = D.access.designations.map((g) => { const on = d.designations.includes(g); return `<button type="button" class="remember${on ? " on" : ""}" role="checkbox" aria-checked="${on}" data-action="role-desig" data-value="${esc(g)}"><span class="remember__box">${on ? ic("check", 14) : ""}</span>${esc(g)}</button>`; }).join("");
       const preview = D.access.pages.filter((pg) => d.pages.includes(pg.name)).map((pg) => `<li>${ic(pg.icon, 18)}${esc(pg.name)}</li>`).join("");
       const attention = missing.length
-        ? `<div class="banner banner--warning"><div class="banner__icon">${ic("alert", 18)}</div><div><strong>${missing.length} page${missing.length === 1 ? "" : "s"} would open empty</strong><small>${missing.map((pg) => `${esc(pg.name)} needs ${pg.needs[0]} · ${pg.needs[1]}`).join("; ")}</small></div></div>`
+        ? `<div class="banner banner--warning"><div class="banner__icon">${ic("warning", 18)}</div><div><strong>${missing.length} page${missing.length === 1 ? "" : "s"} would open empty</strong><small>${missing.map((pg) => `${esc(pg.name)} needs ${pg.needs[0]} · ${pg.needs[1]}`).join("; ")}</small></div></div>`
         : `<div class="banner banner--success"><div class="banner__icon">${ic("check", 18)}</div><div><strong>Every page this role can open can also read its data.</strong></div></div>`;
       panel = `<div class="card role-card"><h3>What this role is</h3><p class="role-card__sub">Describes the role. It does not grant access: that is the Pages and Actions tabs.</p>
           <fieldset class="role-fieldset"><legend class="label">Designations</legend><div class="check-grid">${desig}</div></fieldset>${saveBtn}</div>
-        <div class="stat-cards">${statCard("layers", d.pages.length, D.access.pages.length, "Pages in the menu")}${statCard("key", nActions, actionsTotal(), "Data actions allowed")}${statCard(missing.length ? "alert" : "check", missing.length, null, "Pages missing data access", missing.length ? "warning" : "success")}</div>
+        <div class="stat-cards">${statCard("layers", d.pages.length, D.access.pages.length, "Pages in the menu")}${statCard("key", nActions, actionsTotal(), "Data actions allowed")}${statCard(missing.length ? "warning" : "check", missing.length, null, "Pages missing data access", missing.length ? "warning" : "success")}</div>
         <div class="role-overview-grid">
           <div class="card role-card"><h3>Menu preview</h3><p class="role-card__sub">The menu as someone in this role sees it.</p>${preview ? `<ul class="menu-preview">${preview}</ul>` : '<p class="empty-note">No pages.</p>'}</div>
           <div class="role-overview-side">

@@ -12,11 +12,11 @@ Every control should respond the same way in every EncoreMed product, and every 
 
 **ACC-2 Hover.** *Must.* On pointer devices only: a darker border or fill. Touch platforms have no hover; the other states still apply.
 
-**ACC-3 Pressed is amber.** *Must.* The pressed state is amber: background `#FFF4DC`, text and icon `#B45309`, and a 3px amber ring (`#FFB020` at 55%). Amber is the complement of the logo navy and is used for the pressed state only.
+**ACC-3 Pressed is mint-teal.** *Must.* The pressed state uses the brand accent, so a tap or click reads as registered: background `#E8F7F2`, text and icon `#0B7258` (5.3:1), and a 3px ring of the soft brand green (`#4FAA91` at 55%); on dark surfaces, mint (`#9CD9BC`). A primary button keeps its navy and darkens, with the mint ring. A destructive (red) button darkens to the deeper red, never mint, so it is never read as success. The pressed state never uses the status green (FND-3).
 
 **ACC-4 Disabled.** *Must.* 55% opacity, or the component's own disabled colours. A disabled control is not interactive.
 
-**ACC-5 Keyboard focus.** *Must.* A double ring around the control: a 2px white inner ring and a 2px primary-navy outer ring. The navy ring shows on light surfaces and the white ring on dark ones, so the indicator reaches at least 3:1 on both. It is shown only for keyboard, switch or assistive focus, and no other style of a control (for example the active navigation item) may hide it. Pressed (amber) and focus (navy) are never mixed.
+**ACC-5 Keyboard focus.** *Must.* A double ring around the control: a 2px white inner ring and a 2px primary-navy outer ring. The navy ring shows on light surfaces and the white ring on dark ones, so the indicator reaches at least 3:1 on both. It is shown only for keyboard, switch or assistive focus, and no other style of a control (for example the active navigation item) may hide it. Pressed (mint-teal) and focus (navy) are never mixed.
 
 **ACC-6 Contrast.** *Must.*
 - **Text:** at least 4.5:1 against its background (WCAG AA). This includes placeholders, helper text, captions, subtitles, table headings, white text on brand colours, and text in the pressed state. Text in a disabled control is exempt.

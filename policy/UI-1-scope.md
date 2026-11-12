@@ -8,7 +8,7 @@ EncoreMed products should look and behave like one family, whatever platform the
 
 ## Clauses
 
-**SCP-1 Scope.** *Must.* The UI policies (UI-1 to UI-6) apply to every EncoreMed product interface: web apps and native apps (iOS, Android, desktop). They are a baseline, not a framework: they fix what makes a product recognisably EncoreMed (colour, type, spacing, sizes, control states, how the main components behave) and leave the rest to the product and its platform.
+**SCP-1 Scope.** *Must.* The UI policies (UI-1 to UI-7) apply to every EncoreMed product interface: web apps and native apps (iOS, Android, desktop). They are a baseline, not a framework: they fix what makes a product recognisably EncoreMed (colour, type, spacing, sizes, control states, how the main components behave) and leave the rest to the product and its platform.
 
 **SCP-2 Levels.** *Must.* Every clause has a level:
 - **Must:** do not deviate.
@@ -34,12 +34,12 @@ EncoreMed products should look and behave like one family, whatever platform the
 - *Must:* do not copy the demo data, names or screens of a reference implementation into a product. Reference implementations show patterns, not content.
 
 **SCP-9 Check the work against the policies before calling it done.** *Must.* Before work is reported as done:
-1. go through the policies (UI-1 to UI-6, and the engineering policies listed in SCP-11) and check the work against **every clause that applies** to the screens and components that were built or changed, by any method (reading the screens, the code or their text, or a script of one's own). A clause applies when the work contains what it governs: a table edit brings in the table, text, colour, content and accessibility clauses, not the sign-in or theming ones;
+1. go through the policies (UI-1 to UI-7, and the engineering policies listed in SCP-11) and check the work against **every clause that applies** to the screens and components that were built or changed, by any method (reading the screens, the code or their text, or a script of one's own). A clause applies when the work contains what it governs: a table edit brings in the table, text, colour, content and accessibility clauses, not the sign-in or theming ones;
 2. fix anything that does not meet a *Must*; for a *Should* that is not met, fix it or tell the user why;
 3. run the code check that the implementation provides and the browser check (SCP-12) as part of this, and fix every error; read every warning and note, and fix it or explain it;
 4. report which policies were checked, what the checks found, any clause not met and why, and anything added or changed beyond the baseline.
 
-Clauses that are easy to miss (examples, not the scope): dates and times in the ISO default or the user's chosen setting (CNT-1, CNT-2); singular and plural forms, never "(s)" (CNT-4); redundancy (FND-19); text under 13 (FND-7); a field rebuilt or a focus ring flashing while typing (ACC-12); content running past its container (FND-18); every value from a token (SCP-3); the five control states (ACC-1); keyboard use (ACC-8); contrast (ACC-6); confirmation before a destructive action (CMP-21); icons taken from an official Lucide release, not drawn from memory (FND-12).
+Clauses that are easy to miss (examples, not the scope): dates and times in the ISO default or the user's chosen setting (CNT-1, CNT-2); singular and plural forms, never "(s)" (CNT-4); redundancy (FND-19); text under 13 (FND-7); a field rebuilt or a focus ring flashing while typing (ACC-12); content running past its container (FND-18); every value from a token (SCP-3); the five control states (ACC-1); keyboard use (ACC-8); contrast (ACC-6); confirmation before a destructive action (CMP-21); icons taken from an official Lucide release, not drawn from memory (FND-12); every stat, count, badge and banner opens the items it refers to (UX-5); Back returns to the same place with its filters kept (UX-3); two patient identifiers wherever a patient is acted on (UX-4); key tasks within their step budget (UX-2).
 
 **SCP-10 Never weaken a check.** *Must.* Do not edit, disable or bypass a conformance check to make it pass. Fix the work, or explain the deviation to the user.
 

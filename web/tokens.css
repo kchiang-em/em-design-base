@@ -38,10 +38,6 @@
   --brand-800: #012646;
   --brand-900: #011c34;
   --brand-950: #01121f;
-  /* amber (complement of the logo navy): pressed / clicked state */
-  --amber-50: #fff4dc;
-  --amber-400: #ffb020;
-  --amber-600: #b45309;
   /* accent (logo green): live / positive signals */
   --accent-50: #e8f7f2;
   --accent-100: #c9eee1;
@@ -54,10 +50,10 @@
   --danger-700: #b91c1c;
   --danger-300: #fca5a5;
   --danger-50: #fef2f2;
-  --warning-700: #9a5a1f;     /* text (5.5:1 on white, 5.0:1 on the warning tint) */
-  --warning-600: #b36b28;     /* icons and borders (4.2:1 on white: not for text) */
-  --warning-400: #d78b4c;
-  --warning-50: #fff2e4;
+  --warning-700: #854d0e;     /* text and the warning icon's outline and glyph (6.9:1 on white, 6.4:1 on the warning tint) */
+  --warning-600: #854d0e;     /* icons and borders: the same dark brown, because a darker amber drifts towards red for red-green colour-blind readers */
+  --warning-400: #f59e0b;     /* the warning colour itself: fills, the warning triangle, dots (FND-2; IEC 60601-1-8 and ISO 3864 use amber-yellow for caution) */
+  --warning-50: #fef6e0;
   --info-100: #d7e7f7;       /* soft blue tint (also used for avatar tints) */
   /* Status: positive / success / live. The classic status green, separate from the brand green (accent-*). */
   --success-50: #f0fdf4;
@@ -69,9 +65,9 @@
   --info-600: #16537a;
   /* Borders that identify a control (fields, dropdown triggers): at least 3:1 on white and on the page background */
   --border-control: #808c98;
-  /* Data visualisation (FND-17): the DEFAULT categorical series colours; a project may replace them. Used in this order, on a white surface. chart-1 to chart-4 are the
-     official palette and the colour-blind-safe set 02; chart-5 to chart-7 were chosen to reach 3:1 on white and stay apart from
-     each other, from chart-1 to chart-4 and from the status colours, including for colour-blind readers. */
+  /* Data visualisation (FND-17): the DEFAULT categorical series colours; a project may replace them. Used in this order, on a white surface. Chosen by measurement, starting
+     from the brand navy: each reaches 3:1 on white and on the page background, and they stay apart from each other and from the
+     status colours, including for colour-blind readers (CIEDE2000 under simulated protan, deutan and tritan vision). */
   /* Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker. */
   --avatar-tint-1: var(--info-100);
   --avatar-tint-2: #e7ddf4;
@@ -81,10 +77,10 @@
   --avatar-tint-6: #e1e7f4;
   --chart-surface: var(--white);   /* what is BEHIND the charts: the card, or the page background when charts are transparent. Contrast is checked against it */
   --chart-1: var(--em-navy-core);
-  --chart-2: #de6872;          /* coral */
+  --chart-2: #1d1dcd;          /* royal blue (replaces coral, which read as the danger red) */
   --chart-3: #256d73;          /* dark teal */
   --chart-4: #a6678c;          /* plum */
-  --chart-5: #119d78;          /* brand green, darkened to 3.4:1 */
+  --chart-5: #7541aa;          /* purple (replaces the green, which read as the success green) */
   --chart-6: #5b92a7;          /* teal, darkened to 3.4:1 */
   --chart-7: #8567cc;          /* violet (4.4:1); mint cannot reach 3:1 without becoming another green */
   --chart-other: #737373;      /* neutral grey for "Other", totals and reference lines (slate looks like chart-3 to colour-blind readers) */
@@ -153,11 +149,11 @@
   --disabled-opacity: .55;
 
   /* ----- pressed (clicked) state, shared by all controls ----- */
-  --pressed-bg: var(--amber-50);
-  --pressed-border: var(--amber-600);
-  --pressed-fg: var(--amber-600);
-  --pressed-on-dark: var(--amber-400);
-  --pressed-ring: 0 0 0 3px color-mix(in srgb, var(--amber-400) 55%, transparent);
+  --pressed-bg: var(--accent-50);      /* pressed is the brand mint-teal: a tap that registered (ACC-3); never the status green */
+  --pressed-border: var(--accent-700);
+  --pressed-fg: var(--accent-700);     /* 5.3:1 on the pressed tint */
+  --pressed-on-dark: var(--accent-300);
+  --pressed-ring: 0 0 0 3px color-mix(in srgb, var(--accent-400) 55%, transparent);
   
   /* ----- keyboard focus ----- */
   --btn-focus-ring: var(--focus-ring);
@@ -223,7 +219,7 @@
   --btn-danger-bg: var(--danger-600);
   --btn-danger-fg: var(--white);
   --btn-danger-bg-hover: var(--danger-700);
-  --btn-danger-bg-pressed: var(--amber-600);
+  --btn-danger-bg-pressed: var(--danger-700);   /* a destructive button darkens when pressed; it never turns mint, which would read as success */
   --btn-danger-bg-disabled: var(--surface-muted);
   --btn-danger-fg-disabled: var(--ink-300);
   --btn-danger-gap: var(--space-sm);
@@ -260,9 +256,7 @@
 
   /* ----- button: text / link ----- */
   --btn-link-fg: var(--brand-600);
-  --btn-text-fg: var(--ink-400);
   --btn-link-fg-pressed: var(--pressed-fg);
-  --btn-text-fg-pressed: var(--pressed-fg);
 
   /* ----- clear (x) button inside a field ----- */
   --clear-btn-size: 24px;
@@ -392,6 +386,7 @@
   --toggle-ring-pressed: var(--pressed-ring);
 
   /* ----- sidebar navigation item ----- */
+  --nav-bg: var(--brand-800);   /* navigation background: a darker shade of the primary navy, so navy buttons and the page stand apart from it (FND-1, FND-4) */
   --nav-item-h: var(--control-h-xl);
   --nav-fg: var(--white-80);
   --nav-fg-hover: var(--white);

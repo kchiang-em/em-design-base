@@ -22,7 +22,7 @@ The rules are in UI-5; this list only names them. Cite them by ID when you repor
 | THM-5 | the main colour and its shades change together |
 | THM-6 | contrast holds (ACC-6) |
 | THM-7 | extra client colours |
-| THM-8 | the pressed state stays amber |
+| THM-8 | the pressed state follows the accent, away from the status colours |
 | THM-9 | a primary close to a status colour |
 | THM-10 | where theme colours come from (codes, logos) |
 | THM-11 | the client logo is an asset |
@@ -44,7 +44,7 @@ python3 <handoff directory>/tools/make_theme.py --primary "<hex>" [options] --js
 
 | Option | Use it for | Becomes |
 |---|---|---|
-| `--primary` (required) | the client's main brand colour: buttons, sidebar, links | `em-navy-core` and all the brand shades |
+| `--primary` (required) | the client's main brand colour: buttons, links and selected states; the sidebar uses its darker shade (`brand-800`) automatically | `em-navy-core` and all the brand shades |
 | `--secondary` | a second brand colour: active navigation item, gradient lift | `em-blue` (default: a slightly lighter primary) |
 | `--heading` | the colour of headings | `em-navy` (default: the primary) |
 | `--text` | body text | `em-grey-dark` (default: unchanged) |
@@ -81,7 +81,7 @@ Colours that are not in the palette at all will be reported by the guard in step
 python3 <handoff directory>/tools/guard.py <project folder>
 ```
 
-**Step 7. Check the screens** (look at them if you can run the product; otherwise say you could not). Verify on each: the primary button (default, hover, pressed in amber, disabled), the navigation or sidebar and its active item, a text field in focus (the focus ring), a table or list with hover, a dropdown open, a modal, the login or splash screen, and status pills or messages (they must still be red, orange, status green or information blue). Check that nothing is unreadable.
+**Step 7. Check the screens** (look at them if you can run the product; otherwise say you could not). Verify on each: the primary button (default, hover, pressed in mint-teal, disabled), the navigation or sidebar and its active item, a text field in focus (the focus ring), a table or list with hover, a dropdown open, a modal, the login or splash screen, and status pills or messages (they must still be red, orange, status green or information blue). Check that nothing is unreadable.
 
 **Step 8. Report** (section 6).
 
@@ -135,14 +135,14 @@ Cases:
 
 | Changes with a theme | Never changes |
 |---|---|
-| primary and its shades (buttons, sidebar, links, focus, hover, dark surfaces, tints) | status colours: red `danger-*`, orange `warning-*`, status green `success-*`, information blue `info-*` |
+| primary and its shades (buttons, sidebar, links, focus, hover, dark surfaces, tints) | status colours: red `danger-*`, amber `warning-*`, status green `success-*`, information blue `info-*` |
 | the brand greens (`em-green*`, `em-mint`, `accent-*`), when the client has an accent colour: `make_theme.py --accent` | |
 | secondary (active navigation item, gradients) | sizes, spacing, radii, type scale |
 | headings, text, secondary text, page background (only if the user gave them) | the five control states and their structure |
-| the shadow tints (the focus ring follows the primary automatically) | the amber **pressed** colour, unless the user asks (see below) |
+| the shadow tints (the focus ring follows the primary automatically) | nothing else: the **pressed** colour follows the accent (see below) |
 | extra client colours (`--client-<name>`) | |
 
-**Pressed state (THM-8):** it stays amber by default. If the client's brand is itself amber, orange or yellow, the pressed state becomes hard to tell from normal; tell the user, and only change the `amber-*` colours if they ask, keeping the pressed text readable (4.5:1).
+**Pressed state (THM-8):** it uses the accent's tint (`accent-50`) and darker shade (`accent-700`), so a new accent changes it automatically; the guard checks the pressed text stays at 4.5:1. If the client's accent is close to the status green, amber or red, tell the user and keep the EncoreMed mint-teal for the pressed tokens.
 
 **Extra client colours** (`--client-<name>`, THM-7): use them as `var(--client-<name>)` in the product's own CSS, or as a generated constant natively. Keep them out of status messages, and keep text on them at 4.5:1.
 

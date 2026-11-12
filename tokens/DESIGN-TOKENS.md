@@ -66,14 +66,6 @@
 | `--brand-900` | `#011c34` |  |
 | `--brand-950` | `#01121f` |  |
 
-### Amber (complement of the logo navy): pressed / clicked state
-
-| Token | Value | Resolves to |
-|---|---|---|
-| `--amber-50` | `#fff4dc` |  |
-| `--amber-400` | `#ffb020` |  |
-| `--amber-600` | `#b45309` |  |
-
 ### Accent (logo green): live / positive signals
 
 | Token | Value | Resolves to |
@@ -89,10 +81,10 @@
 | `--danger-700` | `#b91c1c` |  |
 | `--danger-300` | `#fca5a5` |  |
 | `--danger-50` | `#fef2f2` |  |
-| `--warning-700` | `#9a5a1f` <br><sub>text (5.5:1 on white, 5.0:1 on the warning tint)</sub> |  |
-| `--warning-600` | `#b36b28` <br><sub>icons and borders (4.2:1 on white: not for text)</sub> |  |
-| `--warning-400` | `#d78b4c` |  |
-| `--warning-50` | `#fff2e4` |  |
+| `--warning-700` | `#854d0e` <br><sub>text and the warning icon's outline and glyph (6.9:1 on white, 6.4:1 on the warning tint)</sub> |  |
+| `--warning-600` | `#854d0e` <br><sub>icons and borders: the same dark brown, because a darker amber drifts towards red for red-green colour-blind readers</sub> |  |
+| `--warning-400` | `#f59e0b` <br><sub>the warning colour itself: fills, the warning triangle, dots (FND-2; IEC 60601-1-8 and ISO 3864 use amber-yellow for caution)</sub> |  |
+| `--warning-50` | `#fef6e0` |  |
 | `--info-100` | `#d7e7f7` <br><sub>soft blue tint (also used for avatar tints)</sub> |  |
 
 ### Status: positive / success / live. The classic status green, separate from the brand green (accent-*).
@@ -129,10 +121,10 @@
 | `--avatar-tint-6` | `#e1e7f4` |  |
 | `--chart-surface` | `var(--white)` <br><sub>what is BEHIND the charts: the card, or the page background when charts are transparent. Contrast is checked against it</sub> | `#ffffff` |
 | `--chart-1` | `var(--em-navy-core)` | `#023c6e` |
-| `--chart-2` | `#de6872` <br><sub>coral</sub> |  |
+| `--chart-2` | `#1d1dcd` <br><sub>royal blue (replaces coral, which read as the danger red)</sub> |  |
 | `--chart-3` | `#256d73` <br><sub>dark teal</sub> |  |
 | `--chart-4` | `#a6678c` <br><sub>plum</sub> |  |
-| `--chart-5` | `#119d78` <br><sub>brand green, darkened to 3.4:1</sub> |  |
+| `--chart-5` | `#7541aa` <br><sub>purple (replaces the green, which read as the success green)</sub> |  |
 | `--chart-6` | `#5b92a7` <br><sub>teal, darkened to 3.4:1</sub> |  |
 | `--chart-7` | `#8567cc` <br><sub>violet (4.4:1); mint cannot reach 3:1 without becoming another green</sub> |  |
 | `--chart-other` | `#737373` <br><sub>neutral grey for "Other", totals and reference lines (slate looks like chart-3 to colour-blind readers)</sub> |  |
@@ -221,11 +213,11 @@
 
 | Token | Value | Resolves to |
 |---|---|---|
-| `--pressed-bg` | `var(--amber-50)` | `#fff4dc` |
-| `--pressed-border` | `var(--amber-600)` | `#b45309` |
-| `--pressed-fg` | `var(--amber-600)` | `#b45309` |
-| `--pressed-on-dark` | `var(--amber-400)` | `#ffb020` |
-| `--pressed-ring` | `0 0 0 3px color-mix(in srgb, var(--amber-400) 55%, transparent)` | `0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)` |
+| `--pressed-bg` | `var(--accent-50)` <br><sub>pressed is the brand mint-teal: a tap that registered (ACC-3); never the status green</sub> | `#e8f7f2` |
+| `--pressed-border` | `var(--accent-700)` | `#0b7258` |
+| `--pressed-fg` | `var(--accent-700)` <br><sub>5.3:1 on the pressed tint</sub> | `#0b7258` |
+| `--pressed-on-dark` | `var(--accent-300)` | `#9cd9bc` |
+| `--pressed-ring` | `0 0 0 3px color-mix(in srgb, var(--accent-400) 55%, transparent)` | `0 0 0 3px color-mix(in srgb, #4faa91 55%, transparent)` |
 
 ### Keyboard focus
 
@@ -264,7 +256,7 @@
 | `--btn-primary-bg-disabled` | `var(--ink-300)` | `#b4bdc6` |
 | `--btn-primary-shadow` | `var(--shadow-brand)` | `0 5px 14px rgb(2 60 110 / 22%)` |
 | `--btn-primary-bg-pressed` | `var(--brand-700)` | `#01305a` |
-| `--btn-primary-ring-pressed` | `var(--pressed-ring)` | `0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)` |
+| `--btn-primary-ring-pressed` | `var(--pressed-ring)` | `0 0 0 3px color-mix(in srgb, #4faa91 55%, transparent)` |
 | `--btn-primary-lift` | `-1px` |  |
 
 ### Button: secondary (white, tinted border)
@@ -278,9 +270,9 @@
 | `--btn-secondary-border` | `var(--brand-100)` | `#d6e5f5` |
 | `--btn-secondary-border-hover` | `var(--ink-300)` | `#b4bdc6` |
 | `--btn-secondary-fg-hover` | `var(--brand-600)` | `#023c6e` |
-| `--btn-secondary-bg-pressed` | `var(--pressed-bg)` | `#fff4dc` |
-| `--btn-secondary-border-pressed` | `var(--pressed-border)` | `#b45309` |
-| `--btn-secondary-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
+| `--btn-secondary-bg-pressed` | `var(--pressed-bg)` | `#e8f7f2` |
+| `--btn-secondary-border-pressed` | `var(--pressed-border)` | `#0b7258` |
+| `--btn-secondary-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
 
 ### Button: outline (compact, for rows and cards)
 
@@ -291,9 +283,9 @@
 | `--btn-outline-border` | `var(--border)` | `#dcdfe3` |
 | `--btn-outline-border-hover` | `var(--ink-300)` | `#b4bdc6` |
 | `--btn-outline-fg-hover` | `var(--brand-600)` | `#023c6e` |
-| `--btn-outline-bg-pressed` | `var(--pressed-bg)` | `#fff4dc` |
-| `--btn-outline-border-pressed` | `var(--pressed-border)` | `#b45309` |
-| `--btn-outline-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
+| `--btn-outline-bg-pressed` | `var(--pressed-bg)` | `#e8f7f2` |
+| `--btn-outline-border-pressed` | `var(--pressed-border)` | `#0b7258` |
+| `--btn-outline-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
 
 ### Button: danger outline (delete)
 
@@ -312,7 +304,7 @@
 | `--btn-danger-bg` | `var(--danger-600)` | `#dc2626` |
 | `--btn-danger-fg` | `var(--white)` | `#ffffff` |
 | `--btn-danger-bg-hover` | `var(--danger-700)` | `#b91c1c` |
-| `--btn-danger-bg-pressed` | `var(--amber-600)` | `#b45309` |
+| `--btn-danger-bg-pressed` | `var(--danger-700)` <br><sub>a destructive button darkens when pressed; it never turns mint, which would read as success</sub> | `#b91c1c` |
 | `--btn-danger-bg-disabled` | `var(--surface-muted)` | `#edeef0` |
 | `--btn-danger-fg-disabled` | `var(--ink-300)` | `#b4bdc6` |
 | `--btn-danger-gap` | `var(--space-sm)` | `8px` |
@@ -330,9 +322,9 @@
 | `--btn-icon-border` | `var(--border)` | `#dcdfe3` |
 | `--btn-icon-border-hover` | `var(--ink-300)` | `#b4bdc6` |
 | `--btn-icon-fg-hover` | `var(--brand-600)` | `#023c6e` |
-| `--btn-icon-bg-pressed` | `var(--pressed-bg)` | `#fff4dc` |
-| `--btn-icon-border-pressed` | `var(--pressed-border)` | `#b45309` |
-| `--btn-icon-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
+| `--btn-icon-bg-pressed` | `var(--pressed-bg)` | `#e8f7f2` |
+| `--btn-icon-border-pressed` | `var(--pressed-border)` | `#0b7258` |
+| `--btn-icon-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
 
 ### Button: tinted arrow (resident row action)
 
@@ -353,17 +345,15 @@
 | `--btn-inverse-fg` | `var(--brand-700)` | `#01305a` |
 | `--btn-inverse-bg-hover` | `var(--brand-50)` | `#eef4fb` |
 | `--btn-inverse-shadow` | `var(--shadow-sm)` | `0 1px 2px rgb(0 0 0 / 8%)` |
-| `--btn-inverse-bg-pressed` | `var(--pressed-bg)` | `#fff4dc` |
-| `--btn-inverse-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
+| `--btn-inverse-bg-pressed` | `var(--pressed-bg)` | `#e8f7f2` |
+| `--btn-inverse-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
 
 ### Button: text / link
 
 | Token | Value | Resolves to |
 |---|---|---|
 | `--btn-link-fg` | `var(--brand-600)` | `#023c6e` |
-| `--btn-text-fg` | `var(--ink-400)` | `#616f7b` |
-| `--btn-link-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
-| `--btn-text-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
+| `--btn-link-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
 
 ### Clear (x) button inside a field
 
@@ -396,9 +386,9 @@
 | `--pager-current-bg` | `var(--brand-600)` | `#023c6e` |
 | `--pager-current-fg` | `var(--white)` | `#ffffff` |
 | `--pager-disabled-opacity` | `.45` |  |
-| `--pager-bg-pressed` | `var(--pressed-bg)` | `#fff4dc` |
-| `--pager-border-pressed` | `var(--pressed-border)` | `#b45309` |
-| `--pager-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
+| `--pager-bg-pressed` | `var(--pressed-bg)` | `#e8f7f2` |
+| `--pager-border-pressed` | `var(--pressed-border)` | `#0b7258` |
+| `--pager-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
 
 ### pagination: text variant (labelled First / Previous / Next / Last; icon-only below the compact breakpoint)
 
@@ -431,9 +421,9 @@
 | `--dd-option-fg-selected` | `var(--brand-600)` | `#023c6e` |
 | `--dd-option-check` | `var(--brand-600)` | `#023c6e` |
 | `--dd-option-weight-selected` | `var(--weight-semibold)` | `700` |
-| `--dd-option-bg-pressed` | `var(--pressed-bg)` | `#fff4dc` |
-| `--dd-option-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
-| `--dd-trigger-border-pressed` | `var(--pressed-border)` | `#b45309` |
+| `--dd-option-bg-pressed` | `var(--pressed-bg)` | `#e8f7f2` |
+| `--dd-option-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
+| `--dd-trigger-border-pressed` | `var(--pressed-border)` | `#0b7258` |
 | `--ms-trigger-border-active` | `var(--brand-400)` | `#3f7ab5` |
 | `--ms-trigger-padding-right` | `38px` |  |
 | `--ms-trigger-padding-right-active` | `62px` |  |
@@ -514,12 +504,13 @@
 | `--toggle-bg-off` | `var(--border-strong)` | `#c7ccd2` |
 | `--toggle-bg-on` | `var(--em-green)` | `#4ba67b` |
 | `--toggle-knob-bg` | `var(--white)` | `#ffffff` |
-| `--toggle-ring-pressed` | `var(--pressed-ring)` | `0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)` |
+| `--toggle-ring-pressed` | `var(--pressed-ring)` | `0 0 0 3px color-mix(in srgb, #4faa91 55%, transparent)` |
 
 ### Sidebar navigation item
 
 | Token | Value | Resolves to |
 |---|---|---|
+| `--nav-bg` | `var(--brand-800)` <br><sub>navigation background: a darker shade of the primary navy, so navy buttons and the page stand apart from it (FND-1, FND-4)</sub> | `#012646` |
 | `--nav-item-h` | `var(--control-h-xl)` | `44px` |
 | `--nav-fg` | `var(--white-80)` | `rgb(255 255 255 / 80%)` |
 | `--nav-fg-hover` | `var(--white)` | `#ffffff` |
@@ -529,7 +520,7 @@
 | `--nav-edge-width` | `3px` |  |
 | `--nav-shadow-active` | `var(--shadow-md)` | `0 8px 24px rgb(2 60 110 / 14%)` |
 | `--nav-bg-pressed` | `var(--white-15)` | `rgb(255 255 255 / 15%)` |
-| `--nav-edge-pressed` | `var(--pressed-on-dark)` | `#ffb020` |
+| `--nav-edge-pressed` | `var(--pressed-on-dark)` | `#9cd9bc` |
 
 ### Sidebar: collapsed rail, expanded panel, toggle button
 
@@ -554,7 +545,7 @@
 | `--nav-profile-h` | `44px` <br><sub>same for the profile row</sub> |  |
 | `--nav-avatar-size` | `34px` |  |
 | `--nav-avatar-ring-w` | `2px` |  |
-| `--nav-avatar-ring-pressed` | `var(--pressed-on-dark)` | `#ffb020` |
+| `--nav-avatar-ring-pressed` | `var(--pressed-on-dark)` | `#9cd9bc` |
 | `--profile-btn-radius` | `var(--control-radius)` | `8px` |
 | `--profile-btn-bg-hover` | `var(--white-10)` | `rgb(255 255 255 / 10%)` |
 | `--profile-btn-bg-open` | `var(--white-10)` | `rgb(255 255 255 / 10%)` |
@@ -572,8 +563,8 @@
 | `--nav-toggle-fg` | `var(--brand-800)` | `#012646` |
 | `--nav-toggle-bg-hover` | `var(--accent-100)` | `#c9eee1` |
 | `--nav-toggle-fg-hover` | `var(--brand-800)` | `#012646` |
-| `--nav-toggle-bg-pressed` | `var(--pressed-bg)` | `#fff4dc` |
-| `--nav-toggle-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
+| `--nav-toggle-bg-pressed` | `var(--pressed-bg)` | `#e8f7f2` |
+| `--nav-toggle-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
 
 ### Interactive surfaces: list rows, cards, menu items
 
@@ -606,7 +597,7 @@
 | `--pw-eye-fg` | `var(--ink-400)` | `#616f7b` |
 | `--pw-eye-fg-hover` | `var(--ink-600)` | `#4c6173` |
 | `--pw-eye-bg-hover` | `var(--bg)` | `#f2f2f2` |
-| `--pw-eye-fg-pressed` | `var(--pressed-fg)` | `#b45309` |
+| `--pw-eye-fg-pressed` | `var(--pressed-fg)` | `#0b7258` |
 | `--pw-eye-fg-disabled` | `var(--ink-300)` | `#b4bdc6` |
 | `--pw-field-padding-right` | `calc(var(--pw-eye-size) + var(--pw-eye-inset) + var(--space-xs))` | `calc(36px + 8px + 4px)` |
 

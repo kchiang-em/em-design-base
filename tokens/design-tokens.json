@@ -179,21 +179,6 @@
       "$type": "color",
       "$group": "Colour: neutrals, text, brand, status"
     },
-    "amber-50": {
-      "$value": "#fff4dc",
-      "$type": "color",
-      "$group": "amber (complement of the logo navy): pressed / clicked state"
-    },
-    "amber-400": {
-      "$value": "#ffb020",
-      "$type": "color",
-      "$group": "amber (complement of the logo navy): pressed / clicked state"
-    },
-    "amber-600": {
-      "$value": "#b45309",
-      "$type": "color",
-      "$group": "amber (complement of the logo navy): pressed / clicked state"
-    },
     "accent-50": {
       "$value": "#e8f7f2",
       "$type": "color",
@@ -253,24 +238,25 @@
       "$group": "accent (logo green): live / positive signals"
     },
     "warning-700": {
-      "$value": "#9a5a1f",
+      "$value": "#854d0e",
       "$type": "color",
       "$group": "accent (logo green): live / positive signals",
-      "$description": "text (5.5:1 on white, 5.0:1 on the warning tint)"
+      "$description": "text and the warning icon's outline and glyph (6.9:1 on white, 6.4:1 on the warning tint)"
     },
     "warning-600": {
-      "$value": "#b36b28",
+      "$value": "#854d0e",
       "$type": "color",
       "$group": "accent (logo green): live / positive signals",
-      "$description": "icons and borders (4.2:1 on white: not for text)"
+      "$description": "icons and borders: the same dark brown, because a darker amber drifts towards red for red-green colour-blind readers"
     },
     "warning-400": {
-      "$value": "#d78b4c",
+      "$value": "#f59e0b",
       "$type": "color",
-      "$group": "accent (logo green): live / positive signals"
+      "$group": "accent (logo green): live / positive signals",
+      "$description": "the warning colour itself: fills, the warning triangle, dots (FND-2; IEC 60601-1-8 and ISO 3864 use amber-yellow for caution)"
     },
     "warning-50": {
-      "$value": "#fff2e4",
+      "$value": "#fef6e0",
       "$type": "color",
       "$group": "accent (logo green): live / positive signals"
     },
@@ -363,10 +349,10 @@
       "$resolved": "#023c6e"
     },
     "chart-2": {
-      "$value": "#de6872",
+      "$value": "#1d1dcd",
       "$type": "color",
       "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
-      "$description": "coral"
+      "$description": "royal blue (replaces coral, which read as the danger red)"
     },
     "chart-3": {
       "$value": "#256d73",
@@ -381,10 +367,10 @@
       "$description": "plum"
     },
     "chart-5": {
-      "$value": "#119d78",
+      "$value": "#7541aa",
       "$type": "color",
       "$group": "Avatar tints (CMP-19): soft pastel backgrounds behind initials; data colours, not brand colours. Initials stay ink-700 or darker.",
-      "$description": "brand green, darkened to 3.4:1"
+      "$description": "purple (replaces the green, which read as the success green)"
     },
     "chart-6": {
       "$value": "#5b92a7",
@@ -653,34 +639,36 @@
       "$group": "control size scale: every button, field and trigger takes one of these heights"
     },
     "pressed-bg": {
-      "$value": "{amber-50}",
+      "$value": "{accent-50}",
       "$type": "color",
       "$group": "pressed (clicked) state, shared by all controls",
-      "$resolved": "#fff4dc"
+      "$resolved": "#e8f7f2",
+      "$description": "pressed is the brand mint-teal: a tap that registered (ACC-3); never the status green"
     },
     "pressed-border": {
-      "$value": "{amber-600}",
+      "$value": "{accent-700}",
       "$type": "color",
       "$group": "pressed (clicked) state, shared by all controls",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "pressed-fg": {
-      "$value": "{amber-600}",
+      "$value": "{accent-700}",
       "$type": "color",
       "$group": "pressed (clicked) state, shared by all controls",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258",
+      "$description": "5.3:1 on the pressed tint"
     },
     "pressed-on-dark": {
-      "$value": "{amber-400}",
+      "$value": "{accent-300}",
       "$type": "color",
       "$group": "pressed (clicked) state, shared by all controls",
-      "$resolved": "#ffb020"
+      "$resolved": "#9cd9bc"
     },
     "pressed-ring": {
-      "$value": "0 0 0 3px color-mix(in srgb, {amber-400} 55%, transparent)",
+      "$value": "0 0 0 3px color-mix(in srgb, {accent-400} 55%, transparent)",
       "$type": "shadow",
       "$group": "pressed (clicked) state, shared by all controls",
-      "$resolved": "0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)"
+      "$resolved": "0 0 0 3px color-mix(in srgb, #4faa91 55%, transparent)"
     },
     "btn-focus-ring": {
       "$value": "{focus-ring}",
@@ -824,7 +812,7 @@
       "$value": "{pressed-ring}",
       "$type": "shadow",
       "$group": "button: primary (solid navy)",
-      "$resolved": "0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)"
+      "$resolved": "0 0 0 3px color-mix(in srgb, #4faa91 55%, transparent)"
     },
     "btn-primary-lift": {
       "$value": "-1px",
@@ -877,19 +865,19 @@
       "$value": "{pressed-bg}",
       "$type": "color",
       "$group": "button: secondary (white, tinted border)",
-      "$resolved": "#fff4dc"
+      "$resolved": "#e8f7f2"
     },
     "btn-secondary-border-pressed": {
       "$value": "{pressed-border}",
       "$type": "color",
       "$group": "button: secondary (white, tinted border)",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "btn-secondary-fg-pressed": {
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "button: secondary (white, tinted border)",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "btn-outline-h": {
       "$value": "{control-h-sm}",
@@ -925,19 +913,19 @@
       "$value": "{pressed-bg}",
       "$type": "color",
       "$group": "button: outline (compact, for rows and cards)",
-      "$resolved": "#fff4dc"
+      "$resolved": "#e8f7f2"
     },
     "btn-outline-border-pressed": {
       "$value": "{pressed-border}",
       "$type": "color",
       "$group": "button: outline (compact, for rows and cards)",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "btn-outline-fg-pressed": {
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "button: outline (compact, for rows and cards)",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "btn-danger-outline-fg": {
       "$value": "{danger-600}",
@@ -988,10 +976,11 @@
       "$resolved": "#b91c1c"
     },
     "btn-danger-bg-pressed": {
-      "$value": "{amber-600}",
+      "$value": "{danger-700}",
       "$type": "color",
       "$group": "button: danger solid (clear all filters)",
-      "$resolved": "#b45309"
+      "$resolved": "#b91c1c",
+      "$description": "a destructive button darkens when pressed; it never turns mint, which would read as success"
     },
     "btn-danger-bg-disabled": {
       "$value": "{surface-muted}",
@@ -1069,19 +1058,19 @@
       "$value": "{pressed-bg}",
       "$type": "color",
       "$group": "button: icon only (square, outlined)",
-      "$resolved": "#fff4dc"
+      "$resolved": "#e8f7f2"
     },
     "btn-icon-border-pressed": {
       "$value": "{pressed-border}",
       "$type": "color",
       "$group": "button: icon only (square, outlined)",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "btn-icon-fg-pressed": {
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "button: icon only (square, outlined)",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "btn-tint-size": {
       "$value": "{control-h-md}",
@@ -1147,13 +1136,13 @@
       "$value": "{pressed-bg}",
       "$type": "color",
       "$group": "button: inverse (white, on a navy card)",
-      "$resolved": "#fff4dc"
+      "$resolved": "#e8f7f2"
     },
     "btn-inverse-fg-pressed": {
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "button: inverse (white, on a navy card)",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "btn-link-fg": {
       "$value": "{brand-600}",
@@ -1161,23 +1150,11 @@
       "$group": "button: text / link",
       "$resolved": "#023c6e"
     },
-    "btn-text-fg": {
-      "$value": "{ink-400}",
-      "$type": "color",
-      "$group": "button: text / link",
-      "$resolved": "#616f7b"
-    },
     "btn-link-fg-pressed": {
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "button: text / link",
-      "$resolved": "#b45309"
-    },
-    "btn-text-fg-pressed": {
-      "$value": "{pressed-fg}",
-      "$type": "color",
-      "$group": "button: text / link",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "clear-btn-size": {
       "$value": "24px",
@@ -1309,19 +1286,19 @@
       "$value": "{pressed-bg}",
       "$type": "color",
       "$group": "pagination",
-      "$resolved": "#fff4dc"
+      "$resolved": "#e8f7f2"
     },
     "pager-border-pressed": {
       "$value": "{pressed-border}",
       "$type": "color",
       "$group": "pagination",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "pager-fg-pressed": {
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "pagination",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "pager-nav-padding-x": {
       "$value": "{space-md}",
@@ -1457,19 +1434,19 @@
       "$value": "{pressed-bg}",
       "$type": "color",
       "$group": "dropdown (single select) and multi-select",
-      "$resolved": "#fff4dc"
+      "$resolved": "#e8f7f2"
     },
     "dd-option-fg-pressed": {
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "dropdown (single select) and multi-select",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "dd-trigger-border-pressed": {
       "$value": "{pressed-border}",
       "$type": "color",
       "$group": "dropdown (single select) and multi-select",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "ms-trigger-border-active": {
       "$value": "{brand-400}",
@@ -1812,7 +1789,14 @@
       "$value": "{pressed-ring}",
       "$type": "shadow",
       "$group": "toggle switch",
-      "$resolved": "0 0 0 3px color-mix(in srgb, #ffb020 55%, transparent)"
+      "$resolved": "0 0 0 3px color-mix(in srgb, #4faa91 55%, transparent)"
+    },
+    "nav-bg": {
+      "$value": "{brand-800}",
+      "$type": "color",
+      "$group": "sidebar navigation item",
+      "$resolved": "#012646",
+      "$description": "navigation background: a darker shade of the primary navy, so navy buttons and the page stand apart from it (FND-1, FND-4)"
     },
     "nav-item-h": {
       "$value": "{control-h-xl}",
@@ -1871,7 +1855,7 @@
       "$value": "{pressed-on-dark}",
       "$type": "color",
       "$group": "sidebar navigation item",
-      "$resolved": "#ffb020"
+      "$resolved": "#9cd9bc"
     },
     "nav-w-collapsed": {
       "$value": "72px",
@@ -1983,7 +1967,7 @@
       "$value": "{pressed-on-dark}",
       "$type": "color",
       "$group": "sidebar: collapsed rail, expanded panel, toggle button",
-      "$resolved": "#ffb020"
+      "$resolved": "#9cd9bc"
     },
     "profile-btn-radius": {
       "$value": "{control-radius}",
@@ -2087,13 +2071,13 @@
       "$value": "{pressed-bg}",
       "$type": "color",
       "$group": "sidebar: collapsed rail, expanded panel, toggle button",
-      "$resolved": "#fff4dc"
+      "$resolved": "#e8f7f2"
     },
     "nav-toggle-fg-pressed": {
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "sidebar: collapsed rail, expanded panel, toggle button",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "card-border-hover": {
       "$value": "{border-strong}",
@@ -2199,7 +2183,7 @@
       "$value": "{pressed-fg}",
       "$type": "color",
       "$group": "password eye (show/hide) button, inside the field",
-      "$resolved": "#b45309"
+      "$resolved": "#0b7258"
     },
     "pw-eye-fg-disabled": {
       "$value": "{ink-300}",

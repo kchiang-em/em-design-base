@@ -6,7 +6,7 @@ This guide explains **how** to implement the UI policies in `../policy/` on web 
 
 | Folder | What it holds |
 |---|---|
-| `../policy/` | the rules (UI-1 to UI-6), with clause IDs. Read them first. |
+| `../policy/` | the rules (UI-1 to UI-7), with clause IDs. Read them first. |
 | `../tokens/` | `design-tokens.json`, the portable source of every value; `DESIGN-TOKENS.md`, the same as a readable list |
 | `../tools/` | `guard.py` (the conformance checker) and `make_theme.py` (client brand colours). See `../tools/README.md`. |
 | `../web/` | the web reference implementation: `tokens.css`, `components.css` and `app.js` (component behaviour) |
@@ -39,7 +39,7 @@ Tokens come in three tiers, each built from the one before:
 - **`design-tokens.json`** lists every token with its type (`color`, `dimension`, `shadow`, `fontFamily`, `fontWeight`, `number`, `duration`, `other`), its alias (`{brand-600}`) and its resolved value. Generate constants from it, or copy values from `DESIGN-TOKENS.md`.
 - **Raw colours** appear only where tokens are defined (SCP-3): the palette and semantic tiers of `tokens.css`, the project's own `app-tokens.css` (project colours such as its chart colours), and a client theme (THM-1). Component tokens and stylesheet rules use tokens.
 - **Project colours** go in `app-tokens.css`, not in the shared `tokens.css`, so the shared file stays identical to the baseline. Override a baseline token there (for example `--chart-2`) or add a new one with a project prefix.
-- **Computed values:** a few values are written as a colour plus an opacity: white overlays on the navy sidebar (white at 10, 15, 50, 70 and 80%) and the pressed ring (amber `#FFB020` at 55%, 3px, ACC-3).
+- **Computed values:** a few values are written as a colour plus an opacity: white overlays on the navy sidebar (white at 10, 15, 50, 70 and 80%) and the pressed ring (soft brand green `#4FAA91` at 55%, 3px, ACC-3).
 - **Focus ring (ACC-5):** `focus-ring` is two box shadows, `0 0 0 2px var(--white), 0 0 0 4px var(--brand-600)`. On native platforms draw the same two strokes outside the control. Because it refers to `brand-600`, a client theme recolours it without a separate entry. If a component sets its own `box-shadow` (as the active navigation item does), give it a `:focus-visible` rule that adds the ring, or the ring disappears.
 
 **Where each rule's values live:**
@@ -48,8 +48,8 @@ Tokens come in three tiers, each built from the one before:
 |---|---|
 | FND-1 palette | `em-*` |
 | FND-1 brand greens | `em-green-core`, `em-green-soft`, `em-green`, `em-mint` and `accent-*` (brand uses only: navigation edge and toggle, logo tile, switch on, decorative marks) |
-| FND-2, FND-3 status colours | `danger-*` (red; text `danger-700`), `warning-*` (orange; text `warning-700`), `success-*` (status green; dots and icons `success-600`, text on tint `success-700`), `info-*` (information blue; `info-600` on `info-50`) |
-| ACC-3 pressed | `amber-*` |
+| FND-2, FND-3 status colours | `danger-*` (red; text `danger-700`), `warning-*` (amber; fills and the triangle `warning-400`, text and outlines `warning-700`), `success-*` (status green; dots and icons `success-600`, text on tint `success-700`), `info-*` (information blue; `info-600` on `info-50`) |
+| ACC-3 pressed | `pressed-*` (from `accent-50`, `accent-700`, `accent-400`) |
 | FND-5 typeface, FND-7 type scale | `font-sans`, `text-*`; weights `weight-medium` (400, Regular), `weight-semibold` and `weight-bold` (both 700, Bold). The names are historical: only 400 and 700 are used. |
 | FND-8 spacing | `space-2xs` to `space-5xl` |
 | FND-9 control sizes | `control-h-sm` to `control-h-2xl` |
@@ -98,7 +98,7 @@ Use Lucide from an official release. Never draw, type or approximate an icon fro
 | Type | `--font-sans` stack (Public Sans) | Public Sans bundled in the app, else SF Pro; sizes from `text-*` | Public Sans bundled in the app, else Roboto | Public Sans, else the system font |
 | Spacing, size, radius | `--space-*`, `--control-h-*`, `--radius-*` | constants in points | `dp` values | constants |
 | Elevation (FND-11) | box shadows | shadow matching the three levels | `elevation` matching the three levels | same |
-| Pressed and focus (ACC-3, ACC-5) | amber pressed, focus ring | amber pressed highlight; focus ring on keyboard focus (iPad, Mac) | amber ripple or pressed state; focus indicator for keyboard | same |
+| Pressed and focus (ACC-3, ACC-5) | mint-teal pressed, focus ring | mint-teal pressed highlight; focus ring on keyboard focus (iPad, Mac) | mint-teal ripple or pressed state; focus indicator for keyboard | same |
 | Motion (FND-13) | 200ms for sidebar and panels, 150ms for state changes | same durations | same durations | same |
 | Navigation (CMP-11) | sidebar rail and panel | tab bar or sidebar | navigation rail or drawer | sidebar |
 
@@ -195,7 +195,7 @@ Add `class="open"` to `.profile` while its menu is open.
 <button class="icon-button" aria-label="…"><svg>…</svg></button> <!-- square, outlined -->
 <button class="danger-btn">Delete device</button>                 <!-- solid red: only the confirming button of a destructive action -->
 <button class="link-btn">Need help?</button>                      <!-- text link -->
-<button class="back-btn"><svg>…</svg>Back</button>                <!-- text with arrow -->
+<button class="back-btn"><svg>…</svg>Back to residents</button>   <!-- compact outline button with a back chevron (CMP-1) -->
 ```
 Modifiers: `.min-160` / `.min-150` set a minimum width.
 

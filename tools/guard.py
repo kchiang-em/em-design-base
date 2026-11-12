@@ -349,12 +349,12 @@ def contrast(a, b):
 
 PAIRS = [("--pressed-fg", "--pressed-bg"), ("--ink-700", "--white"), ("--ink-600", "--white"), ("--ink-500", "--white"), ("--ink-400", "--white"),
          ("--ink-700", "--bg"), ("--ink-600", "--bg"), ("--ink-400", "--bg"),
-         ("--brand-600", "--white"), ("--white", "--brand-600"), ("--nav-toggle-fg", "--nav-toggle-bg"),
+         ("--brand-600", "--white"), ("--white", "--brand-600"), ("--white", "--nav-bg"), ("--nav-toggle-fg", "--nav-toggle-bg"),
          ("--success-700", "--success-50"), ("--success-600", "--white"), ("--info-600", "--white"), ("--info-600", "--info-50"),
          ("--danger-700", "--white"), ("--field-error-fg", "--white"), ("--warning-700", "--white"), ("--warning-700", "--warning-50")]
 # non-text contrast (WCAG 1.4.11): borders that identify a control, status dots and icons need 3:1
 PAIRS_NONTEXT = [("--border-control", "--white"), ("--border-control", "--bg"), ("--field-border", "--white"), ("--dd-trigger-border", "--white"),
-                 ("--success-600", "--bg"), ("--danger-600", "--white")] + [(f"--chart-{i}", "--chart-surface") for i in (1, 2, 3, 4, 5, 6, 7)] + [("--chart-other", "--chart-surface")]   # FND-17: against what is behind the charts
+                 ("--success-600", "--bg"), ("--danger-600", "--white"), ("--warning-600", "--white"), ("--warning-600", "--warning-50")] + [(f"--chart-{i}", "--chart-surface") for i in (1, 2, 3, 4, 5, 6, 7)] + [("--chart-other", "--chart-surface")]   # FND-17: against what is behind the charts
 
 
 def check_contrast(defs):

@@ -115,7 +115,7 @@ svg { flex-shrink: 0; }
 .app-shell.nav-auto, .app-shell.nav-auto.nav-expanded { grid-template-columns: var(--nav-w-collapsed) minmax(0, 1fr); }
 .app-shell.nav-auto .sidebar { z-index: 30; width: var(--nav-w-collapsed); transition: width var(--nav-duration) ease, box-shadow var(--nav-duration) ease; }
 .app-shell.nav-auto.nav-expanded .sidebar { width: var(--nav-w-expanded); box-shadow: var(--shadow-lg); }
-.sidebar { position: relative; display: flex; flex-direction: column; width: 100%; min-height: 0; background: var(--brand-600); }
+.sidebar { position: relative; display: flex; flex-direction: column; width: 100%; min-height: 0; background: var(--nav-bg); }
 .nav-label, .logo__text, .profile__who { opacity: 1; transition: opacity var(--nav-duration) ease; }
 .app-shell:not(.nav-expanded) :is(.nav-label, .logo__text, .profile__who) { opacity: 0; }
 /* keep the sidebar's text on one line so nothing reflows while the sidebar animates */
@@ -131,7 +131,7 @@ svg { flex-shrink: 0; }
 .nav-badge { margin-left: auto; border-radius: var(--radius-md); background: var(--white-10); padding: var(--space-2xs) var(--space-sm); font-size: var(--text-xs); }
 /* collapsed rail: the badge sits on the item's top-right corner, clear of the icon, with a ring in the sidebar colour to separate it */
 .app-shell:not(.nav-expanded) .nav-item:has(.nav-badge) { overflow: visible; }
-.app-shell:not(.nav-expanded) .nav-badge { position: absolute; top: var(--nav-badge-offset); right: var(--nav-badge-offset); box-shadow: 0 0 0 var(--nav-badge-ring) var(--brand-600); margin: 0; padding: 0 5px; min-width: var(--nav-badge-min-w); height: var(--nav-badge-h); line-height: var(--nav-badge-h); text-align: center; background: var(--nav-badge-collapsed-bg); color: var(--nav-badge-collapsed-fg); }
+.app-shell:not(.nav-expanded) .nav-badge { position: absolute; top: var(--nav-badge-offset); right: var(--nav-badge-offset); box-shadow: 0 0 0 var(--nav-badge-ring) var(--nav-bg); margin: 0; padding: 0 5px; min-width: var(--nav-badge-min-w); height: var(--nav-badge-h); line-height: var(--nav-badge-h); text-align: center; background: var(--nav-badge-collapsed-bg); color: var(--nav-badge-collapsed-fg); }
 .sidebar__foot { position: relative; border-top: 1px solid var(--white-10); padding: var(--space-lg) var(--nav-rail-inset); }
 .profile { display: flex; align-items: center; gap: var(--space-sm); width: 100%; min-height: var(--nav-profile-h); margin-bottom: var(--space-md); padding: 0 var(--nav-profile-inset); border-radius: var(--profile-btn-radius); text-align: left; color: inherit; overflow: hidden; transition: background var(--control-transition); }
 .profile:hover { background: var(--profile-btn-bg-hover); }
@@ -189,7 +189,8 @@ svg { flex-shrink: 0; }
 .pager__btn:disabled { opacity: var(--pager-disabled-opacity); cursor: not-allowed; }
 @media (max-width: 1100px) { .pager__btn--nav span { display: none; } .pager__btn--nav { padding: 0 var(--pager-nav-padding-x-compact); } }
 .empty-note { padding: var(--space-5xl) 0; text-align: center; font-size: var(--text-md); color: var(--ink-400); }
-.back-btn { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-lg); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--btn-text-fg); }
+.back-btn { display: inline-flex; min-height: var(--btn-outline-h); align-items: center; gap: var(--space-sm); margin-bottom: var(--space-lg); border: 1px solid var(--btn-outline-border); border-radius: var(--control-radius); background: var(--white); padding: 0 var(--space-md) 0 var(--space-sm); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--btn-outline-fg); }   /* a compact outline button like the others (CMP-1), not bare text */
+.back-btn:hover { border-color: var(--btn-outline-border-hover); color: var(--btn-outline-fg-hover); }
 .card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--white); }
 /* ---------- info banner and switch ---------- */
 .banner { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xl); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--white); padding: var(--space-lg); }
@@ -227,13 +228,13 @@ svg { flex-shrink: 0; }
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 @media (max-width: 1023px) { .table-head { letter-spacing: .06em; } }
 @media (max-width: 900px) { .table-head { padding-left: var(--space-lg); padding-right: var(--space-lg); } }
-/* ===== Pressed (clicked) state: amber, the complement of the logo navy ===== */
+/* ===== Pressed (clicked) state: the brand mint-teal, a tap that registered (ACC-3) ===== */
 .primary-btn:active:not(:disabled) { background: var(--btn-primary-bg-pressed); transform: none; box-shadow: var(--btn-primary-ring-pressed); }
 .secondary-btn:active:not(:disabled) { border-color: var(--btn-secondary-border-pressed); background: var(--btn-secondary-bg-pressed); color: var(--btn-secondary-fg-pressed); }
 .icon-button:active { border-color: var(--btn-icon-border-pressed); background: var(--btn-icon-bg-pressed); color: var(--btn-icon-fg-pressed); }
 .pager__btn:active:not(:disabled):not(.current) { border-color: var(--pager-border-pressed); background: var(--pager-bg-pressed); color: var(--pager-fg-pressed); }
 .link-btn:active { color: var(--btn-link-fg-pressed); }
-.back-btn:active { color: var(--btn-text-fg-pressed); }
+.back-btn:active { border-color: var(--btn-outline-border-pressed); background: var(--btn-outline-bg-pressed); color: var(--btn-outline-fg-pressed); }
 .nav-item:active:not(.active) { background: var(--nav-bg-pressed); color: var(--nav-fg-hover); box-shadow: inset var(--nav-edge-width) 0 var(--nav-edge-pressed); }
 .nav-item.active:active { box-shadow: inset var(--nav-edge-width) 0 var(--nav-edge-pressed), var(--nav-shadow-active); }
 .toggle:active { box-shadow: var(--toggle-ring-pressed); }
@@ -354,6 +355,8 @@ svg { flex-shrink: 0; }
 .check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(var(--check-grid-min-w), 100%), 1fr)); gap: var(--space-sm) var(--space-lg); }
 .banner--success .banner__icon { background: var(--success-50); color: var(--success-600); }
 .banner--warning .banner__icon { background: var(--warning-50); color: var(--warning-600); }
+/* the warning sign is an amber triangle with a dark outline and glyph (FND-2, ACC-7): shape and lightness tell it from danger even without colour vision */
+.banner--warning .banner__icon svg path:first-child, .stat-card__icon--warning svg path:first-child { fill: var(--warning-400); }
 
 /* Tablets and small laptops: a narrower list, chip groups stack */
 @media (max-width: 1100px) {

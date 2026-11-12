@@ -14,10 +14,11 @@ Everything else in this package (the guides, the tokens, the tools, the web refe
 | [UI-4-components.md](UI-4-components.md) | UI-4 | Component standards | `CMP` | not yet created |
 | [UI-5-client-themes.md](UI-5-client-themes.md) | UI-5 | Client colour themes | `THM` | not yet created |
 | [UI-6-content.md](UI-6-content.md) | UI-6 | Content: wording, dates, numbers and languages | `CNT` | not yet created |
+| [UI-7-user-experience.md](UI-7-user-experience.md) | UI-7 | User experience: tasks, navigation and flow | `UX` | not yet created |
 
 ## How to cite a rule
 
-Cite the **clause ID**, never pasted text: "FND-9", "THM-3". Clause prefixes are unique across the six policies, so a clause ID alone is enough. Once a policy is in Jira, the full citation is the ticket key plus the clause ID (for example "EE-70 THM-3"), the same form the engineering policies already use.
+Cite the **clause ID**, never pasted text: "FND-9", "THM-3". Clause prefixes are unique across the seven policies, so a clause ID alone is enough. Once a policy is in Jira, the full citation is the ticket key plus the clause ID (for example "EE-70 THM-3"), the same form the engineering policies already use.
 
 ## Levels
 
@@ -44,7 +45,7 @@ Each clause carries a level. The levels are defined in SCP-2:
 
 ## Status
 
-All six policies are drafts (version 1, 11 Nov 2026). **Owner: Head of Product.** Approval of changes and exceptions follows EE-1 (SCP-11). Anything about the interface that the engineering (EE) policies do not define is defined here.
+All seven policies are drafts (version 1; UI-1 to UI-6 dated 11 Nov 2026, UI-7 dated 12 Nov 2026). **Owner: Head of Product.** Approval of changes and exceptions follows EE-1 (SCP-11). Anything about the interface that the engineering (EE) policies do not define is defined here.
 
 ## Decisions taken on 11 Nov 2026
 
@@ -76,8 +77,11 @@ All of these are written into the clauses listed.
 | Typing never rebuilds the field; content stays inside its container; table columns fit at every width | ACC-12, FND-18, CMP-9 |
 | A client's colours live in the project's own token file (`app-tokens`) as overrides of the brand tokens; there is no separate theme file | THM-1 |
 | From a layout review of the EncoreMed ward app in development, the design intents worth keeping (not its layouts, which stay each product's choice): navigation groups, the page title kept on phones, a context switcher, list toolbars, segmented controls, showing how fresh live data is, an attention list, patient-data masking, defined terms, dashboard panels, long forms, helpful empty states, refresh without hiding content, a clear demo-data label, consistent status labels and plurals, and no text under 13. Avoid redundancy: each action, title and piece of information once per screen | CMP-11, CMP-13, CMP-14, CMP-18, CMP-22, CMP-25, CMP-26, CMP-27 to CMP-34, FND-7, FND-16, FND-19, CNT-4, CNT-5 |
+| User experience is a policy of its own (UI-7), applying ISO 9241-11, -110, -143 and -210, IEC 62366-1 for clinical functions, NISTIR 7804 for clinical task testing, WHO patient identification and WCAG 2.2: key tasks have step and time budgets, every summary opens its items, back keeps your place, two identifiers before acting for a patient, testing with real users. No standard fixes a click count, so budgets are set per task | UI-7 |
+| From the EyeHIS front-office mockup: breadcrumb, notifications, work queue by stage, filter chips, a global bar variant of the top bar, an environment label. The mockup's flaws (the same counts shown three times, small text, an unclear floating icon) are covered by existing clauses, not adopted | CMP-14, CMP-22, CMP-25, CMP-35 to CMP-37 |
+| Colour checked against medical conventions (IEC 60601-1-8, ISO 3864-1) and for colour blindness (CIEDE2000, simulated protan, deutan and tritan vision): the navigation is a darker navy and actions stay navy; greens and mint are accents; warning is amber-yellow with a triangle (orange looked like red to deutan readers); the pressed state is mint-teal (amber had read as caution); chart colours 2 and 5 are royal blue and purple (coral and green had read as danger and success) | FND-1, FND-2, FND-3, FND-4, FND-17, ACC-3, THM-8 |
 | Dates and times are ISO 8601 and 24-hour by default; a user or app setting may switch the display to DD-MM-YYYY and the 12-hour clock with AM/PM; data exchange, files, exports and logs stay ISO | CNT-1, CNT-2 |
-| All chart colours (categories and scales) are chosen per project. The default set (the official palette and the colour-blind-safe set 02, plus three derived colours) is a starting point; any set must reach 3:1 against whatever is behind the chart (charts may be transparent), stay distinct for colour-blind readers and avoid the status colours | FND-17 |
+| All chart colours (categories and scales) are chosen per project. The default set (starting from the brand navy, chosen by measured contrast and colour-blind distinctness) is a starting point; any set must reach 3:1 against whatever is behind the chart (charts may be transparent), stay distinct for colour-blind readers and avoid the status colours | FND-17 |
 
 ## Open questions for the owner
 

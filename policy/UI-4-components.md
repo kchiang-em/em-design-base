@@ -23,7 +23,8 @@ Users move between EncoreMed products. The same component should have the same p
 - *Icon button:* 36×36, outlined, icon only, with an accessible name (ACC-8). On touch platforms its tappable area is 44×44 (ACC-9).
 - *Tinted arrow (list row action):* 36×36, light tint, chevron.
 - *Danger:* solid red, height 44; an icon-only 44×44 variant; an outlined variant for delete. Every destructive action asks for confirmation first (CMP-21).
-- *Text or link:* no container, navy bold label.
+- *Back:* a compact outline button (height 32; a 44×44 tappable area on touch, ACC-9) with a back chevron and the destination in words ("Back to residents", "All roles"), at the top left of the content it leaves.
+- *Text or link:* no container, navy bold label. Only for a link inside a sentence or a minor, optional action ("Need help?"). Every other button, including Back, has a visible box, so buttons look like buttons everywhere.
 
 **CMP-2 Text field.** Height 48 (44 when compact in a filter bar), radius 8, 1px border, side padding 16. The border darkens on hover; on focus the border turns brand blue and the focus ring shows (ACC-5). Disabled uses the page-grey fill. A label sits above the field. Validating a configurable value when it is saved follows EE-56 (SCP-11).
 - *Invalid state:* the border turns red, and an error message appears directly below the field: a red alert icon and dark red text (FND-2) that say what is wrong and how to fix it ("Enter a date as YYYY-MM-DD, for example 2026-11-11"), never a code alone. The message is linked to the field as its description, and the field is marked invalid for assistive technology. The focus ring (ACC-5) still shows on an invalid field.
@@ -49,7 +50,7 @@ Users move between EncoreMed products. The same component should have the same p
 - the trigger shows "All …" when nothing is selected and the selected names when something is; a clear (×) button appears when something is selected;
 - the panel stays open while the user picks several options.
 
-**CMP-9 List or table.** A white card (radius 12, 1px border). The header row has small uppercase bold grey titles with wide letter-spacing. Rows have a hover tint and the amber pressed state (ACC-3), and an optional row action arrow (CMP-1). *Must:* column titles never touch; keep a gap of at least 12 to 16 between columns and give each column a minimum width. *Must:* the columns fit the table at every width that shows it (FND-18): the minimum column widths, the gaps and the row padding together never exceed the table's width. Where they would, hide lower-priority columns at that width, or switch to the card layout of FND-16; never let cells or rows run past the table. Clickable column headers follow EE-55, and decimal values in cells follow EE-52 (SCP-11).
+**CMP-9 List or table.** A white card (radius 12, 1px border). The header row has small uppercase bold grey titles with wide letter-spacing. Rows have a hover tint and the mint-teal pressed state (ACC-3), and an optional row action arrow (CMP-1). *Must:* column titles never touch; keep a gap of at least 12 to 16 between columns and give each column a minimum width. *Must:* the columns fit the table at every width that shows it (FND-18): the minimum column widths, the gaps and the row padding together never exceed the table's width. Where they would, hide lower-priority columns at that width, or switch to the card layout of FND-16; never let cells or rows run past the table. Clickable column headers follow EE-55, and decimal values in cells follow EE-52 (SCP-11).
 
 **CMP-10 Pagination.** Shown above and below a paged list. Parts: "Showing 1–10 of 24", a "Rows per page" dropdown (5, 10, 20), and the buttons **First, Previous, up to five page numbers, Next, Last**.
 - Buttons are 32×32 with a 4 gap; the current page is navy with a white number. On touch platforms each tappable area is 44×44 (ACC-9).
@@ -77,6 +78,7 @@ Users move between EncoreMed products. The same component should have the same p
 **CMP-14 Banner.** A 36×36 tinted icon square, a bold title and one short line. The default banner is informational (information blue, FND-2); success, warning and error banners use the tint and icon colour of their status family.
 - A note that warns about a consequence is a banner with its icon, not coloured text alone (ACC-7).
 - *Must:* a screen that shows invented or test data (a demo, training or sample patient) says so clearly, in words, so it is never mistaken for real patient data.
+- *Must:* a product that runs in more than one environment (production, staging, training) shows which one on every screen, in words, in a fixed place. A non-production environment is marked prominently (for example "Training: changes are not real"), so no one enters real work into it or mistakes it for the live system.
 
 **CMP-15 Card.** White, 1px border, radius 12.
 
@@ -105,6 +107,8 @@ Users move between EncoreMed products. The same component should have the same p
 
 **CMP-22 App top bar.** An alternative home for the page title and the account, for products that need a global context. A product uses either the top bar or the sidebar account row (CMP-11), never both.
 - Left: the page title (26) and an optional one-line subtitle. Right, in this order: page-level status and actions, the current context (for example the site, ward or gateway) as a chip, notifications if the product has them, and the account button (avatar, name, role, chevron) that opens the account menu with Sign out.
+- *May (global bar variant):* a slimmer bar that holds only what is global: the breadcrumb (CMP-35) on the left; on the right, the global search (UX-4), the privacy switch (CMP-31), notifications (CMP-36), the quick action menu (UX-6) and the account. The page title then sits in the page header below it (CMP-12), with the page's own actions. A product uses one variant throughout.
+- Global tools keep the same order and place on every screen (UX-3). The global search is the widest of them; the quick action is the only filled button in the bar.
 - Minimum height 86, white, with a bottom border; the navigation rail stays on the left. *May:* a more compact bar for dense operational screens; a product uses one height throughout.
 - *The context chip* shows where the user is working (hospital, ward, gateway); when the user can work in more than one place, it opens a switcher. A long name is shortened with an ellipsis, with the full name available (FND-18).
 - *Should:* the page title appears once, not repeated as a heading in the content (FND-19).
@@ -123,11 +127,12 @@ Users move between EncoreMed products. The same component should have the same p
 
 **CMP-25 Chips and code labels.**
 - *Chip:* a rounded label with an optional secondary part in smaller grey text ("Readings · View · Capture"); chips wrap within their area and never run past it. Chips can be grouped under an area heading, beside the chips on wide screens and above them on narrow ones. Chips show information; a chip that does something is a button and follows ACC-1.
+- *Filter chip:* a chip that turns a filter on or off, with an optional count of matching items ("Lab 4"). It is a toggle button: its state is exposed as pressed or not, and the selected state is shown by more than colour (a check mark or a filled style with a border, ACC-7). Filter chips that can be combined say so ("Select one or more"). A quick filter ("Pending my actions", "All today") is a filter chip too. The counts follow UX-5.
 - *Code label:* a code or identifier in the monospaced face (FND-5) on a light grey tint. *May:* a copy button beside identifiers people copy elsewhere.
 - *May:* a small tag after a value that says where it came from ("Pump", "Manual"), so a reader can judge how far to trust it.
 - *Must:* chip text, including the secondary part, is 13 or larger (FND-7).
 
-**CMP-26 Stat card.** A card with a 48 x 48 tinted icon tile, a large number (26 bold, tabular figures), an optional "/ total" in smaller grey text, and a one-line label. A stat that reports a problem uses the status tint of its meaning (FND-2), with a different icon for the good and the bad state (ACC-7). Stat cards sit in a row that wraps to fewer columns, and to one column on phones.
+**CMP-26 Stat card.** A card with a 48 x 48 tinted icon tile, a large number (26 bold, tabular figures), an optional "/ total" in smaller grey text, and a one-line label. A stat card that counts items opens them (UX-5). A stat that reports a problem uses the status tint of its meaning (FND-2), with a different icon for the good and the bad state (ACC-7). Stat cards sit in a row that wraps to fewer columns, and to one column on phones.
 - *May:* a compact stat strip, several numbers side by side in one card, for the top of a list or a dashboard panel (CMP-33).
 - *Should:* the same kind of number looks the same on every screen of a product. A number in a status colour also says what it means in words or with an icon (ACC-7).
 
@@ -163,3 +168,18 @@ Users move between EncoreMed products. The same component should have the same p
 - The form's actions are easy to find and in a predictable place; the main action is visually first in importance.
 - One save action per form (FND-19). When one screen really saves several things separately, each part and its button make clear what is being saved.
 - A value with a fixed set of choices is picked, not typed. Required and optional fields follow CMP-2.
+
+**CMP-35 Breadcrumb.** For pages more than one level deep (UX-3): the path from the section to the current page ("LEC Eye Centre › Front office › Visit LEC-001801").
+- Every part except the last is a link; the last is the current page, marked as current for assistive technology. The separator is decorative and hidden from assistive technology.
+- It sits at the top left, in the top bar (CMP-22) or above the page title, in the same place on every screen.
+- *Must:* on narrow screens it shortens from the start, keeping the parent and the current page, and never wraps onto a second row or runs past its container (FND-18). On phones it may be replaced by a Back button to the parent (CMP-1).
+
+**CMP-36 Notifications.** For products that send people messages about their work.
+- A bell button in the top bar (CMP-22) with an accessible name that includes the number of unread items ("Notifications, 3 unread"). The badge shows the count (up to "99+") and disappears at zero; its text is 13 or larger (FND-7).
+- It opens a panel (a menu on desktop, a sheet on phones, ACC-10) with the newest first. Each item says what happened, to what, and when (CNT-2), and opens the object it is about (UX-5). Opening an item marks it read; "Mark all as read" is at the top.
+- Notifications never interrupt (UX-10). Only a critical, time-bound event may also appear as a banner or dialog, and it is still listed here.
+
+**CMP-37 Work queue by stage.** For work that moves through stages in order, such as a clinic visit (front office, triage, assessment, doctor, procedure, pharmacy, billing, completed).
+- Stages appear in workflow order, each with the number of items in it and, where it matters, how long the oldest has waited. A stage opens its items (UX-5).
+- Each item shows at least two identifiers (UX-4), its current stage and status, and how long it has been in that stage. Moving an item to the next stage is an action on the item (UX-6), and the item moves in place without the list being rebuilt (ACC-12).
+- One screen shows the stage counts once (FND-19): as a stage list, as filter chips, or as stat cards, not all three.

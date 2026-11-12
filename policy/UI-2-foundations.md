@@ -12,7 +12,7 @@ The palette, icons and scales are what make a product recognisably EncoreMed. Th
 
 | Name | Hex | Used for |
 |---|---|---|
-| navy core | `#023C6E` | primary brand colour: navigation background, primary buttons, links |
+| navy core | `#023C6E` | primary brand colour: primary buttons, links, selected states; its darker shade (`#012646`) is the navigation background |
 | green core | `#16AD85` | brand green: the active navigation edge, the navigation toggle, the logo tile |
 | blue | `#16537A` | secondary: active navigation item, gradient highlights; also the information status colour (FND-2) |
 | green soft | `#4FAA91` | brand accent: decorative marks on brand surfaces (for example the sign-in panel) |
@@ -30,12 +30,14 @@ Lighter and darker shades of these colours, used for hover, tinted backgrounds a
 | Family | Meaning | Values |
 |---|---|---|
 | red | error, destructive action, critical result | `#DC2626` for borders, icons and fills; `#B91C1C` for text |
-| orange | warning | `#B36B28` for icons and borders; `#9A5A1F` for text; `#D78B4C` for fills |
+| amber | warning | `#F59E0B` for fills and the warning triangle; `#854D0E` for text, icon outlines and borders |
 | status green | success, positive, connected or live | the classic status green: `#16A34A` for large fills, `#15803D` for dots, icons and text on white, `#166534` for text on a green tint |
 | information blue | neutral information | `#16537A`, the brand guideline's secondary blue, with a light tint for backgrounds |
-| amber | the pressed state only (ACC-3) | `#FFF4DC`, `#B45309`, `#FFB020` |
 
-**FND-3 Status colours are universal.** *Must.* Red, orange, status green and information blue mean the same in every product and are never re-themed (THM-3).
+**FND-3 Status colours are universal.** *Must.* Red, amber, status green and information blue mean the same in every product and are never re-themed (THM-3).
+- They follow the medical and safety conventions people already know: red for danger and critical (high-priority alarms in IEC 60601-1-8; danger in ISO 3864-1), amber-yellow for caution (medium-priority alarms; warning), green for a safe or successful state.
+- Each status also has its own shape, so it is recognised without colour (ACC-7): danger and errors a circle or octagon with "!", warning a triangle (the ISO 3864 warning shape), success a circle with a check, information a circle with "i". The warning triangle is filled amber with a dark outline and glyph.
+- Status colours stay distinguishable for the common kinds of colour blindness. Measured with CIEDE2000 under simulated protan, deutan and tritan vision, the main colours of danger, warning and success (`#DC2626`, `#F59E0B`, `#16A34A`) differ by at least 9; their dark text shades are told apart by the icon and words.
 - They are never used for decoration.
 - The brand green (FND-1) never stands for a status, and the status green is never used as a brand colour.
 - Red marks anything that needs attention now: a system error, a destructive action, or a critical clinical result. These are told apart by their icon and wording, never by a second red (ACC-7). A clinical result says what it is ("Critical: potassium 6.8 mmol/L"); a system error says what failed and offers a way forward ("Couldn't save the reading. Retry").
@@ -43,7 +45,8 @@ Lighter and darker shades of these colours, used for hover, tinted backgrounds a
 **FND-4 Colour use.** *Must.*
 - Brand green and mint are for fills, marks and icons, never for text.
 - Status text uses the darker value of its family listed in FND-2, so it meets ACC-6.
-- *Should:* the navigation uses the primary navy; the page background uses grey light; cards are white with a light border.
+- *Should:* the navigation uses a darker shade of the primary navy, so the navy buttons and the page stand apart from it; the page background uses grey light; cards are white with a light border.
+- Actions (buttons, links, selected states) are navy, never green, so they are never mistaken for the status green that means success (FND-3). The brand greens and mint stay accents: the active navigation edge, the navigation toggle, the logo tile, switches that are on, and decorative marks.
 
 **FND-5 Typeface.** The typeface is chosen per product. *Should:* use the default, **Public Sans** (open licence; a neo-grotesque close in feel to the brand guideline's Acumin), with Arial on web and the system font on native (SF Pro on Apple platforms, Roboto on Android, Segoe UI on Windows) as the fallback. *May:* use another face, for example Acumin where the company holds a suitable licence, or the face on the company website, and tell the user (SCP-4). *Must:* whatever face a product uses meets these rules:
 - One sans-serif family for all interface text, in Regular (400) and Bold (700) only. *May:* a second, display face for large headings on brand surfaces (the sign-in panel, empty-state illustrations), never for body text, labels, controls or data.
@@ -92,21 +95,21 @@ Lighter and darker shades of these colours, used for hover, tinted backgrounds a
 - Touch targets stay at least 44×44 (ACC-9). Icon-only controls follow FND-12.
 - **Safe area:** content and controls stay inside the device's safe area, clear of the status bar, the notch or camera cut-out, the home indicator and rounded corners, in portrait and landscape. Backgrounds (the page header, the tab bar, sheets) may extend under them to the screen edge.
 
-**FND-17 Chart colours.** The chart colours are chosen per project. *Should:* start from this default set, used in this order for categories (series, segments). Colours 1 to 4 are the official palette and the colour-blind-safe set 02; colours 5 to 7 are derived from the same families to reach 3:1:
+**FND-17 Chart colours.** The chart colours are chosen per project. *Should:* start from this default set, used in this order for categories (series, segments). The set starts from the brand navy and was chosen by measurement: every colour reaches 3:1, none looks like a status colour, and they stay apart for colour-blind readers (the rules below):
 
 | Order | Colour | Hex | On white |
 |---|---|---|---|
 | 1 | navy core | `#023C6E` | 11.2:1 |
-| 2 | coral | `#DE6872` | 3.3:1 |
+| 2 | royal blue | `#1D1DCD` | 9.9:1 |
 | 3 | dark teal | `#256D73` | 6.0:1 |
 | 4 | plum | `#A6678C` | 4.3:1 |
-| 5 | green (brand green, darkened) | `#119D78` | 3.4:1 |
+| 5 | purple | `#7541AA` | 6.8:1 |
 | 6 | teal (darkened) | `#5B92A7` | 3.4:1 |
 | 7 | violet | `#8567CC` | 4.4:1 |
 | "Other", totals, reference lines | neutral grey | `#737373` | 4.7:1 |
 
 *May:* a project replaces, reorders or adds chart colours to suit its data. *Must:* whatever set a project uses meets these rules:
-- A chart may sit on any surface, including a transparent background over the page. Every chart colour reaches 3:1 against what is actually behind it: the card, the page background or a dark panel (ACC-6). The default set is measured on white; on the grey page background, coral falls to 2.96:1, so a project with transparent charts on the page adjusts it.
+- A chart may sit on any surface, including a transparent background over the page. Every chart colour reaches 3:1 against what is actually behind it: the card, the page background or a dark panel (ACC-6). The default set is measured on white and also reaches 3:1 on the grey page background. No two default colours are closer than ΔE 7.9 (CIEDE2000) under simulated protan, deutan or tritan vision, and none is close to a status colour.
 - The colours stay distinct from each other for the common kinds of colour blindness. Use at most seven categories; group the rest into "Other" in a neutral grey.
 - Never rely on colour alone: label series directly, or use a legend together with different markers or line styles (ACC-7).
 - Status colours (FND-2), and colours that look like them, appear in a chart only with their status meaning, for example a threshold band or an out-of-range marker, never as a series colour.
